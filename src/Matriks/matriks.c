@@ -154,25 +154,25 @@ void CopyMATRIKS (MATRIKS Awal, MATRIKS * Hasil) {
 
 void BacaMATRIKS (MATRIKS * M, char * namafile) {
     // KAMUS LOKAL //
-	int NB;
-	int NK;
-	
+    int NB;
+    int NK;
+    
     // ALGORITMA //
     NB = 1;
     NK = 0;
-	START(namafile);
-	while (!EOP){
-		if (CC == '\n'){
-			NB++;
+    START(namafile);
+    while (!EOP){
+        if (CC == '\n'){
+            NB++;
             NK = 0;
-		} else{
+        } else{
             NK++;
         }
-		Elmt(*M, NB, NK) = CC;
-		ADV();
-	}
-	NBrsEff(*M) = NB;
- 	NKolEff(*M) = NK;
+        Elmt(*M, NB, NK) = CC;
+        ADV();
+    }
+    NBrsEff(*M) = NB;
+    NKolEff(*M) = NK;
 }
 
 void TulisFileMatriks(MATRIKS M, FILE *f){
@@ -192,11 +192,11 @@ void TulisMATRIKS (MATRIKS M) {
     // KAMUS LOKAL //
 
     // ALGORITMA //
-	for (int i = GetFirstIdxBrs(M); i <= GetLastIdxBrs(M); i++) {
-		for (int j = GetFirstIdxKol(M); j <= GetLastIdxKol(M); j++){
-			printf("%c", Elmt(M, i, j));
+    for (int i = GetFirstIdxBrs(M); i <= GetLastIdxBrs(M); i++) {
+        for (int j = GetFirstIdxKol(M); j <= GetLastIdxKol(M); j++){
+            printf("%c", Elmt(M, i, j));
         }
-		if (i != GetLastIdxBrs(M)){
+        if (i != GetLastIdxBrs(M)){
             printf("\n");
         }
     }
