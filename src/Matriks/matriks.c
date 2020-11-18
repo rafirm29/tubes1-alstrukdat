@@ -198,7 +198,7 @@ void TulisMATRIKS (MATRIKS M) {
 		if (i != GetLastIdxBrs(M)){
             printf("\n");
         }
-	}
+    }
 }
 
 void Move (MATRIKS * M, char X){
