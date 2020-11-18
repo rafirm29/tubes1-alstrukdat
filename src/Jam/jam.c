@@ -112,7 +112,7 @@ boolean JGT (JAM J1, JAM J2){
 JAM NextDetik (JAM J){
 /* Mengirim 1 detik setelah J dalam bentuk JAM */
    long N = JAMToDetik(J) + 1;
-   JAM J1 = DetikToJAM(N)
+   JAM J1 = DetikToJAM(N);
    return (J1);
 }
 
@@ -126,7 +126,7 @@ JAM NextNDetik (JAM J, int N){
 JAM PrevDetik (JAM J){
 /* Mengirim 1 detik sebelum J dalam bentuk JAM */
    long N = JAMToDetik(J) - 1;
-   JAM J1 = DetikToJAM(N)
+   JAM J1 = DetikToJAM(N);
    return (J1);
 }
 
