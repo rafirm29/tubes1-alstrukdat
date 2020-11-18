@@ -143,11 +143,11 @@ void CopyMATRIKS (MATRIKS Awal, MATRIKS * Hasil) {
     // KAMUS LOKAL //
 
     // ALGORITMA // 
-	NBrsEff(*Hasil) = NBrsEff(Awal);
-  	NKolEff(*Hasil) = NKolEff(Awal);
-	for(int i=GetFirstIdxBrs(Awal); i<=GetLastIdxBrs(Awal); i++){
-		for (int j=GetFirstIdxKol(Awal); j<=GetLastIdxKol(Awal); j++){
-			Elmt(*Hasil, i, j) = Elmt(Awal, i, j);
+    NBrsEff(*Hasil) = NBrsEff(Awal);
+    NKolEff(*Hasil) = NKolEff(Awal);
+    for(int i=GetFirstIdxBrs(Awal); i<=GetLastIdxBrs(Awal); i++){
+        for (int j=GetFirstIdxKol(Awal); j<=GetLastIdxKol(Awal); j++){
+            Elmt(*Hasil, i, j) = Elmt(Awal, i, j);
         }
     }
 }
