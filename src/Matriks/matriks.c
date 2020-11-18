@@ -180,12 +180,12 @@ void TulisFileMatriks(MATRIKS M, FILE *f){
     int i, j;
 
     // ALGORITMA //
-	for(i = GetFirstIdxBrs(M); i <= GetLastIdxBrs(M); i++){
-		for(j = GetFirstIdxKol(M);j<=GetLastIdxKol(M);j++){
-			fprintf(f, "%c", Elmt(M,i,j));
-		}
-		fprintf(f,"\n");
-	}
+    for(i = GetFirstIdxBrs(M); i <= GetLastIdxBrs(M); i++){
+        for(j = GetFirstIdxKol(M);j<=GetLastIdxKol(M);j++){
+            fprintf(f, "%c", Elmt(M,i,j));
+        }
+        fprintf(f,"\n");
+    }
 }
 
 void TulisMATRIKS (MATRIKS M) {
