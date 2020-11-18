@@ -165,8 +165,9 @@ void BacaMATRIKS (MATRIKS * M, char * namafile) {
 		if (CC == '\n'){
 			NB++;
             NK = 0;
-		} else
+		} else{
             NK++;
+        }
 		Elmt(*M, NB, NK) = CC;
 		ADV();
 	}
