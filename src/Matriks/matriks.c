@@ -44,7 +44,7 @@ indeks GetLastIdxBrs (MATRIKS M){
     // KAMUS LOKAL //
 
     // ALGORITMA //
-    return BrsMax;
+    return (GetFirstIdxBrs(M) + NBrsEff(M) - 1);
 }
 
 indeks GetLastIdxKol (MATRIKS M){
@@ -52,7 +52,7 @@ indeks GetLastIdxKol (MATRIKS M){
     // KAMUS LOKAL //
 
     // ALGORITMA //
-    return KolMax;
+    return (GetFirstIdxKol(M) + NKolEff(M) - 1);
 }
 
 boolean IsIdxEff (MATRIKS M, indeks i, indeks j){
@@ -74,9 +74,10 @@ POINT PosisiPlayer (MATRIKS M){
     i = GetFirstIdxBrs(M);
     j = GetFirstIdxKol(M);
 
-    while ((i <= GetLastIdxBrs(M)) && (!found)){
+    while ((i <= GetLastIdxBrs(M)) && !found){
         i++;
-        while ((j <= GetLastIdxKol(M)) && (!found)){
+        j = GetFirstIdxKol(M);
+        while ((j <= GetLastIdxKol(M)) && !found){
             j++;
             if (Elmt(M,i,j) == 'P'){
                 found = true;
@@ -85,8 +86,6 @@ POINT PosisiPlayer (MATRIKS M){
     }
     if (found){
         P = MakePOINT(j-1,i-1);
-    } else{
-        P = MakePOINT(0,0);
     }
     return P;
 }
@@ -120,74 +119,133 @@ POINT BangunanSekitarPlayer (MATRIKS M, POINT Player){
     int i, j;
 
     // ALGORITMA //
-    i = Ordinat(Player);
-    j = Absis(Player);
+    i = Ordinat(Player)+1;
+    j = Absis(Player)+1;
 
     if (Elmt(M,i+1,j) == 'W'){
-        return (MakePOINT(j,i+1));
-    } else if (Elmt(M,i-1,j) == 'W'){
+        return (MakePOINT(j-1,i-1));
+    }
+    if (Elmt(M,i-1,j) == 'W'){
+        return (MakePOINT(j-1,i-2));
+    }
+    if (Elmt(M,i,j+1) == 'W'){
         return (MakePOINT(j,i-1));
-    } else if (Elmt(M,i,j+1) == 'W'){
-        return (MakePOINT(j+1,i));
-    } else if (Elmt(M,i,j-1) == 'W'){
-        return (MakePOINT(j-1,i));
-    } else {
+    }
+    if (Elmt(M,i,j-1) == 'W'){
+        return (MakePOINT(j-2,i-1));
+    } 
+    if ((Elmt(M,i,j-1) == '-') && (Elmt(M,i,j+1) == '-') && (Elmt(M,i+1,j) == '-') && (Elmt(M,i-1,j) == '-')){
         return (MakePOINT(0,0));
     }
 }
 
-void BacaFile (MATRIKS M, FILE * F){
+void CopyMATRIKS (MATRIKS Awal, MATRIKS * Hasil) {
+    // KAMUS LOKAL //
+
+    // ALGORITMA // 
+	NBrsEff(*Hasil) = NBrsEff(Awal);
+  	NKolEff(*Hasil) = NKolEff(Awal);
+	for(int i=GetFirstIdxBrs(Awal); i<=GetLastIdxBrs(Awal); i++){
+		for (int j=GetFirstIdxKol(Awal); j<=GetLastIdxKol(Awal); j++){
+			Elmt(*Hasil, i, j) = Elmt(Awal, i, j);
+        }
+    }
+}
+
+void BacaMATRIKS (MATRIKS * M, char * namafile) {
+    // KAMUS LOKAL //
+	int NB;
+	int NK;
+	
+    // ALGORITMA //
+    NB = 1;
+    NK = 0;
+	START(namafile);
+	while (!EOP){
+		if (CC == '\n'){
+			NB++;
+            NK = 0;
+		} else
+            NK++;
+		Elmt(*M, NB, NK) = CC;
+		ADV();
+	}
+	NBrsEff(*M) = NB;
+ 	NKolEff(*M) = NK;
+}
+
+void TulisFileMatriks(MATRIKS M, FILE *f){
     // KAMUS LOKAL //
     int i, j;
 
     // ALGORITMA //
-    for (i = GetFirstIdxBrs(M); i <= GetLastIdxBrs(M); i++){
-        for (j = GetFirstIdxKol(M); j <= GetLastIdxKol(M); j++){
-            if (!fscanf(F, "%c", &Elmt(M,i,j))){
-                break;
-            }
-        }
-    }
-    fclose(F);
+	for(i = GetFirstIdxBrs(M); i <= GetLastIdxBrs(M); i++){
+		for(j = GetFirstIdxKol(M);j<=GetLastIdxKol(M);j++){
+			fprintf(f, "%c", Elmt(M,i,j));
+		}
+		fprintf(f,"\n");
+	}
 }
 
-void Move (MATRIKS M, char X){
+void TulisMATRIKS (MATRIKS M) {
+    // KAMUS LOKAL //
+
+    // ALGORITMA //
+	for (int i = GetFirstIdxBrs(M); i <= GetLastIdxBrs(M); i++) {
+		for (int j = GetFirstIdxKol(M); j <= GetLastIdxKol(M); j++){
+			printf("%c", Elmt(M, i, j));
+        }
+		if (i != GetLastIdxBrs(M)){
+            printf("\n");
+        }
+	}
+}
+
+void Move (MATRIKS * M, char X){
     // KAMUS LOKAL //
     int i, j;
     POINT CurrPlayer;
 
     // ALGORITMA //
-    CurrPlayer = PosisiPlayer(M);
-    i = Ordinat(CurrPlayer);
-    j = Absis(CurrPlayer);
+    CurrPlayer = PosisiPlayer(*M);
+    i = Ordinat(CurrPlayer)+1;
+    j = Absis(CurrPlayer)+1;
 
-    if (X == 'a'){
-        if (Elmt(M,i,j-1) == '-'){
-            Elmt(M,i,j-1) = Elmt(M,i,j);
-            Elmt(M,i,j) = '-';
-        } else if (Elmt(M,i,j-1) == 'W'){
+    if (X == 'a' || X == 'A'){
+        if (Elmt(*M,i,j-1) == '-'){
+            Elmt(*M,i,j-1) = Elmt(*M,i,j);
+            Elmt(*M,i,j) = '-';
+        } else if (Elmt(*M,i,j-1) == 'W'){
             printf("Tidak bisa pindah ke kiri, ada bangunan!");
+        } else if (Elmt(*M,i,j-1) == '*'){
+            printf("Tidak bisa pindah ke kiri, ada tembok!");
         }
-    } else if (X == 'd'){
-        if (Elmt(M,i,j+1) == '-'){
-            Elmt(M,i,j+1) = Elmt(M,i,j);
-            Elmt(M,i,j) = '-';
-        } else if (Elmt(M,i,j+1) == 'W'){
+    } else if (X == 'd' || X == 'D'){
+        if (Elmt(*M,i,j+1) == '-'){
+            Elmt(*M,i,j+1) = Elmt(*M,i,j);
+            Elmt(*M,i,j) = '-';
+        } else if (Elmt(*M,i,j+1) == 'W'){
             printf("Tidak bisa pindah ke kanan, ada bangunan!");
+        } else if (Elmt(*M,i,j+1) == '*'){
+            printf("Tidak bisa pindah ke kanan, ada tembok!");
         }
-    } else if (X == 'w'){
-        if (Elmt(M,i+1,j) == '-'){
-            Elmt(M,i+1,j) = Elmt(M,i,j);
-            Elmt(M,i,j) = '-';
-        } else if (Elmt(M,i+1,j) == 'W'){
-            printf("Tidak bisa pindah ke atas, ada bangunan!");
-        }
-    } else if (X == 's'){
-        if (Elmt(M,i-1,j) == '-'){
-            Elmt(M,i-1,j) = Elmt(M,i,j);
-            Elmt(M,i,j) = '-';
-        } else if (Elmt(M,i-1,j) == 'W'){
+    } else if (X == 's' || X == 'S'){
+        if (Elmt(*M,i+1,j) == '-'){
+            Elmt(*M,i+1,j) = Elmt(*M,i,j);
+            Elmt(*M,i,j) = '-';
+        } else if (Elmt(*M,i+1,j) == 'W'){
             printf("Tidak bisa pindah ke bawah, ada bangunan!");
+        } else if (Elmt(*M,i+1,j) == '*'){
+            printf("Tidak bisa pindah ke bawah, ada tembok!");
+        }
+    } else if (X == 'w' || X == 'W'){
+        if (Elmt(*M,i-1,j) == '-'){
+            Elmt(*M,i-1,j) = Elmt(*M,i,j);
+            Elmt(*M,i,j) = '-';
+        } else if (Elmt(*M,i-1,j) == 'W'){
+            printf("Tidak bisa pindah ke atas, ada bangunan!");
+        } else if (Elmt(*M,i-1,j) == '*'){
+            printf("Tidak bisa pindah ke atas, ada tembok!");
         }
     }
 }

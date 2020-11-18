@@ -4,7 +4,7 @@
 #ifndef __MESINKATA_H__
 #define __MESINKATA_H__
 
-#include "boolean.h"
+#include "../boolean.h"
 #include "mesinkar.h"
 #include <stdio.h>
 
@@ -46,7 +46,7 @@ void SalinKata();
           CC adalah karakter sesudah karakter terakhir yang diakuisisi.
           Jika panjang kata melebihi NMax, maka sisa kata "dipotong" */
 
-void writefromMatriks(FILE* f, char strmatriks[8][8]);
+void writefromMatriks(FILE* f, char strmatriks[10][20]);
 /* Membaca file peta dalam bentuk matriks
    ********************
     *A-----W-----------*

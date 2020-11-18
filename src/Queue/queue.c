@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include "queue.h"
-#include "boolean.h"
+#include "../boolean.h"
 #include <stdlib.h>
 
 /* ********* Prototype ********* */

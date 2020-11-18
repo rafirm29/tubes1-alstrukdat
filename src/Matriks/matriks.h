@@ -5,13 +5,14 @@
 
 #include "../boolean.h"
 #include "../Point/point.h"
+#include "../MesinFile/mesinfile.h"
 #include <stdio.h>
 
 /* Ukuran minimum dan maksimum baris dan kolom */
 #define BrsMin 1
-#define BrsMax 8
+#define BrsMax 10
 #define KolMin 1
-#define KolMax 18
+#define KolMax 20
 
 typedef int indeks; /* indeks baris, kolom */
 typedef char ElType;
@@ -54,8 +55,14 @@ POINT PosisiBangunan (MATRIKS M);
 
 POINT BangunanSekitarPlayer (MATRIKS M, POINT Player);
 
-void BacaFile (MATRIKS M, FILE * F);
+void CopyMATRIKS (MATRIKS MIn, MATRIKS * MHsl) ;
 
-void Move (MATRIKS M, char X);
+void BacaMATRIKS (MATRIKS * M, char * file);
+
+void TulisFileMatriks(MATRIKS M,FILE *f);
+
+void TulisMATRIKS (MATRIKS M);
+
+void Move (MATRIKS * M, char X);
 
 #endif

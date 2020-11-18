@@ -2,7 +2,7 @@
 /* Implementasi Mesin Kata */
 
 #include <stdio.h>
-#include "boolean.h"
+#include "../boolean.h"
 #include "mesinkata.h"
 #include "mesinkar.h"
 
@@ -63,7 +63,7 @@ void SalinKata(){
    }
    CKata.Length = i;
 
-void writefromMatriks(FILE* f, char strmatriks[10][20]){
+void writefromMatriks (FILE* f, char strmatriks[10][20]){
 /* Membaca file peta dalam bentuk matriks
    ********************
     *A-----W-----------*
