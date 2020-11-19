@@ -8,7 +8,7 @@
 extern char CC;
 extern boolean EOP;
 
-void START(char *namafile);
+void STARTFILE(char *namafile);
 /* Mesin siap dioperasikan. Pita dari namafile disiapkan untuk dibaca.
    Karakter pertama yang ada pada pita posisinya adalah pada jendela.
    I.S. : sembarang
@@ -16,7 +16,7 @@ void START(char *namafile);
           Jika CC != MARK maka EOP akan padam (false)
           Jika CC = MARK maka EOP akan menyala (true) */
 
-void ADV();
+void ADVFILE();
 /* Pita dimajukan satu karakter. 
    I.S. : Karakter pada jendela = CC, CC != MARK
    F.S. : CC adalah karakter berikutnya dari CC yang lama, 
