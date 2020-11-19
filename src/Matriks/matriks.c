@@ -160,7 +160,7 @@ void BacaMATRIKS (MATRIKS * M, char * namafile) {
     // ALGORITMA //
     NB = 1;
     NK = 0;
-    START(namafile);
+    STARTFILE(namafile);
     while (!EOP){
         if (CC == '\n'){
             NB++;
@@ -169,7 +169,7 @@ void BacaMATRIKS (MATRIKS * M, char * namafile) {
             NK++;
         }
         Elmt(*M, NB, NK) = CC;
-        ADV();
+        ADVFILE();
     }
     NBrsEff(*M) = NB;
     NKolEff(*M) = NK;
@@ -213,40 +213,40 @@ void Move (MATRIKS * M, char X){
     j = Absis(CurrPlayer)+1;
 
     if (X == 'a' || X == 'A'){
-        if (Elmt(*M,i,j-1) == '-'){
+        if (Elmt(*M,i,j-1) == '-' || Elmt(*M,i,j-1) == 'O' ){
             Elmt(*M,i,j-1) = Elmt(*M,i,j);
             Elmt(*M,i,j) = '-';
         } else if (Elmt(*M,i,j-1) == 'W'){
-            printf("Tidak bisa pindah ke kiri, ada bangunan!");
+            printf("Tidak bisa pindah ke kiri, ada bangunan!\n");
         } else if (Elmt(*M,i,j-1) == '*'){
-            printf("Tidak bisa pindah ke kiri, ada tembok!");
+            printf("Tidak bisa pindah ke kiri, ada tembok!\n");
         }
     } else if (X == 'd' || X == 'D'){
-        if (Elmt(*M,i,j+1) == '-'){
+        if (Elmt(*M,i,j+1) == '-' || Elmt(*M,i,j+1) == 'O'){
             Elmt(*M,i,j+1) = Elmt(*M,i,j);
             Elmt(*M,i,j) = '-';
         } else if (Elmt(*M,i,j+1) == 'W'){
-            printf("Tidak bisa pindah ke kanan, ada bangunan!");
+            printf("Tidak bisa pindah ke kanan, ada bangunan!\n");
         } else if (Elmt(*M,i,j+1) == '*'){
-            printf("Tidak bisa pindah ke kanan, ada tembok!");
+            printf("Tidak bisa pindah ke kanan, ada tembok!\n");
         }
     } else if (X == 's' || X == 'S'){
-        if (Elmt(*M,i+1,j) == '-'){
+        if (Elmt(*M,i+1,j) == '-' || Elmt(*M,i+1,j) == 'O'){
             Elmt(*M,i+1,j) = Elmt(*M,i,j);
             Elmt(*M,i,j) = '-';
         } else if (Elmt(*M,i+1,j) == 'W'){
-            printf("Tidak bisa pindah ke bawah, ada bangunan!");
+            printf("Tidak bisa pindah ke bawah, ada bangunan!\n");
         } else if (Elmt(*M,i+1,j) == '*'){
-            printf("Tidak bisa pindah ke bawah, ada tembok!");
+            printf("Tidak bisa pindah ke bawah, ada tembok!\n");
         }
     } else if (X == 'w' || X == 'W'){
-        if (Elmt(*M,i-1,j) == '-'){
+        if (Elmt(*M,i-1,j) == '-' || Elmt(*M,i-1,j) == 'O'){
             Elmt(*M,i-1,j) = Elmt(*M,i,j);
             Elmt(*M,i,j) = '-';
         } else if (Elmt(*M,i-1,j) == 'W'){
-            printf("Tidak bisa pindah ke atas, ada bangunan!");
+            printf("Tidak bisa pindah ke atas, ada bangunan!\n");
         } else if (Elmt(*M,i-1,j) == '*'){
-            printf("Tidak bisa pindah ke atas, ada tembok!");
+            printf("Tidak bisa pindah ke atas, ada tembok!\n");
         }
     }
 }
