@@ -7,7 +7,7 @@
 #ifndef ARRAYDIN_H
 #define ARRAYDIN_H
 
-#include "boolean.h"
+#include "../boolean.h"
 
 /*  Kamus Umum */
 #define IdxMin 0
