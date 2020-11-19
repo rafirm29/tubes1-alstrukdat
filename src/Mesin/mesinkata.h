@@ -58,4 +58,9 @@ void writefromMatriks(FILE* f, char strmatriks[10][20]);
     *--------------O---*
     *------------------* */
 
+boolean IsKataSama(Kata K1, Kata K2);
+/**
+ * Membandingkan true jika kedua kata sama, false jika tidak.
+ * */
+
 #endif

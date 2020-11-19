@@ -62,6 +62,7 @@ void SalinKata(){
       ADV();
    }
    CKata.Length = i;
+}
 
 void writefromMatriks (FILE* f, char strmatriks[10][20]){
 /* Membaca file peta dalam bentuk matriks
@@ -80,4 +81,19 @@ void writefromMatriks (FILE* f, char strmatriks[10][20]){
 		}
 		fprintf(f,";\n");
     }
+}
+
+boolean IsKataSama(Kata K1, Kata K2){
+    boolean isEq = K1.Length == K2.Length;
+    if (isEq) {
+        int i;
+        for (i = 0; i < K1.Length; i++) {
+            if (K1.TabKata[i] != K2.TabKata[i]) {
+                isEq = false;
+                break;
+            }
+        }
+    }
+
+    return isEq;
 }
