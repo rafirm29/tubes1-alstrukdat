@@ -89,6 +89,9 @@ int main() {
                 printf("Nama: %s\n", nama);
                 printf("Money: 15332\n");
                 /**
+                 * ADT JAM */
+
+                /**
                  *  Name: wangkie kumalasari
                     Money: 1000
                     Current Time: 09.01
@@ -112,17 +115,31 @@ int main() {
                 } else if (CKata.TabKata[0] == 'd') {
                     Move(&currentMap, 'd');
                 }
+                /**
+                 * Office
+                 * BUILD
+                 * UPGRADE
+                 * BUY
+                 * UNDO
+                 * EXEC/MAIN
+                 */
 
                 /***** MASUKKAN PERINTAH KE STACK *****/
             }
 
             /********** MAIN PHASE **********/
             while (mainPhase) {
+                /***** MENJALANKAN PERINTAH STACK *****/
                 char execInput;
                 printf("Main day %d\n", day);
                 
                 TulisMATRIKS(currentMap);
 
+                printf("\n\n");
+                printf("Nama: %s\n", nama);
+                printf("Money: 15332\n");
+                /**
+                 * ADT JAM */
                 printf("\nMasukkan perintah:\n");
                 STARTKATA();
 
