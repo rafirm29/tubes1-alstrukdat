@@ -82,6 +82,8 @@ int main() {
             /********** PREPERATION PHASE **********/
             JAM currentJam, closingJam, hourRemaining;
             int timeRemaining; 
+            currentJam = MakeJAM(9,0);
+            closingJam = MakeJAM(21,0);    
             while (prepPhase) {
                 char prepInput;
                 printf("Preperation day %d\n", day);
@@ -91,8 +93,6 @@ int main() {
                 printf("\n\n");
                 //printf("Nama: %s\n", nama);
                 printf("Money: 15332\n");
-                currentJam = MakeJAM(9,0);
-                closingJam = MakeJAM(21,0);
                 timeRemaining = Durasi(currentJam, closingJam);
                 hourRemaining = MenitToJAM(timeRemaining);
                 printf("Current Time : ");
@@ -118,12 +118,16 @@ int main() {
                 /**** PERGERAKAN ****/
                 else if (CKata.TabKata[0] == 'w') {
                     Move(&currentMap, 'w');
+                    currentJam = NextNMenit(currentJam, 5);
                 } else if (CKata.TabKata[0] == 'a') {
                     Move(&currentMap, 'a');
+                    currentJam = NextNMenit(currentJam, 5);
                 } else if (CKata.TabKata[0] == 's') {
                     Move(&currentMap, 's');
+                    currentJam = NextNMenit(currentJam, 5);
                 } else if (CKata.TabKata[0] == 'd') {
                     Move(&currentMap, 'd');
+                    currentJam = NextNMenit(currentJam, 5);
                 }
                 /**
                  * Office
