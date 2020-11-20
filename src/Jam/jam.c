@@ -2,6 +2,7 @@
 // file jam.c
 
 #include <stdio.h>
+#include <math.h>
 #include "jam.h"
 
 /* DEFINISI PRIMITIF*/
@@ -40,21 +41,21 @@ void BacaJAM (JAM * J){
 
 void TulisJAM (JAM J){
    // menulis jam dalam format JJ:MM
-   printf("%d:%d", (J).HH, (J).MM);
+   printf("%d:%d\n", (J).HH, (J).MM);
 }
 
 /* ***************************************************************** */
 /* KELOMPOK KONVERSI TERHADAP TYPE                                   */
 /* ***************************************************************** */
-long JAMToMenit (JAM J){
+int JAMToMenit (JAM J){
    // konversi jam ke menit
    return ((J).HH * 60 + (J).MM);
 }
 
-JAM MenitToJAM (long N){
+JAM MenitToJAM (int N){
 /* Mengirim  konversi menit ke JAM */
-   int h, int m;
-   h = N % 60;
+   int h, m;
+   h = floor(N / 60);
    m = N - (h * 60);
    return MakeJAM(h,m);
 }
@@ -86,38 +87,38 @@ boolean JGT (JAM J1, JAM J2){
 /* *** Operator aritmatika JAM *** */
 JAM NextMenit (JAM J){
 /* Mengirim 1 menit setelah J dalam bentuk JAM */
-   long N = JAMToMenit(J) + 1;
+   int N = JAMToMenit(J) + 1;
    JAM J1 = MenitToJAM(N);
    return (J1);
 }
 
 JAM NextNMenit (JAM J, int N){
 /* Mengirim N menit setelah J dalam bentuk JAM */
-   long N1 = JAMToMenit(J) + N;
+   int N1 = JAMToMenit(J) + N;
    JAM J1 = MenitToJAM(N1);
    return (J1);
 }
 
 JAM PrevMenit (JAM J){
 /* Mengirim 1 menit sebelum J dalam bentuk JAM */
-   long N = JAMToMenit(J) - 1;
+   int N = JAMToMenit(J) - 1;
    JAM J1 = MenitToJAM(N);
    return (J1);
 }
 
 JAM PrevNMenit (JAM J, int N){
 /* Mengirim N menit sebelum J dalam bentuk JAM */
-   long N1 = JAMToMenit(J) - N;
+   int N1 = JAMToMenit(J) - N;
    JAM J1 = MenitToJAM(N1);
    return (J1);
 }
 
 /* *** Kelompok Operator Aritmetika *** */
-long Durasi (JAM JAw, JAM JAkh){
+int Durasi (JAM JAw, JAM JAkh){
    // durasi dalam menit
-   long N;
-   long menitakh = JAMToMenit(JAkh);
-   long menitaw = JAMToMenit(JAw);
+   int N;
+   int menitakh = JAMToMenit(JAkh);
+   int menitaw = JAMToMenit(JAw);
    if (menitaw > menitakh)
    {
       N = menitakh + (24*60) - menitaw;

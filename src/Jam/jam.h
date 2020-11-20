@@ -1,11 +1,7 @@
-/* File: jam.h */
-/* Tanggal: 28 Agustus 2016 */
-/* Definisi ADT JAM */
-
 #ifndef JAM_H
 #define JAM_H
 
-#include "boolean.h"
+#include "../boolean.h"
 
 /* *** Definisi TYPE JAM <HH:MM:SS> *** */
 typedef struct {
@@ -59,12 +55,12 @@ void TulisJAM (JAM J);
 /* ***************************************************************** */
 /* KELOMPOK KONVERSI TERHADAP TYPE                                   */
 /* ***************************************************************** */
-long JAMToMenit (JAM J);
+int JAMToMenit (JAM J);
 /* Diberikan sebuah JAM, mengkonversi menjadi jumlah detik dari pukul 0:0:0 */
 /* Rumus : detik = 3600*HH + 60*MM + SS */
 /* Nilai maksimum = 3600*23+59*60+59 */
 
-JAM MenitToJAM (long N);
+JAM MenitToJAM (int N);
 /* Mengirim  konversi detik ke JAM */
 /* Catatan: Jika N >= 86400, maka harus dikonversi dulu menjadi jumlah detik yang
    mewakili jumlah detik yang mungkin dalam 1 hari, yaitu dengan rumus:
@@ -92,7 +88,7 @@ JAM PrevMenit (JAM J);
 JAM PrevNMenit (JAM J, int N);
 /* Mengirim N detik sebelum J dalam bentuk JAM */
 /* *** Kelompok Operator Aritmetika *** */
-long Durasi (JAM JAw, JAM JAkh);
+int Durasi (JAM JAw, JAM JAkh);
 /* Mengirim JAkh-JAw dlm Detik, dengan kalkulasi */
 /* Jika JAw > JAkh, maka JAkh adalah 1 hari setelah JAw */
 
