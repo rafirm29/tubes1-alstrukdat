@@ -41,7 +41,7 @@ void BacaJAM (JAM * J){
 
 void TulisJAM (JAM J){
    // menulis jam dalam format JJ:MM
-   printf("%d:%d\n", (J).HH, (J).MM);
+   printf("%02d:%02d\n", (J).HH, (J).MM);
 }
 
 /* ***************************************************************** */

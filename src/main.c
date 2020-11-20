@@ -17,6 +17,7 @@
 #include "Mesin/mesinkar.h"
 #include "MesinFile/mesinfile.h"
 #include "Point/point.h"
+#include "Jam/jam.h"
 // #include "Queue/prioqueuechar.h"
 // #include "Queue/queue.h"
 // #include "Stack/stackt.h"
@@ -79,6 +80,8 @@ int main() {
 
         while (!exit) { // Loop pergantian day
             /********** PREPERATION PHASE **********/
+            JAM currentJam, closingJam, hourRemaining;
+            int timeRemaining; 
             while (prepPhase) {
                 char prepInput;
                 printf("Preperation day %d\n", day);
@@ -86,11 +89,18 @@ int main() {
                 TulisMATRIKS(currentMap);
 
                 printf("\n\n");
-                printf("Nama: %s\n", nama);
+                //printf("Nama: %s\n", nama);
                 printf("Money: 15332\n");
-                /**
-                 * ADT JAM */
-
+                currentJam = MakeJAM(9,0);
+                closingJam = MakeJAM(21,0);
+                timeRemaining = Durasi(currentJam, closingJam);
+                hourRemaining = MenitToJAM(timeRemaining);
+                printf("Current Time : ");
+                TulisJAM(currentJam);
+                printf("Closing Time : ");
+                TulisJAM(closingJam);
+                printf("Time Remaining : ");
+                TulisJAM(hourRemaining);
                 /**
                  *  Name: wangkie kumalasari
                     Money: 1000
@@ -136,7 +146,7 @@ int main() {
                 TulisMATRIKS(currentMap);
 
                 printf("\n\n");
-                printf("Nama: %s\n", nama);
+                //printf("Nama: %s\n", nama);
                 printf("Money: 15332\n");
                 /**
                  * ADT JAM */
