@@ -157,6 +157,29 @@ boolean IsAksiAda (TabAction T, aksi X){
   return found;
 }
 
+Action SearchAction (TabAction T, aksi X){
+  boolean found = false;
+  int i = GetFirstIdxAction(T);
+  while (!found && i < (T).NeffAction)
+  {
+    if (IsKataSama(Aksi(ElmtAction(T, i)), X)){
+      found = true;
+    }
+    else
+    {
+      i = i + 1;
+    }
+  }
+  if (found)
+  {
+    return ElmtAction(T, i);
+  }
+  else
+  {
+    return NULL;
+  }
+}
+
 /* ********** OPERASI LAIN ********** */
 //void CopyTab(TabBarang Tin, TabInt *Tout);
 /* I.S. Tin terdefinisi tidak kosong, Tout sembarang */

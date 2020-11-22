@@ -115,6 +115,7 @@ IdxTypeAction SearchIdxAksi (TabAction T, aksi X);
 
 boolean IsAksiAda (TabAction T, aksi X);
 
+Action SearchAction (TabAction T, aksi X);
 
 /* ********** OPERASI LAIN ********** */
 //void CopyTab(TabBarang Tin, TabInt *Tout);
