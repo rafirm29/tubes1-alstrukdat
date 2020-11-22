@@ -6,7 +6,6 @@
 #include "queue.h"
 #include "../boolean.h"
 #include <stdlib.h>
-#include "time.h"
 
 /* ********* Prototype ********* */
 boolean IsEmpty (Queue Q){
@@ -16,7 +15,7 @@ boolean IsEmpty (Queue Q){
 boolean IsFull (Queue Q){
 /* Mengirim true jika tabel penampung elemen Q sudah penuh */
 /* yaitu mengandung elemen sebanyak MaxEl */
-    return ((Head(Q)==0) && (Tail(Q)==MaxEl(Q)-1));
+    return (NBElmt(Q) == MaxEl(Q));
 }
 int NBElmt (Queue Q){
 /* Mengirimkan banyaknya elemen queue. Mengirimkan 0 jika Q kosong. */
@@ -30,7 +29,7 @@ int NBElmt (Queue Q){
     }
 }
 /* *** Kreator *** */
-void MakeEmpty (Queue * Q, int Max){
+void MakeEmptyQueue (Queue * Q, int Max){
 /* I.S. sembarang */
 /* F.S. Sebuah Q kosong terbentuk dan salah satu kondisi sbb: */
 /* Jika alokasi berhasil, Tabel memori dialokasi berukuran Max */
@@ -54,18 +53,15 @@ void DeAlokasi(Queue * Q){
     free((*Q).T);
 }
 /* *** Primitif Add/Delete *** */
-void Enqueue (Queue * Q){
+void EnqueuePrio (Queue * Q){
 /* Proses: Menambahkan X pada Q dengan aturan FIFO */
 /* I.S. Q mungkin kosong, tabel penampung elemen Q TIDAK penuh */
 /* F.S. X menjadi TAIL yang baru, TAIL "maju" dengan mekanisme circular buffer */
     address i,j;
-    pengunjung X,QTemp;
+    pengunjung X, QTemp;
 
     if (!IsFull(*Q)){
         InfoJumlahOrang(X) = 1;
-        srand(time(NULL));
-        //Buat random jumlah pengunjung yang datang jumlah nya diantara 1-5
-        InfoJumlahOrang(X) = rand()%5 + 1;
         InfoKesabaran(X) = 5;   //Inisiasi kesabaran awal tiap pengunjung
         //Jika antrian masih kosong, maka tambahkan langsung pengunjung tersebut
         if (IsEmpty(*Q)){
@@ -81,29 +77,28 @@ void Enqueue (Queue * Q){
             }
             InfoTail(*Q) = X;
         }
-        i = Tail(*Q);
-        if (i == 1){
+        if (Tail(*Q) == 1){
             j = MaxEl(*Q);
         } else {
-            j = i - 1;
+            j = Tail(*Q) - 1;
         }
 
-        //Jika ada pengunjung baru maka selama kesabarannya masih 5 maka dia akan di serve paling akhir
-        while ((InfoKesabaran(ElmtQueue(*Q,i)) < InfoKesabaran(ElmtQueue(*Q,j))) && (i != Head(*Q))){
+        //Priority queue
+        while ((InfoKesabaran(ElmtQueue(*Q,Tail(*Q))) < InfoKesabaran(ElmtQueue(*Q,j))) && (Tail(*Q) != Head(*Q))){
             QTemp = ElmtQueue(*Q,i);
             ElmtQueue(*Q,i) = ElmtQueue(*Q,j);
             ElmtQueue(*Q,j) = QTemp;
 
-            i = i-1;
+            Tail(*Q) = Tail(*Q)-1;
             j = j-1;
-            if (i<1){
-                i = MaxEl(*Q);
+            if (Tail(*Q)<1){
+                Tail(*Q) = MaxEl(*Q);
             } if (j<1){
                 j = MaxEl(*Q);
             }
         }
     } else {
-            printf("Antrian penuh.\n");
+            printf("Antrian sudah penuh.\n");
     }
 }
 void Dequeue (Queue * Q, pengunjung * X){
@@ -118,12 +113,11 @@ void Dequeue (Queue * Q, pengunjung * X){
                Tail(*Q) = Nil;
           }
           else {
-               int i = Head(*Q);
-               while (i < Tail(*Q)){
-                    ElmtQueue(*Q,i) = ElmtQueue(*Q,i+1);
-                    i++;
+               while (Head(*Q) < Tail(*Q)){
+                    ElmtQueue(*Q,Head(*Q)) = ElmtQueue(*Q,Head(*Q)+1);
+                    Head(*Q) = Head(*Q) + 1;
                }
-               Tail(*Q) = i-1;
+               Tail(*Q) = Head(*Q)-1;
           }
      } else {
          printf("Antrian sudah kosong.\n");
@@ -137,10 +131,9 @@ void KurangKesabaran (Queue * Q){
     pengunjung X;
     //JIka tidak kosong
     if (!IsEmpty(*Q)){
-        int i = Head(*Q);
-        while (i<=Tail(*Q)){ //Mengurangi kesabaran pengunjung sesuai prioritas kedatangannya.
-            InfoKesabaran(ElmtQueue(*Q,i)) = InfoKesabaran(ElmtQueue(*Q,i)) - 1;
-            i = i + 1;
+        while (Head(*Q)<=Tail(*Q)){ //Mengurangi kesabaran pengunjung sesuai prioritas kedatangannya.
+            InfoKesabaran(ElmtQueue(*Q,Head(*Q))) = InfoKesabaran(ElmtQueue(*Q,Head(*Q))) - 1;
+            Head(*Q) = Head(*Q) + 1;
         }
         //Jika kesabaran sudah 0 dan di antrian masih ada pengunjung maka pengunjung yang habis kesabarannya di Dequeue
         while (InfoHeadKesabaran(*Q) == 0 && !IsEmpty(*Q)){
@@ -155,16 +148,15 @@ void PrintAntrian (Queue Q){
          (Daftar Wahana), kesabaran: 5
          (Daftar Wahana), kesabaran: 5 */
     if (IsEmpty(Q)){
-          printf("Antrian [0/5]: ");
-          printf("Tidak ada antrian");
+          printf("Antrian [0/5]: \n");
+          printf("Tidak ada antrian\n");
      }
      else {
-          int i = Head(Q);
           printf("Antrian [%d/5]:", NBElmt(Q)); printf("\n");
-          while (i<=Tail(Q)){
+          while (Head(Q)<=Tail(Q)){
               printf("(Daftar wahana)");
-              printf(", kesabaran: %d\n", Q.T[i].kesabaran);
-              i = i + 1;
+              printf(", kesabaran: %d\n", InfoHeadKesabaran(Q));
+              Head(Q) = Head(Q) + 1;
           }
      }
 }
