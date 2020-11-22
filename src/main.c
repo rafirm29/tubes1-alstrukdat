@@ -22,6 +22,7 @@
 // #include "Queue/queue.h"
 // #include "Stack/stackt.h"
 // #include "Tree/tree.h"
+#include "Player/player.h"
 
 
 int main() {
@@ -61,7 +62,10 @@ int main() {
         STARTKATA();
         // char nama[CKata.Length] = CKata.TabKata;
         printf("Halo, %s\n", CKata.TabKata);
-        nama = CKata;
+        /***** DEKLARASI PLAYER *****/
+        Player P1;
+        P1 = MakePlayer(CKata);
+
         /***** DEKLARASI VARIABEL UNIVERSAL *****/
         int day;
         boolean prepPhase;
@@ -91,8 +95,9 @@ int main() {
                 TulisMATRIKS(currentMap);
 
                 printf("\n\n");
-                //printf("Nama: %s\n", nama);
-                printf("Money: 15332\n");
+                printf("Name: %s\n", Name(P1).TabKata);
+                printf("Money: %d\n", Money(P1));
+                
                 timeRemaining = Durasi(currentJam, closingJam);
                 hourRemaining = MenitToJAM(timeRemaining);
                 printf("Current Time : ");
@@ -146,8 +151,9 @@ int main() {
                 TulisMATRIKS(currentMap);
 
                 printf("\n\n");
-                //printf("Nama: %s\n", nama);
-                printf("Money: 15332\n");
+                
+                printf("Name: %s\n", Name(P1).TabKata);
+                printf("Money: %d\n", Money(P1));
                 
                 timeRemaining = Durasi(currentJam, closingJam);
                 hourRemaining = MenitToJAM(timeRemaining);
