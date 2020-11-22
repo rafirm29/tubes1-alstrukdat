@@ -4,16 +4,16 @@
 #include "../boolean.h"
 #include "../Barang/barang.h"
 
-#define IdxMin 0
-#define IdxUndef -1
+#define IdxMinBarang 0
+#define IdxUndefBarang -1
 
 /* Definisi elemen dan koleksi objek */
-typedef int IdxType; /* type indeks */
-typedef Barang ElType;  /* type elemen tabel */
+typedef int IdxTypeBarang; /* type indeks */
+typedef Barang ElTypeBarang;  /* type elemen tabel */
 typedef struct{
-  ElType *TI; /* memori tempat penyimpan elemen (container) */
-  int Neff;   /* >=0, banyaknya elemen efektif */
-  int MaxEl;  /* ukuran elemen */
+  ElType *TIBarang; /* memori tempat penyimpan elemen (container) */
+  int NeffBarang;   /* >=0, banyaknya elemen efektif */
+  int MaxElBarang;  /* ukuran elemen */
 } TabBarang;
 /* Indeks yang digunakan [IdxMin..MaxEl] */
 /* Jika T adalah TabInt, cara deklarasi dan akses: */
@@ -55,20 +55,20 @@ int MaxElementBarang(TabBarang T);
 /* Mengirimkan maksimum elemen yang dapat ditampung oleh tabel */
 /* *** Selektor INDEKS *** */
 
-IdxType GetFirstIdxBarang(TabBarang T);
+IdxTypeBarang GetFirstIdxBarang(TabBarang T);
 /* Prekondisi : Tabel T tidak kosong */
 /* Mengirimkan indeks elemen T pertama */
 
-IdxType GetLastIdxBarang(TabBarang T);
+IdxTypeBarang GetLastIdxBarang(TabBarang T);
 /* Prekondisi : Tabel T tidak kosong */
 /* Mengirimkan indeks elemen T terakhir */
 
 /* ********** Test Indeks yang valid ********** */
-boolean IsIdxValidBarang(TabBarang T, IdxType i);
+boolean IsIdxValidBarang(TabBarang T, IdxTypeBarang i);
 /* Mengirimkan true jika i adalah indeks yang valid utk ukuran tabel */
 /* yaitu antara indeks yang terdefinisi utk container*/
 
-boolean IsIdxEffBarang(TabBarang T, IdxType i);
+boolean IsIdxEffBarang(TabBarang T, IdxTypeBarang i);
 /* Mengirimkan true jika i adalah indeks yang terdefinisi utk tabel */
 /* yaitu antara FirstIdx(T)..LastIdx(T) */
 

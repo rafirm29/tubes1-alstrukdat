@@ -4,16 +4,16 @@
 #include "../boolean.h"
 #include "../Action/action.h"
 
-#define IdxMin 0
-#define IdxUndef -1
+#define IdxMinAction 0
+#define IdxUndefAction -1
 
 /* Definisi elemen dan koleksi objek */
-typedef int IdxType; /* type indeks */
-typedef Barang ElType;  /* type elemen tabel */
+typedef int IdxTypeAction; /* type indeks */
+typedef Action ElTypeAction;  /* type elemen tabel */
 typedef struct{
-  ElType *TI; /* memori tempat penyimpan elemen (container) */
-  int Neff;   /* >=0, banyaknya elemen efektif */
-  int MaxEl;  /* ukuran elemen */
+  ElType *TIAction; /* memori tempat penyimpan elemen (container) */
+  int NeffAction;   /* >=0, banyaknya elemen efektif */
+  int MaxElAction;  /* ukuran elemen */
 } TabAction;
 /* Indeks yang digunakan [IdxMin..MaxEl] */
 /* Jika T adalah TabInt, cara deklarasi dan akses: */
@@ -55,20 +55,20 @@ int MaxElementAction(TabAction T);
 /* Mengirimkan maksimum elemen yang dapat ditampung oleh tabel */
 /* *** Selektor INDEKS *** */
 
-IdxType GetFirstIdxAction(TabAction T);
+IdxTypeAction GetFirstIdxAction(TabAction T);
 /* Prekondisi : Tabel T tidak kosong */
 /* Mengirimkan indeks elemen T pertama */
 
-IdxType GetLastIdxAction(TabAction T);
+IdxTypeAction GetLastIdxAction(TabAction T);
 /* Prekondisi : Tabel T tidak kosong */
 /* Mengirimkan indeks elemen T terakhir */
 
 /* ********** Test Indeks yang valid ********** */
-boolean IsIdxValidAction(TabAction T, IdxType i);
+boolean IsIdxValidAction(TabAction T, IdxTypeAction i);
 /* Mengirimkan true jika i adalah indeks yang valid utk ukuran tabel */
 /* yaitu antara indeks yang terdefinisi utk container*/
 
-boolean IsIdxEffAction(TabAction T, IdxType i);
+boolean IsIdxEffAction(TabAction T, IdxTypeAction i);
 /* Mengirimkan true jika i adalah indeks yang terdefinisi utk tabel */
 /* yaitu antara FirstIdx(T)..LastIdx(T) */
 
@@ -120,13 +120,13 @@ void TulisIsiTabAction(TabAction T);
 
 /* ********** MENAMBAH DAN MENGHAPUS ELEMEN DI AKHIR ********** */
 /* *** Menambahkan elemen terakhir *** */
-void AddBarangAction(TabAction *T, ElType X);
+void AddBarangAction(TabAction *T, ElTypeAction X);
 /* Proses: Menambahkan barang sebagai elemen terakhir tabel */
 /* I.S. Tabel T boleh kosong, tetapi tidak penuh */
 /* F.S. X adalah elemen terakhir T yang baru */
 
 /* ********** MENGHAPUS ELEMEN ********** */
-void DelLastBarangAction(TabAction *T, ElType *X);
+void DelLastBarangAction(TabAction *T, ElTypeAction *X);
 /* Proses : Menghapus barang terakhir tabel */
 /* I.S. Tabel tidak kosong */
 /* F.S. X adalah nilai elemen terakhir T sebelum penghapusan, */
