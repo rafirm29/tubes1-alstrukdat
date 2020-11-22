@@ -11,11 +11,13 @@
 /* Konstanta untuk mendefinisikan address tak terdefinisi */
 
 /* Definisi elemen dan address */
-typedef int infotype;
+typedef struct { int kesabaran;
+                 int jumlahorang;
+} pengunjung;
 typedef int address;   /* indeks tabel */
 /* Contoh deklarasi variabel bertype Queue : */
 /* Versi I : tabel dinamik, Head dan Tail eksplisit, ukuran disimpan */
-typedef struct { infotype * T;   /* tabel penyimpan elemen */
+typedef struct { pengunjung * T;   /* tabel penyimpan elemen */
                  address HEAD;  /* alamat penghapusan */
                  address TAIL;  /* alamat penambahan */
                  int MaxEl;     /* Max elemen queue */
@@ -29,6 +31,13 @@ typedef struct { infotype * T;   /* tabel penyimpan elemen */
 #define InfoHead(Q) (Q).T[(Q).HEAD]
 #define InfoTail(Q) (Q).T[(Q).TAIL]
 #define MaxEl(Q) (Q).MaxEl
+#define InfoHeadJumlahOrang(Q) (Q).T[(Q).HEAD].jumlahorang
+#define InfoHeadKesabaran(Q) (Q).T[(Q).HEAD].kesabaran
+#define InfoTailJumlahOrang(Q) (Q).T[(Q).TAIL].jumlahorang
+#define InfoTailKesabaran(Q) (Q).T[(Q).TAIL].kesabaran
+#define InfoJumlahOrang(X) (X).jumlahorang
+#define InfoKesabaran(X) (X).kesabaran
+#define ElmtQueue(Q,X) (Q).T[X]
 
 /* ********* Prototype ********* */
 boolean IsEmpty (Queue Q);
@@ -54,14 +63,21 @@ void DeAlokasi(Queue * Q);
 /* F.S. Q menjadi tidak terdefinisi lagi, MaxEl(Q) diset 0 */
 
 /* *** Primitif Add/Delete *** */
-void Enqueue (Queue * Q, infotype X);
+void Enqueue (Queue * Q);
 /* Proses: Menambahkan X pada Q dengan aturan FIFO */
 /* I.S. Q mungkin kosong, tabel penampung elemen Q TIDAK penuh */
 /* F.S. X menjadi TAIL yang baru, TAIL "maju" dengan mekanisme circular buffer */
-void Dequeue (Queue * Q, infotype * X);
+void Dequeue (Queue * Q, pengunjung * X);
 /* Proses: Menghapus X pada Q dengan aturan FIFO */
 /* I.S. Q tidak mungkin kosong */
 /* F.S. X = nilai elemen HEAD pd I.S., HEAD "maju" dengan mekanisme circular buffer;
         Q mungkin kosong */
+void KurangKesabaran (Queue * Q);
+/* I.S. Q terdefinisi, mengurangi jumlah kesabaran yang dimiliki pengunjung sebanyak 1 satuan HP */
+/* F.S. Kesabaran pengunjung berkurang satu */
+void PrintAntrian (Queue Q);
+/* I.S. Q terdefinisi, Q mungkin kosong */
+/* F.S. Isi dari Antrian itu ditampilkan ke layar
+        "[a1,a2,...,aN]", jika kosong "[]" */
 
 #endif
