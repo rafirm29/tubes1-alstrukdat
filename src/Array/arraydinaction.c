@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "arraydinaction.h"
 
 /* ********** KONSTRUKTOR ********** */
@@ -113,13 +114,13 @@ void TulisIsiTabAction(TabAction T){
 /* ********** SEARCHING ********** */
 /* ***  Perhatian : Tabel boleh kosong!! *** */
 
-IdxTypeAction SearchIdxAksi (TabAction T, ElTypeAction X){
+IdxTypeAction SearchIdxAksi (TabAction T, aksi X){
 // Mengirim index adanya aksi X jika tidak ada mengirim idxundef
   boolean found;
   int i = GetFirstIdxAction(T);
   while (!found && i < (T).NeffAction)
   {
-    if (Aksi(ElmtAction(T, i)) == X)
+    if (IsKataSama(Aksi(ElmtAction(T, i)), X))
     {
       found = true;
     }
@@ -138,13 +139,13 @@ IdxTypeAction SearchIdxAksi (TabAction T, ElTypeAction X){
   }
 }
 
-boolean IsAksiAda (TabAction T, ElTypeAction X){
+boolean IsAksiAda (TabAction T, aksi X){
 // Mengirim true jika aksi ada false jika tidak
-  boolean found;
+  boolean found = false;
   int i = GetFirstIdxAction(T);
   while (!found && i < (T).NeffAction)
   {
-    if (Aksi(ElmtAction(T, i)) == X)
+    if (IsKataSama(Aksi(ElmtAction(T, i)), X))
     {
       found = true;
     }

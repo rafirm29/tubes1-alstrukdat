@@ -29,7 +29,7 @@ typedef struct{
 
 /* ********** SELEKTOR ********** */
 #define NeffAction(T) (T).NeffAction
-#define TIAction(T) (T).TIAction
+// #define TIAction(T) (T).TIAction
 #define ElmtAction(T, i) (T).TIAction[(i)]
 #define MaxElAction(T) (T).MaxElAction
 
@@ -105,7 +105,7 @@ void TulisIsiTabAction(TabAction T);
 
 /* ********** SEARCHING ********** */
 /* ***  Perhatian : Tabel boleh kosong!! *** */
-IdxTypeAction SearchIdxAksi (TabAction T, ElTypeAction X);
+IdxTypeAction SearchIdxAksi (TabAction T, aksi X);
 /* Search apakah ada elemen tabel T yang bernilai X */
 /* Jika ada, menghasilkan indeks i terkecil, dengan elemen ke-i = X */
 /* Jika tidak ada, mengirimkan IdxUndef */
@@ -113,7 +113,7 @@ IdxTypeAction SearchIdxAksi (TabAction T, ElTypeAction X);
 /* Skema Searching yang digunakan bebas */
 
 
-boolean IsAksiAda (TabAction T, ElTypeAction X);
+boolean IsAksiAda (TabAction T, aksi X);
 
 
 /* ********** OPERASI LAIN ********** */
