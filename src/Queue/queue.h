@@ -35,8 +35,8 @@ typedef struct { pengunjung * T;   /* tabel penyimpan elemen */
 #define InfoHeadKesabaran(Q) (Q).T[(Q).HEAD].kesabaran
 #define InfoTailJumlahOrang(Q) (Q).T[(Q).TAIL].jumlahorang
 #define InfoTailKesabaran(Q) (Q).T[(Q).TAIL].kesabaran
-#define InfoJumlahOrang(X) (X).jumlahorang
-#define InfoKesabaran(X) (X).kesabaran
+#define JumlahOrang(X) (X).jumlahorang
+#define Kesabaran(X) (X).kesabaran
 #define ElmtQueue(Q,X) (Q).T[X]
 
 /* ********* Prototype ********* */
