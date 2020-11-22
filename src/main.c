@@ -6,10 +6,14 @@
 13519162
 */
 
+/**
+ * gcc main.c Array/arraydinaction.c Action/action.c Matriks/matriks.c Mesin/mesinkata.c Mesin/mesinkar.c MesinFile/mesinfile.c Point/point.c Jam/jam.c Player/player.c Queue/queue.c -o main
+ * */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "boolean.h"
-// #include "Array/arraydin.h"
+#include "Array/arraydinaction.h"
 // #include "Jam/jam.h"
 // #include "List berkait/listlinier.h"
 #include "Matriks/matriks.h"
@@ -18,11 +22,11 @@
 #include "MesinFile/mesinfile.h"
 #include "Point/point.h"
 #include "Jam/jam.h"
-// #include "Queue/prioqueuechar.h"
-// #include "Queue/queue.h"
+#include "Queue/queue.h"
 // #include "Stack/stackt.h"
 // #include "Tree/tree.h"
 #include "Player/player.h"
+#include "time.h"
 
 
 int main() {
@@ -33,6 +37,40 @@ int main() {
     new.TabKata[1] = 'e';
     new.TabKata[2] = 'w';
 
+    TabAction ArrayPrep;
+    Kata build, buy, upgrade;
+    build.Length = 5;
+    build.TabKata[0] = 'b';
+    build.TabKata[1] = 'u';
+    build.TabKata[2] = 'i';
+    build.TabKata[3] = 'l';
+    build.TabKata[4] = 'd';
+
+    buy.Length = 3;
+    buy.TabKata[0] = 'b';
+    buy.TabKata[1] = 'u';
+    buy.TabKata[2] = 'y';
+
+    upgrade.Length = 7;
+    upgrade.TabKata[0] = 'u';
+    upgrade.TabKata[1] = 'p';
+    upgrade.TabKata[2] = 'g';
+    upgrade.TabKata[3] = 'r';
+    upgrade.TabKata[4] = 'a';
+    upgrade.TabKata[5] = 'd';
+    upgrade.TabKata[6] = 'e';
+
+    Action Build, Buy, Upgrade;
+    Build = MakeAction(build, 120);
+    Buy = MakeAction(buy, 30);
+    Upgrade = MakeAction(upgrade, 60);
+
+    MakeEmptyAction(&ArrayPrep, 6);
+    AddAction(&ArrayPrep, Build);
+    AddAction(&ArrayPrep, Buy);
+    AddAction(&ArrayPrep, Upgrade);
+
+    /*************/
     Kata main;
     main.Length = 4;
     main.TabKata[0] = 'm';
@@ -47,10 +85,8 @@ int main() {
     udah.TabKata[2] = 'a';
     udah.TabKata[3] = 'h';
 
-    Kata nama;
-
     printf("// Welcome to Willy wangky's fum factory!!//\n");
-    printf("// New game / load game / exit? //\n");
+    printf("// New game / exit? //\n");
     STARTKATA(); // Input pertama
 
     
@@ -83,11 +119,20 @@ int main() {
         currentMap = Map1;
 
         while (!exit) { // Loop pergantian day
-            /********** PREPERATION PHASE **********/
+            /***** DEKLARASI VARIABEL *****/
             JAM currentJam, closingJam, hourRemaining;
             int timeRemaining; 
+            Queue Q;
+            MakeEmptyQueuew(&Q, 5); // Deklarasi queue dan mengosongkan queue.
+            
             currentJam = MakeJAM(9,0);
-            closingJam = MakeJAM(21,0);    
+            closingJam = MakeJAM(21,0);  
+
+            
+            /***************************************/
+            /********** PREPERATION PHASE **********/
+            /***************************************/
+              
             while (prepPhase) {
                 char prepInput;
                 printf("Preperation day %d\n", day);
@@ -106,12 +151,7 @@ int main() {
                 TulisJAM(closingJam);
                 printf("Time Remaining : ");
                 TulisJAM(hourRemaining);
-                /**
-                 *  Name: wangkie kumalasari
-                    Money: 1000
-                    Current Time: 09.01
-                    Closing Time: 21.00
-                    Time Remaining: 12 hour(s) */
+            
 
                 printf("Masukkan perintah:\n");
                 STARTKATA();
@@ -121,28 +161,28 @@ int main() {
                     prepPhase = false;
                 } 
                 /**** PERGERAKAN ****/
-                else if (CKata.TabKata[0] == 'w') {
-                    Move(&currentMap, 'w');
-                } else if (CKata.TabKata[0] == 'a') {
-                    Move(&currentMap, 'a');
-                } else if (CKata.TabKata[0] == 's') {
-                    Move(&currentMap, 's');
-                } else if (CKata.TabKata[0] == 'd') {
-                    Move(&currentMap, 'd');
+                else if (CKata.Length == 1) {
+                    if (CKata.TabKata[0] == 'w') {
+                        Move(&currentMap, 'w');
+                    } else if (CKata.TabKata[0] == 'a') {
+                        Move(&currentMap, 'a');
+                    } else if (CKata.TabKata[0] == 's') {
+                        Move(&currentMap, 's');
+                    } else if (CKata.TabKata[0] == 'd') {
+                        Move(&currentMap, 'd');
+                    }
+                } else if (IsAksiAda(ArrayPrep, CKata)) {
+                    printf("BERAKSI\n");
+                    // Masukkan perintah ke stack
+                } else {
+                    printf("Command tidak ditemukan.\n");
                 }
-                /**
-                 * Office
-                 * BUILD
-                 * UPGRADE
-                 * BUY
-                 * UNDO
-                 * EXEC/MAIN
-                 */
-
-                /***** MASUKKAN PERINTAH KE STACK *****/
             }
 
+            /********************************/
             /********** MAIN PHASE **********/
+            /********************************/
+
             while (mainPhase) {
                 /***** MENJALANKAN PERINTAH STACK *****/
                 char execInput;
@@ -151,7 +191,7 @@ int main() {
                 TulisMATRIKS(currentMap);
 
                 printf("\n\n");
-                
+
                 printf("Name: %s\n", Name(P1).TabKata);
                 printf("Money: %d\n", Money(P1));
                 
@@ -164,6 +204,11 @@ int main() {
                 printf("Time Remaining : ");
                 TulisJAM(hourRemaining);
 
+                if (rand() % 5 == 0) {
+                    EnqueuePrio(&Q);
+                }
+                PrintAntrian(Q);
+
                 printf("\nMasukkan perintah:\n");
                 STARTKATA();
 
@@ -172,18 +217,21 @@ int main() {
                     prepPhase = true;
                 } 
                 /**** PERGERAKAN ****/
-                else if (CKata.TabKata[0] == 'w') {
-                    Move(&currentMap, 'w');
-                    currentJam = NextNMenit(currentJam, 5);
-                } else if (CKata.TabKata[0] == 'a') {
-                    Move(&currentMap, 'a');
-                    currentJam = NextNMenit(currentJam, 5);
-                } else if (CKata.TabKata[0] == 's') {
-                    Move(&currentMap, 's');
-                    currentJam = NextNMenit(currentJam, 5);
-                } else if (CKata.TabKata[0] == 'd') {
-                    Move(&currentMap, 'd');
-                    currentJam = NextNMenit(currentJam, 5);
+                else if (CKata.Length == 1) {
+                    if (CKata.TabKata[0] == 'w') {
+                        Move(&currentMap, 'w');
+                    } else if (CKata.TabKata[0] == 'a') {
+                        Move(&currentMap, 'a');
+                    } else if (CKata.TabKata[0] == 's') {
+                        Move(&currentMap, 's');
+                    } else if (CKata.TabKata[0] == 'd') {
+                        Move(&currentMap, 'd');
+                    }
+                } else if (IsAksiAda(ArrayPrep, CKata)) {
+                    printf("BERAKSI\n");
+                    KurangKesabaran(&Q);
+                } else {
+                    printf("Command tidak ditemukan.\n");
                 }
             }
             day++;
