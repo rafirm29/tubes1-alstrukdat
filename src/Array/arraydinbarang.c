@@ -117,7 +117,7 @@ void TulisIsiTabBarang(TabBarang T){
 
 /* ********** MENAMBAH DAN MENGHAPUS ELEMEN DI AKHIR ********** */
 /* *** Menambahkan elemen terakhir *** */
-void AddBarang(TabBarang *T, ElType X){
+void AddBarang(TabBarang *T, ElTypeBarang X){
 /* Proses: Menambahkan barang sebagai elemen terakhir tabel */
 /* I.S. Tabel T boleh kosong, tetapi tidak penuh */
 /* F.S. X adalah elemen terakhir T yang baru */
@@ -129,7 +129,7 @@ void AddBarang(TabBarang *T, ElType X){
 }
 
 /* ********** MENGHAPUS ELEMEN ********** */
-void DelLastBarang(TabBarang *T, ElType *X){
+void DelLastBarang(TabBarang *T, ElTypeBarang *X){
 /* Proses : Menghapus barang terakhir tabel */
 /* I.S. Tabel tidak kosong */
 /* F.S. X adalah nilai elemen terakhir T sebelum penghapusan, */

@@ -9,9 +9,9 @@
 
 /* Definisi elemen dan koleksi objek */
 typedef int IdxTypeBarang; /* type indeks */
-typedef Barang ElTypeBarang;  /* type elemen tabel */
+typedef Kata ElTypeBarang;  /* type elemen tabel */
 typedef struct{
-  ElType *TIBarang; /* memori tempat penyimpan elemen (container) */
+  ElTypeBarang *TIBarang; /* memori tempat penyimpan elemen (container) */
   int NeffBarang;   /* >=0, banyaknya elemen efektif */
   int MaxElBarang;  /* ukuran elemen */
 } TabBarang;
@@ -120,13 +120,13 @@ void TulisIsiTabBarang(TabBarang T);
 
 /* ********** MENAMBAH DAN MENGHAPUS ELEMEN DI AKHIR ********** */
 /* *** Menambahkan elemen terakhir *** */
-void AddBarang(TabBarang *T, ElType X);
+void AddBarang(TabBarang *T, ElTypeBarang X);
 /* Proses: Menambahkan barang sebagai elemen terakhir tabel */
 /* I.S. Tabel T boleh kosong, tetapi tidak penuh */
 /* F.S. X adalah elemen terakhir T yang baru */
 
 /* ********** MENGHAPUS ELEMEN ********** */
-void DelLastBarang(TabBarang *T, ElType *X);
+void DelLastBarang(TabBarang *T, ElTypeBarang *X);
 /* Proses : Menghapus barang terakhir tabel */
 /* I.S. Tabel tidak kosong */
 /* F.S. X adalah nilai elemen terakhir T sebelum penghapusan, */

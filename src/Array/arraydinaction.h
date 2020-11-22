@@ -9,9 +9,9 @@
 
 /* Definisi elemen dan koleksi objek */
 typedef int IdxTypeAction; /* type indeks */
-typedef Action ElTypeAction;  /* type elemen tabel */
+typedef Kata ElTypeAction;  /* type elemen tabel */
 typedef struct{
-  ElType *TIAction; /* memori tempat penyimpan elemen (container) */
+  ElTypeAction *TIAction; /* memori tempat penyimpan elemen (container) */
   int NeffAction;   /* >=0, banyaknya elemen efektif */
   int MaxElAction;  /* ukuran elemen */
 } TabAction;
