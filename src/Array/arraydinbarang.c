@@ -112,7 +112,7 @@ IdxTypeBarang SearchIdxBarang (TabBarang T, nama X){
   int i = GetFirstIdxBarang(T);
   while (!found && i < (T).NeffBarang)
   {
-    if (IsKataSama(Aksi(ElmtBarang(T, i)), X))
+    if (IsKataSama(Nama(ElmtBarang(T, i)), X))
     {
       found = true;
     }
@@ -136,7 +136,7 @@ boolean IsBarangAda (TabBarang T, nama X){
   int i = GetFirstIdxBarang(T);
   while (!found && i < (T).NeffBarang)
   {
-    if (IsKataSama(Aksi(ElmtBarang(T, i)), X))
+    if (IsKataSama(Nama(ElmtBarang(T, i)), X))
     {
       found = true;
     }
