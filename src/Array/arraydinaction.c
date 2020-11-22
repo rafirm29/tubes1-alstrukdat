@@ -1,82 +1,93 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include "arraydinbarang.h"
+#include "arraydinaction.h"
 
 /* ********** KONSTRUKTOR ********** */
 /* Konstruktor : create tabel kosong  */
-void MakeEmptyBarang(TabBarang *T, int maxel){
+void MakeEmptyAction(TabAction *T, int maxel){
 /* I.S. T sembarang, maxel > 0 */
 /* F.S. Terbentuk tabel T kosong dengan kapasitas maxel */
-    (*T).TIBarang = (ElTypeBarang *) malloc (maxel * sizeof (ElTypeBarang));
-    (*T).NeffBarang = 0;
-    (*T).MaxElBarang = maxel;
+    (*T).TIAction = (ElTypeAction *) malloc (maxel * sizeof (ElTypeAction));
+    (*T).NeffAction = 0;
+    (*T).MaxElAction = maxel;
 }
 
-void DealokasiBarang(TabBarang *T){
+void DealokasiAction(TabAction *T){
 /* I.S. T terdefinisi; */
 /* F.S. TI(T) dikembalikan ke system, MaxEl(T)=0; Neff(T)=0 */
     free(T);
-    (*T).NeffBarang = 0;
-    (*T).MaxElBarang = 0;
+    (*T).NeffAction = 0;
+    (*T).MaxElAction = 0;
 }
 
 /* ********** SELEKTOR (TAMBAHAN) ********** */
 /* *** Banyaknya elemen *** */
-int NbElmtBarang(TabBarang T){
+
+int NbElmtAction(TabAction T){
 /* Mengirimkan banyaknya elemen efektif tabel */
 /* Mengirimkan nol jika tabel kosong */
-/* *** Daya tampung container *** */
-    return (T).NeffBarang;
+    return (T).NeffAction;
 }
 
-int MaxElementBarang(TabBarang T){
+/* *** Daya tampung container *** */
+int MaxElementAction(TabAction T){
 /* Mengirimkan maksimum elemen yang dapat ditampung oleh tabel */
-    return (T).MaxElBarang;
+    return (T).MaxElAction;
 }
 
 /* *** Selektor INDEKS *** */
-IdxTypeBarang GetFirstIdxBarang(TabBarang T){
+IdxTypeAction GetFirstIdxAction(TabAction T){
 /* Prekondisi : Tabel T tidak kosong */
 /* Mengirimkan indeks elemen T pertama */
-    return IdxMinBarang;
+    return IdxMinAction;
 }
 
-IdxTypeBarang GetLastIdxBarang(TabBarang T){
+IdxTypeAction GetLastIdxAction(TabAction T){
 /* Prekondisi : Tabel T tidak kosong */
 /* Mengirimkan indeks elemen T terakhir */
-    return ((T).NeffBarang - 1);
-}   
-
-/* ********** Test Indeks yang valid ********** */
-boolean IsIdxValidBarang(TabBarang T, IdxTypeBarang i){
-/* Mengirimkan true jika i adalah indeks yang valid utk ukuran tabel */
-/* yaitu antara indeks yang terdefinisi utk container*/
-    return ((i >= IdxMinBarang) && (i < (T).MaxElBarang));
+    return ((T).NeffAction - 1);
 }
 
-boolean IsIdxEffBarang(TabBarang T, IdxTypeBarang i){
+/* ********** Test Indeks yang valid ********** */
+boolean IsIdxValidAction(TabAction T, IdxTypeAction i){
+/* Mengirimkan true jika i adalah indeks yang valid utk ukuran tabel */
+/* yaitu antara indeks yang terdefinisi utk container*/
+    return ((i >= IdxMinAction) && (i < (T).MaxElAction));
+}
+
+boolean IsIdxEffAction(TabAction T, IdxTypeAction i){
 /* Mengirimkan true jika i adalah indeks yang terdefinisi utk tabel */
 /* yaitu antara FirstIdx(T)..LastIdx(T) */
-    return (i >= GetFirstIdxBarang(T) && i <= GetLastIdxBarang(T));
+    return (i >= GetFirstIdxAction(T) && i <= GetLastIdxAction(T));
 }
 
 /* ********** TEST KOSONG/PENUH ********** */
 /* *** Test tabel kosong *** */
-boolean IsEmptyBarang(TabBarang T){
+boolean IsEmptyAction(TabAction T){
 /* Mengirimkan true jika tabel T kosong, mengirimkan false jika tidak */
-    return ((T).NeffBarang == 0);
+    return ((T).NeffAction == 0);
 }
 
 /* *** Test tabel penuh *** */
-boolean IsFullBarang(TabBarang T){
+
+boolean IsFullAction(TabAction T){
 /* Mengirimkan true jika tabel T penuh, mengirimkan false jika tidak */
-    return ((T).NeffBarang == (T).MaxElBarang);
+    return ((T.NeffAction == (T).MaxElAction));
 }
 
 /* ********** BACA dan TULIS dengan INPUT/OUTPUT device ********** */
 /* *** Mendefinisikan isi tabel dari pembacaan *** */
+//void BacaIsi(TabBarang *T);
+/* I.S. T sembarang dan sudah dialokasikan sebelumnya */
+/* F.S. Tabel T terdefinisi */
+/* Proses : membaca banyaknya elemen T dan mengisi nilainya */
+/* 1. Baca banyaknya elemen diakhiri enter, misalnya N */
+/*    Pembacaan diulangi sampai didapat N yang benar yaitu 0 <= N <= MaxElement(T) */
+/*    Jika N tidak valid, tidak diberikan pesan kesalahan */
+/* 2. Jika 0 < N <= MaxElement(T); Lakukan N kali: Baca elemen mulai dari indeks
+      IdxMin satu per satu diakhiri enter */
+/*    Jika N = 0; hanya terbentuk T kosong */
 
-void TulisIsiTabBarang(TabBarang T){
+void TulisIsiTabAction(TabAction T){
 /* Proses : Menuliskan isi tabel dengan traversal, tabel ditulis di antara kurung siku;
    antara dua elemen dipisahkan dengan separator "koma", tanpa tambahan karakter di depan,
    di tengah, atau di belakang, termasuk spasi dan enter */
@@ -84,18 +95,17 @@ void TulisIsiTabBarang(TabBarang T){
 /* F.S. Jika T tidak kosong: [e1,e2,...,en] */
 /* Contoh : jika ada tiga elemen bernilai 1, 20, 30 akan dicetak: [1,20,30] */
 /* Jika tabel kosong : menulis [] */
-    IdxTypeBarang i;
+    IdxTypeAction i;
     if (IsEmpty(T))
     {
-        printf("Tidak ada barang\n");
+        printf("Tidak ada aksi\n");
     }
     else
     {
-        for (i = 0; i < (T).NeffBarang; i++)
+        for (i = 0; i < (T).NeffAction; i++)
         {
-            printf("Barang %d\n", i+1);
-            printf("Nama : \n"); ///// INI BELUM SELESAI ////////
-            printf("Harga : %d\n", Harga(ElmtBarang(T, i))); 
+            printf("Aksi \n"); ///// INI BELUM SELESAI ///////
+            printf("Durasi %d : \n", Durasi(ElmtAction(T,i)));
         } 
     }
 }
@@ -110,53 +120,53 @@ void TulisIsiTabBarang(TabBarang T){
 /* Skema Searching yang digunakan bebas */
 
 /* ********** OPERASI LAIN ********** */
-//void CopyTab(TabBarang Tin, TabBarang *Tout)
+//void CopyTab(TabBarang Tin, TabInt *Tout);
 /* I.S. Tin terdefinisi tidak kosong, Tout sembarang */
 /* F.S. Tout berisi salinan dari Tin (identik, Neff dan MaxEl sama) */
 /* Proses : Menyalin isi Tin ke Tout */
 
 /* ********** MENAMBAH DAN MENGHAPUS ELEMEN DI AKHIR ********** */
 /* *** Menambahkan elemen terakhir *** */
-void AddBarang(TabBarang *T, ElType X){
+void AddAction(TabAction *T, ElTypeAction X){
 /* Proses: Menambahkan barang sebagai elemen terakhir tabel */
 /* I.S. Tabel T boleh kosong, tetapi tidak penuh */
 /* F.S. X adalah elemen terakhir T yang baru */
     if (!IsFull(*T))
     {
-        ElmtBarang(*T, (GetLastIdxBarang(*T) + 1)) = X;
-        (*T).NeffBarang = (*T).NeffBarang + 1;
+        ElmtAction(*T, (GetLastIdxAction(*T) + 1)) = X;
+        (*T).NeffAction = (*T).NeffAction + 1;
     }
 }
 
 /* ********** MENGHAPUS ELEMEN ********** */
-void DelLastBarang(TabBarang *T, ElType *X){
+void DelLastAction(TabAction *T, ElTypeAction *X){
 /* Proses : Menghapus barang terakhir tabel */
 /* I.S. Tabel tidak kosong */
 /* F.S. X adalah nilai elemen terakhir T sebelum penghapusan, */
 /*      Banyaknya elemen tabel berkurang satu */
 /*      Tabel T mungkin menjadi kosong */
-    *X = ElmtBarang(*T, (GetLastIdxBarang(*T)));
-    (*T).NeffBarang = (*T).NeffBarang - 1;
+    *X = ElmtAction(*T, (GetLastIdxAction(*T)));
+    (*T).NeffAction = (*T).NeffAction - 1;
 }
 
 /* ********* MENGUBAH UKURAN ARRAY ********* */
-void GrowTabBarang(TabBarang *T, int num){
+void GrowTabAction(TabAction *T, int num){
 /* Proses : Menambahkan max element sebanyak num */
 /* I.S. Tabel sudah terdefinisi */
 /* F.S. Ukuran tabel bertambah sebanyak num */
-    (*T).MaxElBarang = (*T).MaxElBarang + num;
+    (*T).MaxElAction = (*T).MaxElAction + num;
 }
 
-void ShrinkTabBarang(TabBarang *T, int num){
+void ShrinkTabAction(TabAction *T, int num){
 /* Proses : Mengurangi max element sebanyak num */
 /* I.S. Tabel sudah terdefinisi, ukuran MaxEl > num, dan Neff < MaxEl - num. */
 /* F.S. Ukuran tabel berkurang sebanyak num. */
-    (*T).MaxElBarang = (*T).MaxElBarang - num;
+    (*T).MaxElAction = (*T).MaxElAction - num;
 }
 
-void CompactTabBarang(TabBarang *T){
+void CompactTabAction(TabAction *T){
 /* Proses : Mengurangi max element sehingga Neff = MaxEl */
 /* I.S. Tabel tidak kosong */
 /* F.S. Ukuran MaxEl = Neff */
-    (*T).MaxElBarang = (*T).NeffBarang;
+    (*T).MaxElAction = (*T).NeffAction;
 }
