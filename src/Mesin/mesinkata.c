@@ -56,7 +56,7 @@ void SalinKata(){
           Jika panjang kata melebihi NMax, maka sisa kata "dipotong" */
    int i;
    i = 0;
-   while ((CC != MARK) && (CC != BLANK) && (i < NMax)) {
+   while ((CC != MARK) && (i < NMax)) {
       CKata.TabKata[i] = CC;
       i++;
       ADV();
@@ -66,7 +66,7 @@ void SalinKata(){
 
 void writefromMatriks (FILE* f, char strmatriks[10][20]){
 /* Membaca file peta dalam bentuk matriks
-   ********************
+    ********************
     *A-----W-----------*
     *------------------>
     *------------------*
