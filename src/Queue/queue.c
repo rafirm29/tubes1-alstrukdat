@@ -132,7 +132,7 @@ void Dequeue (Queue * Q, pengunjung * X){
      }
 }
 void KurangKesabaran (Queue * Q){
-/* I.S. Q terdefinisi, mengurangi jumlah kesabaran yang dimiliki pengunjung sebanyak 1 satuan HP */
+/* I.S. Q terdefinisi, mengurangi jumlah kesabaran yang dimiliki pengunjung sebanyak 1 satuan */
 /* F.S. Kesabaran pengunjung berkurang satu */
     pengunjung X;
     //JIka tidak kosong

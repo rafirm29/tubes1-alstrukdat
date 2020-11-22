@@ -73,11 +73,13 @@ void Dequeue (Queue * Q, pengunjung * X);
 /* F.S. X = nilai elemen HEAD pd I.S., HEAD "maju" dengan mekanisme circular buffer;
         Q mungkin kosong */
 void KurangKesabaran (Queue * Q);
-/* I.S. Q terdefinisi, mengurangi jumlah kesabaran yang dimiliki pengunjung sebanyak 1 satuan HP */
+/* I.S. Q terdefinisi, mengurangi jumlah kesabaran yang dimiliki pengunjung sebanyak 1 satuan */
 /* F.S. Kesabaran pengunjung berkurang satu */
 void PrintAntrian (Queue Q);
 /* I.S. Q terdefinisi, Q mungkin kosong */
 /* F.S. Isi dari Antrian itu ditampilkan ke layar
-        "[a1,a2,...,aN]", jika kosong "[]" */
+        "Antrian [2/5]:
+         (Daftar Wahana), kesabaran: 5
+         (Daftar Wahana), kesabaran: 5 */
 
 #endif
