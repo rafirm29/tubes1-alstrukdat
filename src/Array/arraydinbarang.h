@@ -29,7 +29,7 @@ typedef struct{
 
 /* ********** SELEKTOR ********** */
 #define NeffBarang(T) (T).NeffBarang
-#define TIBarang(T) (T).TIBarang
+//#define TIBarang(T) (T).TIBarang
 #define ElmtBarang(T, i) (T).TIBarang[(i)]
 #define MaxElBarang(T) (T).MaxElBarang
 
@@ -105,14 +105,14 @@ void TulisIsiTabBarang(TabBarang T);
 
 /* ********** SEARCHING ********** */
 /* ***  Perhatian : Tabel boleh kosong!! *** */
-IdxTypeBarang SearchIdxBarang (TabBarang T, ElTypeBarang X);
+IdxTypeBarang SearchIdxBarang (TabBarang T, nama X);
 /* Search apakah ada elemen tabel T yang bernilai X */
 /* Jika ada, menghasilkan indeks i terkecil, dengan elemen ke-i = X */
 /* Jika tidak ada, mengirimkan IdxUndef */
 /* Menghasilkan indeks tak terdefinisi (IdxUndef) jika tabel T kosong */
 /* Skema Searching yang digunakan bebas */
 
-boolean IsBarangAda (TabBarang T, ElTypeBarang X);
+boolean IsBarangAda (TabBarang T, nama X);
 
 /* ********** OPERASI LAIN ********** */
 //void CopyTab(TabBarang Tin, TabInt *Tout);

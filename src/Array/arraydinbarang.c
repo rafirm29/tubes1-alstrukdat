@@ -102,17 +102,17 @@ void TulisIsiTabBarang(TabBarang T){
 
 /* ********** SEARCHING ********** */
 /* ***  Perhatian : Tabel boleh kosong!! *** */
-IdxTypeBarang SearchIdxBarang (TabBarang T, ElTypeBarang X){
+IdxTypeBarang SearchIdxBarang (TabBarang T, nama X){
 /* Search apakah ada elemen tabel T yang bernilai X */
 /* Jika ada, menghasilkan indeks i terkecil, dengan elemen ke-i = X */
 /* Jika tidak ada, mengirimkan IdxUndef */
 /* Menghasilkan indeks tak terdefinisi (IdxUndef) jika tabel T kosong */
 /* Skema Searching yang digunakan bebas */
-  boolean found;
+  boolean found = false
   int i = GetFirstIdxBarang(T);
   while (!found && i < (T).NeffBarang)
   {
-    if (Nama(ElmtBarang(T, i)) == X)
+    if (IsKataSama(Aksi(ElmtBarang(T, i)), X))
     {
       found = true;
     }
@@ -131,12 +131,12 @@ IdxTypeBarang SearchIdxBarang (TabBarang T, ElTypeBarang X){
   }
 }
 
-boolean IsBarangAda (TabBarang T, ElTypeBarang X){
-  boolean found;
+boolean IsBarangAda (TabBarang T, nama X){
+  boolean found = false
   int i = GetFirstIdxBarang(T);
   while (!found && i < (T).NeffBarang)
   {
-    if (Nama(ElmtBarang(T, i)) == X)
+    if (IsKataSama(Aksi(ElmtBarang(T, i)), X))
     {
       found = true;
     }

@@ -116,7 +116,7 @@ void TulisIsiTabAction(TabAction T){
 
 IdxTypeAction SearchIdxAksi (TabAction T, aksi X){
 // Mengirim index adanya aksi X jika tidak ada mengirim idxundef
-  boolean found;
+  boolean found = false
   int i = GetFirstIdxAction(T);
   while (!found && i < (T).NeffAction)
   {
