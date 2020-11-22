@@ -106,7 +106,7 @@ void TulisIsiTabAction(TabAction T){
         for (i = 0; i < (T).NeffAction; i++)
         {
           printf("Aksi : %s\n", Aksi(ElmtAction(T, i)));
-          printf("Durasi : %d\n", Durasi(ElmtAction(T,i)));
+          printf("Durasi : %d\n", DurasiAksi(ElmtAction(T,i)));
         } 
     }
 }
@@ -116,7 +116,7 @@ void TulisIsiTabAction(TabAction T){
 
 IdxTypeAction SearchIdxAksi (TabAction T, aksi X){
 // Mengirim index adanya aksi X jika tidak ada mengirim idxundef
-  boolean found = false
+  boolean found = false;
   int i = GetFirstIdxAction(T);
   while (!found && i < (T).NeffAction)
   {
@@ -164,7 +164,7 @@ Action SearchAction (TabAction T, aksi X){
   {
     i= i + 1;
   }
-  return ElmtAction(T, i));  
+  return ElmtAction(T, i);  
 }
 
 /* ********** OPERASI LAIN ********** */
