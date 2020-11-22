@@ -118,16 +118,12 @@ int main() {
                 /**** PERGERAKAN ****/
                 else if (CKata.TabKata[0] == 'w') {
                     Move(&currentMap, 'w');
-                    currentJam = NextNMenit(currentJam, 5);
                 } else if (CKata.TabKata[0] == 'a') {
                     Move(&currentMap, 'a');
-                    currentJam = NextNMenit(currentJam, 5);
                 } else if (CKata.TabKata[0] == 's') {
                     Move(&currentMap, 's');
-                    currentJam = NextNMenit(currentJam, 5);
                 } else if (CKata.TabKata[0] == 'd') {
                     Move(&currentMap, 'd');
-                    currentJam = NextNMenit(currentJam, 5);
                 }
                 /**
                  * Office
@@ -152,8 +148,16 @@ int main() {
                 printf("\n\n");
                 //printf("Nama: %s\n", nama);
                 printf("Money: 15332\n");
-                /**
-                 * ADT JAM */
+                
+                timeRemaining = Durasi(currentJam, closingJam);
+                hourRemaining = MenitToJAM(timeRemaining);
+                printf("Current Time : ");
+                TulisJAM(currentJam);
+                printf("Closing Time : ");
+                TulisJAM(closingJam);
+                printf("Time Remaining : ");
+                TulisJAM(hourRemaining);
+
                 printf("\nMasukkan perintah:\n");
                 STARTKATA();
 
@@ -164,12 +168,16 @@ int main() {
                 /**** PERGERAKAN ****/
                 else if (CKata.TabKata[0] == 'w') {
                     Move(&currentMap, 'w');
+                    currentJam = NextNMenit(currentJam, 5);
                 } else if (CKata.TabKata[0] == 'a') {
                     Move(&currentMap, 'a');
+                    currentJam = NextNMenit(currentJam, 5);
                 } else if (CKata.TabKata[0] == 's') {
                     Move(&currentMap, 's');
+                    currentJam = NextNMenit(currentJam, 5);
                 } else if (CKata.TabKata[0] == 'd') {
                     Move(&currentMap, 'd');
+                    currentJam = NextNMenit(currentJam, 5);
                 }
             }
             day++;
