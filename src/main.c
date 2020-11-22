@@ -89,7 +89,7 @@ int main() {
     printf("// New game / exit? //\n");
     STARTKATA(); // Input pertama
 
-    
+
     /***** NEW GAME *****/
     if (IsKataSama(CKata, new)) {
         printf("Memulai permainan baru...\n");
@@ -121,28 +121,28 @@ int main() {
         while (!exit) { // Loop pergantian day
             /***** DEKLARASI VARIABEL *****/
             JAM currentJam, closingJam, hourRemaining;
-            int timeRemaining; 
+            int timeRemaining;
             Queue Q;
-            MakeEmptyQueuew(&Q, 5); // Deklarasi queue dan mengosongkan queue.
-            
-            currentJam = MakeJAM(9,0);
-            closingJam = MakeJAM(21,0);  
+            MakeEmptyQueue(&Q, 5); // Deklarasi queue dan mengosongkan queue.
 
-            
+            currentJam = MakeJAM(9,0);
+            closingJam = MakeJAM(21,0);
+
+
             /***************************************/
             /********** PREPERATION PHASE **********/
             /***************************************/
-              
+
             while (prepPhase) {
                 char prepInput;
                 printf("Preperation day %d\n", day);
-                
+
                 TulisMATRIKS(currentMap);
 
                 printf("\n\n");
                 printf("Name: %s\n", Name(P1).TabKata);
                 printf("Money: %d\n", Money(P1));
-                
+
                 timeRemaining = Durasi(currentJam, closingJam);
                 hourRemaining = MenitToJAM(timeRemaining);
                 printf("Current Time : ");
@@ -151,7 +151,7 @@ int main() {
                 TulisJAM(closingJam);
                 printf("Time Remaining : ");
                 TulisJAM(hourRemaining);
-            
+
 
                 printf("Masukkan perintah:\n");
                 STARTKATA();
@@ -159,7 +159,7 @@ int main() {
                 if (IsKataSama(CKata, main)) { // Execute
                     mainPhase = true;
                     prepPhase = false;
-                } 
+                }
                 /**** PERGERAKAN ****/
                 else if (CKata.Length == 1) {
                     if (CKata.TabKata[0] == 'w') {
@@ -187,14 +187,14 @@ int main() {
                 /***** MENJALANKAN PERINTAH STACK *****/
                 char execInput;
                 printf("Main day %d\n", day);
-                
+
                 TulisMATRIKS(currentMap);
 
                 printf("\n\n");
 
                 printf("Name: %s\n", Name(P1).TabKata);
                 printf("Money: %d\n", Money(P1));
-                
+
                 timeRemaining = Durasi(currentJam, closingJam);
                 hourRemaining = MenitToJAM(timeRemaining);
                 printf("Current Time : ");
@@ -215,7 +215,7 @@ int main() {
                 if (IsKataSama(CKata, udah)) {// Exit
                     mainPhase = false;
                     prepPhase = true;
-                } 
+                }
                 /**** PERGERAKAN ****/
                 else if (CKata.Length == 1) {
                     if (CKata.TabKata[0] == 'w') {
