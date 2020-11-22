@@ -158,26 +158,13 @@ boolean IsAksiAda (TabAction T, aksi X){
 }
 
 Action SearchAction (TabAction T, aksi X){
-  boolean found = false;
+  // I.S. Aksi pasti ada dalam Tab
   int i = GetFirstIdxAction(T);
-  while (!found && i < (T).NeffAction)
+  while (!IsKataSama(Aksi(ElmtAction(T, i)), X))
   {
-    if (IsKataSama(Aksi(ElmtAction(T, i)), X)){
-      found = true;
-    }
-    else
-    {
-      i = i + 1;
-    }
+    i= i + 1;
   }
-  if (found)
-  {
-    return ElmtAction(T, i);
-  }
-  else
-  {
-    return NULL;
-  }
+  return ElmtAction(T, i));  
 }
 
 /* ********** OPERASI LAIN ********** */
