@@ -96,7 +96,7 @@ void TulisIsiTabAction(TabAction T){
 /* Contoh : jika ada tiga elemen bernilai 1, 20, 30 akan dicetak: [1,20,30] */
 /* Jika tabel kosong : menulis [] */
     IdxTypeAction i;
-    if (IsEmpty(T))
+    if (IsEmptyAction(T))
     {
         printf("Tidak ada aksi\n");
     }
@@ -104,20 +104,57 @@ void TulisIsiTabAction(TabAction T){
     {
         for (i = 0; i < (T).NeffAction; i++)
         {
-            printf("Aksi \n"); ///// INI BELUM SELESAI ///////
-            printf("Durasi %d : \n", Durasi(ElmtAction(T,i)));
+          printf("Aksi : %s\n", Aksi(ElmtAction(T, i)));
+          printf("Durasi : %d\n", Durasi(ElmtAction(T,i)));
         } 
     }
 }
 
 /* ********** SEARCHING ********** */
 /* ***  Perhatian : Tabel boleh kosong!! *** */
-//IdxType Search1(TabInt T, ElType X);
-/* Search apakah ada elemen tabel T yang bernilai X */
-/* Jika ada, menghasilkan indeks i terkecil, dengan elemen ke-i = X */
-/* Jika tidak ada, mengirimkan IdxUndef */
-/* Menghasilkan indeks tak terdefinisi (IdxUndef) jika tabel T kosong */
-/* Skema Searching yang digunakan bebas */
+
+IdxTypeAction SearchIdxAksi (TabAction T, ElTypeAction X){
+// Mengirim index adanya aksi X jika tidak ada mengirim idxundef
+  boolean found;
+  int i = GetFirstIdxAction(T);
+  while (!found && i < (T).NeffAction)
+  {
+    if (Aksi(ElmtAction(T, i)) == X)
+    {
+      found = true;
+    }
+    else
+    {
+      i = i + 1;
+    }
+  }
+  if (found)
+  {
+    return i;
+  }
+  else
+  {
+    return IdxUndefAction;
+  }
+}
+
+boolean IsAksiAda (TabAction T, ElTypeAction X){
+// Mengirim true jika aksi ada false jika tidak
+  boolean found;
+  int i = GetFirstIdxAction(T);
+  while (!found && i < (T).NeffAction)
+  {
+    if (Aksi(ElmtAction(T, i)) == X)
+    {
+      found = true;
+    }
+    else
+    {
+      i = i + 1;
+    }
+  }
+  return found;
+}
 
 /* ********** OPERASI LAIN ********** */
 //void CopyTab(TabBarang Tin, TabInt *Tout);
@@ -131,7 +168,7 @@ void AddAction(TabAction *T, ElTypeAction X){
 /* Proses: Menambahkan barang sebagai elemen terakhir tabel */
 /* I.S. Tabel T boleh kosong, tetapi tidak penuh */
 /* F.S. X adalah elemen terakhir T yang baru */
-    if (!IsFull(*T))
+    if (!IsFullAction(*T))
     {
         ElmtAction(*T, (GetLastIdxAction(*T) + 1)) = X;
         (*T).NeffAction = (*T).NeffAction + 1;

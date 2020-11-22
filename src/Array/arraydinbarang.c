@@ -85,7 +85,7 @@ void TulisIsiTabBarang(TabBarang T){
 /* Contoh : jika ada tiga elemen bernilai 1, 20, 30 akan dicetak: [1,20,30] */
 /* Jika tabel kosong : menulis [] */
     IdxTypeBarang i;
-    if (IsEmpty(T))
+    if (IsEmptyBarang(T))
     {
         printf("Tidak ada barang\n");
     }
@@ -94,7 +94,7 @@ void TulisIsiTabBarang(TabBarang T){
         for (i = 0; i < (T).NeffBarang; i++)
         {
             printf("Barang %d\n", i+1);
-            printf("Nama : \n"); ///// INI BELUM SELESAI ////////
+            printf("Nama : %s\n", Nama(ElmtBarang(T, i)));
             printf("Harga : %d\n", Harga(ElmtBarang(T, i))); 
         } 
     }
@@ -102,12 +102,51 @@ void TulisIsiTabBarang(TabBarang T){
 
 /* ********** SEARCHING ********** */
 /* ***  Perhatian : Tabel boleh kosong!! *** */
-//IdxType Search1(TabInt T, ElType X);
+IdxTypeBarang SearchIdxBarang (TabBarang T, ElTypeBarang X){
 /* Search apakah ada elemen tabel T yang bernilai X */
 /* Jika ada, menghasilkan indeks i terkecil, dengan elemen ke-i = X */
 /* Jika tidak ada, mengirimkan IdxUndef */
 /* Menghasilkan indeks tak terdefinisi (IdxUndef) jika tabel T kosong */
 /* Skema Searching yang digunakan bebas */
+  boolean found;
+  int i = GetFirstIdxBarang(T);
+  while (!found && i < (T).NeffBarang)
+  {
+    if (Nama(ElmtBarang(T, i)) == X)
+    {
+      found = true;
+    }
+    else
+    {
+      i = i + 1;
+    }
+  }
+  if (found)
+  {
+    return i;
+  }
+  else
+  {
+    return IdxUndefBarang;
+  }
+}
+
+boolean IsBarangAda (TabBarang T, ElTypeBarang X){
+  boolean found;
+  int i = GetFirstIdxBarang(T);
+  while (!found && i < (T).NeffBarang)
+  {
+    if (Nama(ElmtBarang(T, i)) == X)
+    {
+      found = true;
+    }
+    else
+    {
+      i = i + 1;
+    }
+  }
+  return found;
+}
 
 /* ********** OPERASI LAIN ********** */
 //void CopyTab(TabBarang Tin, TabBarang *Tout)
@@ -121,7 +160,7 @@ void AddBarang(TabBarang *T, ElTypeBarang X){
 /* Proses: Menambahkan barang sebagai elemen terakhir tabel */
 /* I.S. Tabel T boleh kosong, tetapi tidak penuh */
 /* F.S. X adalah elemen terakhir T yang baru */
-    if (!IsFull(*T))
+    if (!IsFullBarang(*T))
     {
         ElmtBarang(*T, (GetLastIdxBarang(*T) + 1)) = X;
         (*T).NeffBarang = (*T).NeffBarang + 1;

@@ -9,7 +9,7 @@
 
 /* Definisi elemen dan koleksi objek */
 typedef int IdxTypeBarang; /* type indeks */
-typedef Kata ElTypeBarang;  /* type elemen tabel */
+typedef Barang ElTypeBarang;  /* type elemen tabel */
 typedef struct{
   ElTypeBarang *TIBarang; /* memori tempat penyimpan elemen (container) */
   int NeffBarang;   /* >=0, banyaknya elemen efektif */
@@ -105,12 +105,14 @@ void TulisIsiTabBarang(TabBarang T);
 
 /* ********** SEARCHING ********** */
 /* ***  Perhatian : Tabel boleh kosong!! *** */
-//IdxType Search1(TabInt T, ElType X);
+IdxTypeBarang SearchIdxBarang (TabBarang T, ElTypeBarang X);
 /* Search apakah ada elemen tabel T yang bernilai X */
 /* Jika ada, menghasilkan indeks i terkecil, dengan elemen ke-i = X */
 /* Jika tidak ada, mengirimkan IdxUndef */
 /* Menghasilkan indeks tak terdefinisi (IdxUndef) jika tabel T kosong */
 /* Skema Searching yang digunakan bebas */
+
+boolean IsBarangAda (TabBarang T, ElTypeBarang X);
 
 /* ********** OPERASI LAIN ********** */
 //void CopyTab(TabBarang Tin, TabInt *Tout);

@@ -9,7 +9,7 @@
 
 /* Definisi elemen dan koleksi objek */
 typedef int IdxTypeAction; /* type indeks */
-typedef Kata ElTypeAction;  /* type elemen tabel */
+typedef Action ElTypeAction;  /* type elemen tabel */
 typedef struct{
   ElTypeAction *TIAction; /* memori tempat penyimpan elemen (container) */
   int NeffAction;   /* >=0, banyaknya elemen efektif */
@@ -105,12 +105,16 @@ void TulisIsiTabAction(TabAction T);
 
 /* ********** SEARCHING ********** */
 /* ***  Perhatian : Tabel boleh kosong!! *** */
-//IdxType Search1(TabInt T, ElType X);
+IdxTypeAction SearchIdxAksi (TabAction T, ElTypeAction X);
 /* Search apakah ada elemen tabel T yang bernilai X */
 /* Jika ada, menghasilkan indeks i terkecil, dengan elemen ke-i = X */
 /* Jika tidak ada, mengirimkan IdxUndef */
 /* Menghasilkan indeks tak terdefinisi (IdxUndef) jika tabel T kosong */
 /* Skema Searching yang digunakan bebas */
+
+
+boolean IsAksiAda (TabAction T, ElTypeAction X);
+
 
 /* ********** OPERASI LAIN ********** */
 //void CopyTab(TabBarang Tin, TabInt *Tout);
@@ -120,13 +124,13 @@ void TulisIsiTabAction(TabAction T);
 
 /* ********** MENAMBAH DAN MENGHAPUS ELEMEN DI AKHIR ********** */
 /* *** Menambahkan elemen terakhir *** */
-void AddBarangAction(TabAction *T, ElTypeAction X);
+void AddAction(TabAction *T, ElTypeAction X);
 /* Proses: Menambahkan barang sebagai elemen terakhir tabel */
 /* I.S. Tabel T boleh kosong, tetapi tidak penuh */
 /* F.S. X adalah elemen terakhir T yang baru */
 
 /* ********** MENGHAPUS ELEMEN ********** */
-void DelLastBarangAction(TabAction *T, ElTypeAction *X);
+void DelLastAction(TabAction *T, ElTypeAction *X);
 /* Proses : Menghapus barang terakhir tabel */
 /* I.S. Tabel tidak kosong */
 /* F.S. X adalah nilai elemen terakhir T sebelum penghapusan, */
