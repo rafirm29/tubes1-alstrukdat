@@ -6,13 +6,13 @@ int main(){
     TabBarang T;
     Kata b;
     Bar = MakeBarang(b, 7000);
-    MakeEmpty(&T, 10);
-    printf("maxel tab %d\n", (T).MaxEl);
-    printf("Neff array %d\n", (T.Neff));
+    MakeEmptyBarang(&T, 10);
+    printf("maxel tab %d\n", (T).MaxElBarang);
+    printf("Neff array %d\n", (T.NeffBarang));
     AddBarang(&T, Bar);
     AddBarang(&T, Bar1);
-    TulisIsiTab(T);
-    GrowTab(&T, 10);
-    printf("maxel tab %d\n", (T).MaxEl);
+    TulisIsiTabBarang(T);
+    GrowTabBarang(&T, 10);
+    printf("maxel tab %d\n", (T).MaxElBarang);
     return 0;
 }

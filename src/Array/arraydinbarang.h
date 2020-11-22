@@ -28,57 +28,57 @@ typedef struct{
   Definisi elemen terakhir yang terdefinisi: T.TI[i] dengan i=T.Neff */
 
 /* ********** SELEKTOR ********** */
-#define Neff(T) (T).Neff
-#define TI(T) (T).TI
-#define Elmt(T, i) (T).TI[(i)]
-#define MaxEl(T) (T).MaxEl
+#define NeffBarang(T) (T).NeffBarang
+#define TIBarang(T) (T).TIBarang
+#define ElmtBarang(T, i) (T).TIBarang[(i)]
+#define MaxElBarang(T) (T).MaxElBarang
 
 /* ********** KONSTRUKTOR ********** */
 /* Konstruktor : create tabel kosong  */
-void MakeEmpty(TabBarang *T, int maxel);
+void MakeEmptyBarang(TabBarang *T, int maxel);
 /* I.S. T sembarang, maxel > 0 */
 /* F.S. Terbentuk tabel T kosong dengan kapasitas maxel */
 
-void Dealokasi(TabBarang *T);
+void DealokasiBarang(TabBarang *T);
 /* I.S. T terdefinisi; */
 /* F.S. TI(T) dikembalikan ke system, MaxEl(T)=0; Neff(T)=0 */
 
 /* ********** SELEKTOR (TAMBAHAN) ********** */
 /* *** Banyaknya elemen *** */
 
-int NbElmt(TabBarang T);
+int NbElmtBarang(TabBarang T);
 /* Mengirimkan banyaknya elemen efektif tabel */
 /* Mengirimkan nol jika tabel kosong */
 /* *** Daya tampung container *** */
 
-int MaxElement(TabBarang T);
+int MaxElementBarang(TabBarang T);
 /* Mengirimkan maksimum elemen yang dapat ditampung oleh tabel */
 /* *** Selektor INDEKS *** */
 
-IdxType GetFirstIdx(TabBarang T);
+IdxType GetFirstIdxBarang(TabBarang T);
 /* Prekondisi : Tabel T tidak kosong */
 /* Mengirimkan indeks elemen T pertama */
 
-IdxType GetLastIdx(TabBarang T);
+IdxType GetLastIdxBarang(TabBarang T);
 /* Prekondisi : Tabel T tidak kosong */
 /* Mengirimkan indeks elemen T terakhir */
 
 /* ********** Test Indeks yang valid ********** */
-boolean IsIdxValid(TabBarang T, IdxType i);
+boolean IsIdxValidBarang(TabBarang T, IdxType i);
 /* Mengirimkan true jika i adalah indeks yang valid utk ukuran tabel */
 /* yaitu antara indeks yang terdefinisi utk container*/
 
-boolean IsIdxEff(TabBarang T, IdxType i);
+boolean IsIdxEffBarang(TabBarang T, IdxType i);
 /* Mengirimkan true jika i adalah indeks yang terdefinisi utk tabel */
 /* yaitu antara FirstIdx(T)..LastIdx(T) */
 
 /* ********** TEST KOSONG/PENUH ********** */
 /* *** Test tabel kosong *** */
-boolean IsEmpty(TabBarang T);
+boolean IsEmptyBarang(TabBarang T);
 /* Mengirimkan true jika tabel T kosong, mengirimkan false jika tidak */
 /* *** Test tabel penuh *** */
 
-boolean IsFull(TabBarang T);
+boolean IsFullBarang(TabBarang T);
 /* Mengirimkan true jika tabel T penuh, mengirimkan false jika tidak */
 
 /* ********** BACA dan TULIS dengan INPUT/OUTPUT device ********** */
@@ -94,7 +94,7 @@ boolean IsFull(TabBarang T);
       IdxMin satu per satu diakhiri enter */
 /*    Jika N = 0; hanya terbentuk T kosong */
 
-void TulisIsiTab(TabBarang T);
+void TulisIsiTabBarang(TabBarang T);
 /* Proses : Menuliskan isi tabel dengan traversal, tabel ditulis di antara kurung siku;
    antara dua elemen dipisahkan dengan separator "koma", tanpa tambahan karakter di depan,
    di tengah, atau di belakang, termasuk spasi dan enter */
@@ -134,17 +134,17 @@ void DelLastBarang(TabBarang *T, ElType *X);
 /*      Tabel T mungkin menjadi kosong */
 
 /* ********* MENGUBAH UKURAN ARRAY ********* */
-void GrowTab(TabBarang *T, int num);
+void GrowTabBarang(TabBarang *T, int num);
 /* Proses : Menambahkan max element sebanyak num */
 /* I.S. Tabel sudah terdefinisi */
 /* F.S. Ukuran tabel bertambah sebanyak num */
 
-void ShrinkTab(TabBarang *T, int num);
+void ShrinkTabBarang(TabBarang *T, int num);
 /* Proses : Mengurangi max element sebanyak num */
 /* I.S. Tabel sudah terdefinisi, ukuran MaxEl > num, dan Neff < MaxEl - num. */
 /* F.S. Ukuran tabel berkurang sebanyak num. */
 
-void CompactTab(TabBarang *T);
+void CompactTabBarang(TabBarang *T);
 /* Proses : Mengurangi max element sehingga Neff = MaxEl */
 /* I.S. Tabel tidak kosong */
 /* F.S. Ukuran MaxEl = Neff */
