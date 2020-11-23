@@ -249,7 +249,7 @@ void Move (MATRIKS * M, char X, POINT PO){
     i = Ordinat(CurrPlayer)+1;
     j = Absis(CurrPlayer)+1;
 
-    if ((Absis(PO) == j) && (Ordinat(PO) == i)){
+    if ((Absis(PO)+1 == j) && (Ordinat(PO)+1 == i)){
         if (X == 'a' || X == 'A'){
             if (Elmt(*M,i,j-1) == '-' || Elmt(*M,i,j-1) == 'O'){
                 Elmt(*M,i,j-1) = Elmt(*M,i,j);
