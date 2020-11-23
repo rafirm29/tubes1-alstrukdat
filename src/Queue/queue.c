@@ -115,10 +115,10 @@ void Dequeue (Queue * Q, pengunjung * X){
           }
           else {
                int orang = Head(*Q);
-               while (orang < Tail(*Q)){
+               do{
                     ElmtQueue(*Q,orang) = ElmtQueue(*Q,orang+1);
                     orang = orang + 1;
-               }
+               } while (orang < Tail(*Q));
                Tail(*Q) = orang-1;
           }
     }
@@ -130,10 +130,11 @@ void KurangKesabaran (Queue * Q){
     //JIka tidak kosong
     if (!IsEmpty(*Q)){
         int orang = Head(*Q);
-        while (orang < Tail(*Q)){ //Mengurangi kesabaran pengunjung sesuai prioritas kedatangannya.
+        do{
             Kesabaran(ElmtQueue(*Q,orang)) = Kesabaran(ElmtQueue(*Q,orang)) - 1;
             orang = orang + 1;
-        }
+        } while (orang < Tail(*Q)); //Mengurangi kesabaran pengunjung sesuai prioritas kedatangannya.
+
         //Jika kesabaran sudah 0 dan di antrian masih ada pengunjung maka pengunjung yang habis kesabarannya di Dequeue
         while (InfoHeadKesabaran(*Q) == 0 && !IsEmpty(*Q)){
             Dequeue(Q,&X);
