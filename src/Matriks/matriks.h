@@ -51,7 +51,11 @@ boolean IsIdxEff (MATRIKS M, indeks i, indeks j);
 
 POINT PosisiPlayer (MATRIKS M);
 
+POINT PosisiOffice (MATRIKS M);
+
 POINT PosisiBangunan (MATRIKS M);
+
+boolean IsInOffice (MATRIKS M);
 
 POINT BangunanSekitarPlayer (MATRIKS M, POINT Player);
 
@@ -63,6 +67,6 @@ void TulisFileMatriks(MATRIKS M,FILE *f);
 
 void TulisMATRIKS (MATRIKS M);
 
-void Move (MATRIKS * M, char X);
+void Move (MATRIKS * M, char X, POINT PO);
 
 #endif

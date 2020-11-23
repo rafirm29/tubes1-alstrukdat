@@ -1,14 +1,18 @@
 #include "matriks.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include "../Mesin/mesinkar.h"
+#include "../Mesin/mesinkata.h"
 
 int main(){
-	MATRIKS m;
+	MATRIKS m, n;
 	POINT P, P1, P2;
 
 	BacaMATRIKS(&m, "../FileEksternal/peta1.txt");
 	TulisMATRIKS(m);
 	printf("\n");
+
+	CopyMATRIKS(m,&n);
 
 	printf("\nPosisi player di koordinat: ");
 	P = PosisiPlayer(m);
@@ -22,76 +26,76 @@ int main(){
 	printf("\n");
 
 	printf("\n");
-	Move(&m,'d');
+	Move(&m,'s', &n);
 	printf("\n");
 	TulisMATRIKS(m);
 	printf("\n");
 
 	printf("\n");
-	Move(&m,'a');
+	Move(&m,'s', &n);
 	TulisMATRIKS(m);
 	printf("\n");
 
 	printf("\n");
-	Move(&m,'s');
+	Move(&m,'s', &n);
 	TulisMATRIKS(m);
 	printf("\n");
 
 	printf("\n");
-	Move(&m,'a');
+	Move(&m,'d', &n);
 	TulisMATRIKS(m);
 	printf("\n");
 
 	printf("\n");
-	Move(&m,'d');
-	TulisMATRIKS(m);
-	printf("\n");
-	printf("\n");
-
-	printf("\n");
-	Move(&m,'s');
+	Move(&m,'d', &n);
 	TulisMATRIKS(m);
 	printf("\n");
 	printf("\n");
 
 	printf("\n");
-	Move(&m,'s');
+	Move(&m,'d', &n);
 	TulisMATRIKS(m);
 	printf("\n");
 	printf("\n");
 
 	printf("\n");
-	Move(&m,'s');
+	Move(&m,'d', &n);
 	TulisMATRIKS(m);
 	printf("\n");
 	printf("\n");
 
 	printf("\n");
-	Move(&m,'s');
+	Move(&m,'d', &n);
 	TulisMATRIKS(m);
 	printf("\n");
 	printf("\n");
 
 	printf("\n");
-	Move(&m,'s');
+	Move(&m,'d', &n);
+	TulisMATRIKS(m);
+	printf("\n");
+	printf("\n");
+
+	printf("\n");
+	Move(&m,'d', &n);
 	printf("\n");
 	TulisMATRIKS(m);
 	printf("\n");
 	
 	printf("\n");
-	Move(&m,'s');
+	Move(&m,'d', &n);
 	printf("\n");
 	TulisMATRIKS(m);
 	printf("\n");
 
 	printf("\n");
-	Move(&m,'w');
+	Move(&m,'d', &n);
 	printf("\n");
 	TulisMATRIKS(m);
 	printf("\n");
 
 	printf("\n");
-	Move(&m,'w');
+	Move(&m,'d', &n);
 	printf("\n");
 	TulisMATRIKS(m);
 	printf("\n");
