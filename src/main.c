@@ -19,14 +19,13 @@
 #include "Matriks/matriks.h"
 #include "Mesin/mesinkata.h"
 #include "Mesin/mesinkar.h"
-#include "MesinFile/mesinfile.h"
+// #include "MesinFile/mesinfile.h"
 #include "Point/point.h"
 #include "Jam/jam.h"
 #include "Queue/queue.h"
 // #include "Stack/stackt.h"
 // #include "Tree/tree.h"
 #include "Player/player.h"
-#include "time.h"
 
 
 int main() {
@@ -85,22 +84,22 @@ int main() {
     udah.TabKata[2] = 'a';
     udah.TabKata[3] = 'h';
 
+    Kata First, Nama, PerintahPrep, PerintahMain;
+
     printf("// Welcome to Willy wangky's fum factory!!//\n");
     printf("// New game / exit? //\n");
-    STARTKATA(); // Input pertama
+    Input(&First); // Input pertama
 
 
     /***** NEW GAME *****/
-    if (IsKataSama(CKata, new)) {
+    if (IsKataSama(First, new)) {
         printf("Memulai permainan baru...\n");
         printf("Masukkan nama:\n");
-        EndKata = false;
-        STARTKATA();
-        // char nama[CKata.Length] = CKata.TabKata;
-        printf("Halo, %s\n", CKata.TabKata);
+        Input(&Nama);
+        printf("Halo, %s\n", Nama.TabKata);
         /***** DEKLARASI PLAYER *****/
         Player P1;
-        P1 = MakePlayer(CKata);
+        P1 = MakePlayer(Nama);
 
         /***** DEKLARASI VARIABEL UNIVERSAL *****/
         int day;
@@ -112,11 +111,14 @@ int main() {
         MATRIKS Map1, Map2, Map3, Map4;
         MATRIKS currentMap;
 
+        /***** LOAD MAP *****/
+        printf("***DEBUG TEST 1***");
         BacaMATRIKS(&Map1, "FileEksternal/peta1.txt");
         BacaMATRIKS(&Map2, "FileEksternal/peta2.txt");
         BacaMATRIKS(&Map3, "FileEksternal/peta3.txt");
         BacaMATRIKS(&Map4, "FileEksternal/peta4.txt");
         currentMap = Map1;
+        printf("***DEBUG TEST 2***");
 
         while (!exit) { // Loop pergantian day
             /***** DEKLARASI VARIABEL *****/
@@ -125,16 +127,17 @@ int main() {
             Queue Q;
             MakeEmptyQueue(&Q, 5); // Deklarasi queue dan mengosongkan queue.
 
-            currentJam = MakeJAM(9,0);
-            closingJam = MakeJAM(21,0);
-
+            POINT PO;
+            PO = PosisiOffice(currentMap); // Deklarasi Posisi office pada map pertama.
 
             /***************************************/
             /********** PREPERATION PHASE **********/
             /***************************************/
 
+            currentJam = MakeJAM(21,0); // Deklarasi Jam saat preperation phase.
+            closingJam = MakeJAM(9,0);
+
             while (prepPhase) {
-                char prepInput;
                 printf("Preperation day %d\n", day);
 
                 TulisMATRIKS(currentMap);
@@ -152,28 +155,40 @@ int main() {
                 printf("Time Remaining : ");
                 TulisJAM(hourRemaining);
 
+                printf("Masukkan perintah ");
+                if (IsInOffice(currentMap)) {
+                    printf("(Masukkan 'office' untuk mengakses office) ");
+                }
+                printf(":\n");
+                Input(&PerintahPrep);
 
-                printf("Masukkan perintah:\n");
-                STARTKATA();
-
-                if (IsKataSama(CKata, main)) { // Execute
+                if (IsKataSama(PerintahPrep, main)) { // Execute
                     mainPhase = true;
                     prepPhase = false;
                 }
                 /**** PERGERAKAN ****/
-                else if (CKata.Length == 1) {
-                    if (CKata.TabKata[0] == 'w') {
-                        Move(&currentMap, 'w');
-                    } else if (CKata.TabKata[0] == 'a') {
-                        Move(&currentMap, 'a');
-                    } else if (CKata.TabKata[0] == 's') {
-                        Move(&currentMap, 's');
-                    } else if (CKata.TabKata[0] == 'd') {
-                        Move(&currentMap, 'd');
+                else if (PerintahPrep.Length == 1) {
+                    if (PerintahPrep.TabKata[0] == 'w') {
+                        Move(&currentMap, 'w', PO);
+                        currentJam = NextNMenit(currentJam, 1);
+                    } else if (PerintahPrep.TabKata[0] == 'a') {
+                        Move(&currentMap, 'a', PO);
+                        currentJam = NextNMenit(currentJam, 1);
+                    } else if (PerintahPrep.TabKata[0] == 's') {
+                        Move(&currentMap, 's', PO);
+                        currentJam = NextNMenit(currentJam, 1);
+                    } else if (PerintahPrep.TabKata[0] == 'd') {
+                        Move(&currentMap, 'd', PO);
+                        currentJam = NextNMenit(currentJam, 1);
                     }
-                } else if (IsAksiAda(ArrayPrep, CKata)) {
-                    printf("BERAKSI\n");
-                    // Masukkan perintah ke stack
+                } else if (IsAksiAda(ArrayPrep, PerintahPrep)) {
+                    if (IsKataSama(PerintahPrep, buy)) {
+                        printf("");
+                    } else if (IsKataSama(PerintahPrep, build)) {
+                        printf("");
+                    } else if (IsKataSama(PerintahPrep, upgrade)) {
+                        printf("");
+                    }
                 } else {
                     printf("Command tidak ditemukan.\n");
                 }
@@ -183,9 +198,10 @@ int main() {
             /********** MAIN PHASE **********/
             /********************************/
 
-            while (mainPhase) {
-                /***** MENJALANKAN PERINTAH STACK *****/
-                char execInput;
+            currentJam = MakeJAM(9,0); // Deklarasi Jam saat main phase.
+            closingJam = MakeJAM(21,0);
+
+            while (mainPhase && JLT(currentJam, closingJam)) {
                 printf("Main day %d\n", day);
 
                 TulisMATRIKS(currentMap);
@@ -210,24 +226,24 @@ int main() {
                 PrintAntrian(Q);
 
                 printf("\nMasukkan perintah:\n");
-                STARTKATA();
+                Input(&PerintahMain);
 
-                if (IsKataSama(CKata, udah)) {// Exit
+                if (IsKataSama(PerintahMain, udah)) {// Exit
                     mainPhase = false;
                     prepPhase = true;
                 }
                 /**** PERGERAKAN ****/
-                else if (CKata.Length == 1) {
-                    if (CKata.TabKata[0] == 'w') {
-                        Move(&currentMap, 'w');
-                    } else if (CKata.TabKata[0] == 'a') {
-                        Move(&currentMap, 'a');
-                    } else if (CKata.TabKata[0] == 's') {
-                        Move(&currentMap, 's');
-                    } else if (CKata.TabKata[0] == 'd') {
-                        Move(&currentMap, 'd');
+                else if (PerintahMain.Length == 1) {
+                    if (PerintahMain.TabKata[0] == 'w') {
+                        Move(&currentMap, 'w', PO);
+                    } else if (PerintahMain.TabKata[0] == 'a') {
+                        Move(&currentMap, 'a', PO);
+                    } else if (PerintahMain.TabKata[0] == 's') {
+                        Move(&currentMap, 's', PO);
+                    } else if (PerintahMain.TabKata[0] == 'd') {
+                        Move(&currentMap, 'd', PO);
                     }
-                } else if (IsAksiAda(ArrayPrep, CKata)) {
+                } else if (IsAksiAda(ArrayPrep, PerintahMain)) {
                     printf("BERAKSI\n");
                     KurangKesabaran(&Q);
                 } else {

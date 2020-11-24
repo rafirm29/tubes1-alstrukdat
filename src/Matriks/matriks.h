@@ -5,7 +5,7 @@
 
 #include "../boolean.h"
 #include "../Point/point.h"
-#include "../MesinFile/mesinfile.h"
+#include "../Mesin/mesinkar.h"
 #include <stdio.h>
 
 /* Ukuran minimum dan maksimum baris dan kolom */

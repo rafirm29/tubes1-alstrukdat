@@ -19,7 +19,14 @@ void START() {
 
 	/* Algoritma */
 	pita = stdin;
+       EOP = false;
 	ADV();
+}
+
+void STARTFILE(char * namafile) {
+       pita = fopen(namafile,"r");
+       EOP = false;
+	ADVFILE();
 }
 
 void ADV() {
@@ -32,5 +39,16 @@ void ADV() {
 
 	/* Algoritma */
 	retval = fscanf(pita,"%c",&CC);
-	EOP = (CC == MARK);
+       if (retval == '\n') {
+              EOP = true;
+              fclose(pita);
+       }
+}
+
+void ADVFILE() {
+       retval = fscanf(pita,"%c",&CC);
+       if (retval == EOF) {
+              EOP = true;
+              fclose(pita);
+       }
 }
