@@ -170,16 +170,12 @@ int main() {
                 else if (PerintahPrep.Length == 1) {
                     if (PerintahPrep.TabKata[0] == 'w') {
                         Move(&currentMap, 'w', PO);
-                        currentJam = NextNMenit(currentJam, 1);
                     } else if (PerintahPrep.TabKata[0] == 'a') {
                         Move(&currentMap, 'a', PO);
-                        currentJam = NextNMenit(currentJam, 1);
                     } else if (PerintahPrep.TabKata[0] == 's') {
                         Move(&currentMap, 's', PO);
-                        currentJam = NextNMenit(currentJam, 1);
                     } else if (PerintahPrep.TabKata[0] == 'd') {
                         Move(&currentMap, 'd', PO);
-                        currentJam = NextNMenit(currentJam, 1);
                     }
                 } else if (IsAksiAda(ArrayPrep, PerintahPrep)) {
                     if (IsKataSama(PerintahPrep, buy)) {
@@ -236,12 +232,16 @@ int main() {
                 else if (PerintahMain.Length == 1) {
                     if (PerintahMain.TabKata[0] == 'w') {
                         Move(&currentMap, 'w', PO);
+                        currentJam = NextNMenit(currentJam, 1);
                     } else if (PerintahMain.TabKata[0] == 'a') {
                         Move(&currentMap, 'a', PO);
+                        currentJam = NextNMenit(currentJam, 1);
                     } else if (PerintahMain.TabKata[0] == 's') {
                         Move(&currentMap, 's', PO);
+                        currentJam = NextNMenit(currentJam, 1);
                     } else if (PerintahMain.TabKata[0] == 'd') {
                         Move(&currentMap, 'd', PO);
+                        currentJam = NextNMenit(currentJam, 1);
                     }
                 } else if (IsAksiAda(ArrayPrep, PerintahMain)) {
                     printf("BERAKSI\n");
