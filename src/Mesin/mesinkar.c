@@ -47,7 +47,7 @@ void ADV() {
 
 void ADVFILE() {
        retval = fscanf(pita,"%c",&CC);
-       if (retval == EOF) {
+       if (retval == EOF || CC == '.') {
               EOP = true;
               fclose(pita);
        }

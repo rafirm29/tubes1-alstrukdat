@@ -91,62 +91,63 @@ void TulisIsiTabBarang(TabBarang T){
     }
     else
     {
+        printf("Ingin membeli apa?\n");
         for (i = 0; i < (T).NeffBarang; i++)
         {
-            printf("Barang %d\n", i+1);
-            printf("Nama : %s\n", Nama(ElmtBarang(T, i)));
-            printf("Harga : %d\n", Harga(ElmtBarang(T, i))); 
+            //printf("Barang %d\n", i+1);
+            printf("\t%d. %s (Harga: %d)\n", i+1, Nama(ElmtBarang(T, i)), Harga(ElmtBarang(T, i)));
+            //printf("Harga : %d\n", Harga(ElmtBarang(T, i))); 
         } 
     }
 }
 
 /* ********** SEARCHING ********** */
 /* ***  Perhatian : Tabel boleh kosong!! *** */
-IdxTypeBarang SearchIdxBarang (TabBarang T, nama X){
-/* Search apakah ada elemen tabel T yang bernilai X */
-/* Jika ada, menghasilkan indeks i terkecil, dengan elemen ke-i = X */
-/* Jika tidak ada, mengirimkan IdxUndef */
-/* Menghasilkan indeks tak terdefinisi (IdxUndef) jika tabel T kosong */
-/* Skema Searching yang digunakan bebas */
-  boolean found = false
-  int i = GetFirstIdxBarang(T);
-  while (!found && i < (T).NeffBarang)
-  {
-    if (IsKataSama(Nama(ElmtBarang(T, i)), X))
-    {
-      found = true;
-    }
-    else
-    {
-      i = i + 1;
-    }
-  }
-  if (found)
-  {
-    return i;
-  }
-  else
-  {
-    return IdxUndefBarang;
-  }
-}
+// IdxTypeBarang SearchIdxBarang (TabBarang T, nama X){
+// /* Search apakah ada elemen tabel T yang bernilai X */
+// /* Jika ada, menghasilkan indeks i terkecil, dengan elemen ke-i = X */
+// /* Jika tidak ada, mengirimkan IdxUndef */
+// /* Menghasilkan indeks tak terdefinisi (IdxUndef) jika tabel T kosong */
+// /* Skema Searching yang digunakan bebas */
+//   boolean found = false;
+//   int i = GetFirstIdxBarang(T);
+//   while (!found && i < (T).NeffBarang)
+//   {
+//     if (IsKataSama(Nama(ElmtBarang(T, i)), X))
+//     {
+//       found = true;
+//     }
+//     else
+//     {
+//       i = i + 1;
+//     }
+//   }
+//   if (found)
+//   {
+//     return i;
+//   }
+//   else
+//   {
+//     return IdxUndefBarang;
+//   }
+// }
 
-boolean IsBarangAda (TabBarang T, nama X){
-  boolean found = false
-  int i = GetFirstIdxBarang(T);
-  while (!found && i < (T).NeffBarang)
-  {
-    if (IsKataSama(Nama(ElmtBarang(T, i)), X))
-    {
-      found = true;
-    }
-    else
-    {
-      i = i + 1;
-    }
-  }
-  return found;
-}
+// boolean IsBarangAda (TabBarang T, nama X){
+//   boolean found = false;
+//   int i = GetFirstIdxBarang(T);
+//   while (!found && i < (T).NeffBarang)
+//   {
+//     if (IsKataSama(Nama(ElmtBarang(T, i)), X))
+//     {
+//       found = true;
+//     }
+//     else
+//     {
+//       i = i + 1;
+//     }
+//   }
+//   return found;
+// }
 
 /* ********** OPERASI LAIN ********** */
 //void CopyTab(TabBarang Tin, TabBarang *Tout)
@@ -160,10 +161,33 @@ void AddBarang(TabBarang *T, ElTypeBarang X){
 /* Proses: Menambahkan barang sebagai elemen terakhir tabel */
 /* I.S. Tabel T boleh kosong, tetapi tidak penuh */
 /* F.S. X adalah elemen terakhir T yang baru */
-    if (!IsFullBarang(*T))
+    if (IsEmptyBarang(*T))
+    {
+        ElmtBarang(*T, 0) = X;
+        NeffBarang(*T) = 1;
+    } else
     {
         ElmtBarang(*T, (GetLastIdxBarang(*T) + 1)) = X;
         (*T).NeffBarang = (*T).NeffBarang + 1;
+    }
+}
+
+void MakeListBarang(TabBarang *T, char * file) {
+    Barang B;
+    int harga;
+
+    STARTFILE(file);
+    while (CC != '.') {
+        Kata NamaBarang;
+        Kata HargaBarang;
+        Input(&NamaBarang, true);
+        ADVFILE();
+        Input(&HargaBarang, true);
+        ADVFILE();
+        harga = atoi(HargaBarang.TabKata);
+        Nama(B) = NamaBarang;
+        Harga(B) = harga;
+        AddBarang(T, B);
     }
 }
 

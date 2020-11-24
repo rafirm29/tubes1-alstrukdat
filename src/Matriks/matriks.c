@@ -234,7 +234,7 @@ void TulisMATRIKS (MATRIKS M) {
             printf("%c", Elmt(M, i, j));
         }
         if (i != GetLastIdxBrs(M)){
-            printf("");
+            printf("\n");
         }
     }
 }

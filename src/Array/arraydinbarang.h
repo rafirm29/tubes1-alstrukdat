@@ -3,6 +3,7 @@
 
 #include "../boolean.h"
 #include "../Barang/barang.h"
+#include "../Mesin/mesinkata.h"
 
 #define IdxMinBarang 0
 #define IdxUndefBarang -1
@@ -105,14 +106,14 @@ void TulisIsiTabBarang(TabBarang T);
 
 /* ********** SEARCHING ********** */
 /* ***  Perhatian : Tabel boleh kosong!! *** */
-IdxTypeBarang SearchIdxBarang (TabBarang T, nama X);
+// IdxTypeBarang SearchIdxBarang (TabBarang T, nama X);
 /* Search apakah ada elemen tabel T yang bernilai X */
 /* Jika ada, menghasilkan indeks i terkecil, dengan elemen ke-i = X */
 /* Jika tidak ada, mengirimkan IdxUndef */
 /* Menghasilkan indeks tak terdefinisi (IdxUndef) jika tabel T kosong */
 /* Skema Searching yang digunakan bebas */
 
-boolean IsBarangAda (TabBarang T, nama X);
+// boolean IsBarangAda (TabBarang T, nama X);
 
 /* ********** OPERASI LAIN ********** */
 //void CopyTab(TabBarang Tin, TabInt *Tout);
@@ -126,6 +127,8 @@ void AddBarang(TabBarang *T, ElTypeBarang X);
 /* Proses: Menambahkan barang sebagai elemen terakhir tabel */
 /* I.S. Tabel T boleh kosong, tetapi tidak penuh */
 /* F.S. X adalah elemen terakhir T yang baru */
+
+void MakeListBarang(TabBarang *T, char * file);
 
 /* ********** MENGHAPUS ELEMEN ********** */
 void DelLastBarang(TabBarang *T, ElTypeBarang *X);

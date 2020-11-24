@@ -16,16 +16,25 @@ void IgnoreBlank(){
      ADV();
   }
 }
-void Input(Kata * K){
+
+void Input(Kata * K, boolean file){
 /* I.S. : CC sembarang
    F.S. : EndKata = true, dan CC = MARK;
           atau EndKata = false, CKata adalah kata yang sudah diakuisisi,
           CC karakter pertama sesudah karakter terakhir kata */
-   START();
+   if (!file) {
+      START();
+   }
    IgnoreBlank();
    int i;
    i = 0;
-   while ((CC != MARK) && (i < NMax)) {
+
+   // Cleaning kata
+   for (int j = 0; j < (*K).Length; j++) {
+      (*K).TabKata[j] = '\0';
+   }
+
+   while ((CC != '\n')) {
       (*K).TabKata[i] = CC;
       i++;
       ADV();

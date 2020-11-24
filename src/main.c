@@ -7,13 +7,14 @@
 */
 
 /**
- * gcc main.c Array/arraydinaction.c Action/action.c Matriks/matriks.c Mesin/mesinkata.c Mesin/mesinkar.c MesinFile/mesinfile.c Point/point.c Jam/jam.c Player/player.c Queue/queue.c -o main
+ * gcc main.c Array/arraydinaction.c Action/action.c Array/arraydinbarang.c Barang/barang.c Matriks/matriks.c Mesin/mesinkata.c Mesin/mesinkar.c Point/point.c Jam/jam.c Player/player.c Queue/queue.c -o main
  * */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include "boolean.h"
 #include "Array/arraydinaction.h"
+#include "Array/arraydinbarang.h"
 // #include "Jam/jam.h"
 // #include "List berkait/listlinier.h"
 #include "Matriks/matriks.h"
@@ -29,6 +30,11 @@
 
 
 int main() {
+    /*** DEKLARASI LIST BARANG ***/
+    TabBarang ListBarang;
+    MakeEmptyBarang(&ListBarang, 5);
+    MakeListBarang(&ListBarang, "Barang/barang.txt");
+
     /*** DEKLARASI KATA ***/
     Kata new;
     new.Length = 3;
@@ -88,14 +94,14 @@ int main() {
 
     printf("// Welcome to Willy wangky's fum factory!!//\n");
     printf("// New game / exit? //\n");
-    Input(&First); // Input pertama
+    Input(&First, false); // Input pertama
 
 
     /***** NEW GAME *****/
     if (IsKataSama(First, new)) {
         printf("Memulai permainan baru...\n");
         printf("Masukkan nama:\n");
-        Input(&Nama);
+        Input(&Nama, false);
         printf("Halo, %s\n", Nama.TabKata);
         /***** DEKLARASI PLAYER *****/
         Player P1;
@@ -160,7 +166,7 @@ int main() {
                     printf("(Masukkan 'office' untuk mengakses office) ");
                 }
                 printf(":\n");
-                Input(&PerintahPrep);
+                Input(&PerintahPrep, false);
 
                 if (IsKataSama(PerintahPrep, main)) { // Execute
                     mainPhase = true;
@@ -179,7 +185,11 @@ int main() {
                     }
                 } else if (IsAksiAda(ArrayPrep, PerintahPrep)) {
                     if (IsKataSama(PerintahPrep, buy)) {
-                        printf("");
+                        int i;
+                        do {
+                            TulisIsiTabBarang(ListBarang);
+                            scanf("%d", &i);
+                        } while (i < 1 || i > NbElmtBarang(ListBarang));
                     } else if (IsKataSama(PerintahPrep, build)) {
                         printf("");
                     } else if (IsKataSama(PerintahPrep, upgrade)) {
@@ -222,7 +232,7 @@ int main() {
                 PrintAntrian(Q);
 
                 printf("\nMasukkan perintah:\n");
-                Input(&PerintahMain);
+                Input(&PerintahMain, false);
 
                 if (IsKataSama(PerintahMain, udah)) {// Exit
                     mainPhase = false;

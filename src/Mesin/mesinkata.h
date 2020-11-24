@@ -24,13 +24,11 @@ void IgnoreBlank();
    I.S. : CC sembarang
    F.S. : CC ≠ BLANK atau CC = MARK */
 
-void Input();
+void Input(Kata * K, boolean file);
 /* I.S. : CC sembarang
    F.S. : EndKata = true, dan CC = MARK;
           atau EndKata = false, CKata adalah kata yang sudah diakuisisi,
           CC karakter pertama sesudah karakter terakhir kata */
-
-void InputBarang(char * namafile);
 
 // void ADVKATA();
 /* I.S. : CC adalah karakter pertama kata yang akan diakuisisi
