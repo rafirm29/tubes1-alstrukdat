@@ -57,7 +57,7 @@ void EnqueuePrio (Queue * Q){
 /* Proses: Menambahkan X pada Q dengan aturan FIFO */
 /* I.S. Q mungkin kosong, tabel penampung elemen Q TIDAK penuh */
 /* F.S. X menjadi TAIL yang baru, TAIL "maju" dengan mekanisme circular buffer */
-    address i,prev;
+    address idx,prec;
     pengunjung X,QTemp;
 
     if (!IsFull(*Q)){
@@ -77,29 +77,28 @@ void EnqueuePrio (Queue * Q){
             }
             InfoTail(*Q) = X;
         }
-        i = Tail(*Q);
-        if (i == 1){
-            prev = MaxEl(*Q);
+        idx = Tail(*Q);
+        if (idx == 1){
+            prec = MaxEl(*Q);
         } else {
-            prev = i - 1;
+            prec = idx - 1;
         }
+        //Kesabaran yang lebih rendah menjadi prioritas utama
+        while ((Kesabaran(ElmtQueue(*Q,idx)) < Kesabaran(ElmtQueue(*Q,prec))) && (idx != Head(*Q))){
+            QTemp = ElmtQueue(*Q,idx);
+            ElmtQueue(*Q,idx) = ElmtQueue(*Q,prec);
+            ElmtQueue(*Q,prec) = QTemp;
 
-        //Priority queue dengan tingkat kesabaran yang lebih rendah ke tinggi
-        while ((Kesabaran(ElmtQueue(*Q,i)) < Kesabaran(ElmtQueue(*Q,prev))) && (i != Head(*Q))){
-            QTemp = ElmtQueue(*Q,i);
-            ElmtQueue(*Q,i) = ElmtQueue(*Q,prev);
-            ElmtQueue(*Q,prev) = QTemp;
-
-            i = i-1;
-            prev = prev-1;
-            if (i < 1){
-                i = MaxEl(*Q);
-            } if (prev < 1){
-                prev = MaxEl(*Q);
+            idx = idx-1;
+            prec = prec-1;
+            if (idx < 1){
+                idx = MaxEl(*Q);
+            } if (prec < 1){
+                prec = MaxEl(*Q);
             }
         }
     } else { //Jika antrian sudah mencapai max
-            printf("Antrian sudah penuh.\n");
+        printf("Antrian sudah penuh.\n");
     }
 }
 void Dequeue (Queue * Q, pengunjung * X){
@@ -108,19 +107,21 @@ void Dequeue (Queue * Q, pengunjung * X){
 /* F.S. X = nilai elemen HEAD pd I.S., HEAD "maju" dengan mekanisme circular buffer;
         Q mungkin kosong */
     if (!IsEmpty(*Q)){
-          *X = InfoHead(*Q);
-          if (Head(*Q) == Tail(*Q)){
-               Head(*Q) = Nil;
-               Tail(*Q) = Nil;
-          }
-          else {
-               int orang = Head(*Q);
-               do{
-                    ElmtQueue(*Q,orang) = ElmtQueue(*Q,orang+1);
-                    orang = orang + 1;
-               } while (orang < Tail(*Q));
-               Tail(*Q) = orang-1;
-          }
+        *X = InfoHead(*Q);
+        //Jika hanya ada satu antrian
+        if (Head(*Q) == Tail(*Q)){
+            Head(*Q) = Nil;
+            Tail(*Q) = Nil;
+        }
+        //Jika lebih dari 1
+        else {
+            int orang = Head(*Q);
+            do{
+                ElmtQueue(*Q,orang) = ElmtQueue(*Q,orang+1);
+                orang = orang + 1;
+            } while (orang < Tail(*Q));
+            Tail(*Q) = orang-1;
+        }
     }
 }
 void KurangKesabaran (Queue * Q){
@@ -130,6 +131,7 @@ void KurangKesabaran (Queue * Q){
     //JIka tidak kosong
     if (!IsEmpty(*Q)){
         int orang = Head(*Q);
+        //Pake do while supaya saat antriannya cuma 1, maka kesabarannya bisa berkurang.
         do{
             Kesabaran(ElmtQueue(*Q,orang)) = Kesabaran(ElmtQueue(*Q,orang)) - 1;
             orang = orang + 1;
