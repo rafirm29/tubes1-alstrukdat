@@ -96,11 +96,12 @@ void TulisIsiTabInventory(TabInventory T){
     }
     else
     {
+        printf("Inventory : \n");
         for (i = 0; i < NeffInventory(T); i++)
         {
-            printf("Inventory : %d\n", i+1);
-            printf("Nama : %s\n", NamaInv(ElmtInventory(T,i)));
-            printf("Jumlah : %d\n", Jumlah(ElmtInventory(T, i))); 
+            // printf("Inventory : %d\n", i+1);
+            printf("\t- %s (%dx)\n", NamaInv(ElmtInventory(T,i)), JumlahInv(ElmtInventory(T, i)));
+            // printf("Jumlah : %d\n", Jumlah(ElmtInventory(T, i))); 
         } 
     }
 }
@@ -174,7 +175,7 @@ void AddInventory(TabInventory *T, ElTypeInventory X){
         IdxTypeInventory i = SearchIdxInventory(*T, NamaInv(X));
         if (i != IdxUndefInventory)
         {
-            Jumlah(ElmtInventory(*T,i)) += Jumlah(X);
+            JumlahInv(ElmtInventory(*T,i)) += JumlahInv(X);
         }
         else
         {
@@ -187,10 +188,26 @@ void AddInventory(TabInventory *T, ElTypeInventory X){
 void SubtractInventory(TabInventory *T, ElTypeInventory X){
 // I.S. barang ada di dalam inventory dan jumlah yang dipakai <= jumlah yang ada
     IdxTypeInventory i = SearchIdxInventory(*T, NamaInv(X));
-    Jumlah(ElmtInventory(*T,i)) -= Jumlah(X);
+    JumlahInv(ElmtInventory(*T,i)) -= JumlahInv(X);
 }
 
-void MakeListInventory(TabInventory *T, char * file);
+void MakeListInventory(TabInventory *T, char * file) {
+    Inventory I;
+    int jumlah;
+    STARTFILE(file);
+    while (CC != '.') {
+        Kata NamaBarang;
+        Kata JumlahBarang;
+        Input(&NamaBarang, true);
+        ADVFILE();
+        Input(&JumlahBarang, true);
+        ADVFILE();
+        jumlah = atoi(JumlahBarang.TabKata);
+        NamaInv(I) = NamaBarang;
+        JumlahInv(I) = jumlah;
+        AddInventory(T, I);
+    }
+}
 
 /* ********** MENGHAPUS ELEMEN ********** */
 void DelLastInventory(TabInventory *T, ElTypeInventory *X){

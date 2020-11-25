@@ -2,7 +2,7 @@
 #define ARRAYDINBARANG_H
 
 #include "../boolean.h"
-#include "../Barang/barang.h"
+#include "Barang/barang.h"
 #include "../Mesin/mesinkata.h"
 
 #define IdxMinBarang 0

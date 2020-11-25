@@ -2,7 +2,7 @@
 #define ARRAYDINACTION_H
 
 #include "../boolean.h"
-#include "../Action/action.h"
+#include "Action/action.h"
 
 #define IdxMinAction 0
 #define IdxUndefAction -1

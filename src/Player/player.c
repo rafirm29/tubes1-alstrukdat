@@ -6,10 +6,14 @@ boolean IsEnough(Player P, money N) {
 }
 /* Mengembalikan true jika uang player cukup untuk membayar sejumlah N */
 
-Player MakePlayer(Kata K) {
+Player MakePlayer(Kata K, char * file) {
     Player P;
+    TabInventory I;
+    MakeEmptyInventory(&I, 5);
+    MakeListInventory(&I, file);
     Name(P) = K;
     Money(P) = 1000;
+    InvPlayer(P) = I;
 
     return P;
 }

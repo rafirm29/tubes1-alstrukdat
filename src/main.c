@@ -7,7 +7,7 @@
 */
 
 /**
- * gcc main.c Array/arraydinaction.c Action/action.c Array/arraydinbarang.c Barang/barang.c Matriks/matriks.c Mesin/mesinkata.c Mesin/mesinkar.c Point/point.c Jam/jam.c Player/player.c Queue/queue.c -o main
+ * gcc main.c Array/arraydinaction.c Array/Action/action.c Array/arraydinbarang.c Array/Barang/barang.c Array/arraydininventory.c Array/Inventory/inventory.c Matriks/matriks.c Mesin/mesinkata.c Mesin/mesinkar.c Point/point.c Jam/jam.c Player/player.c Queue/queue.c -o main
  * */
 
 #include <stdio.h>
@@ -15,6 +15,7 @@
 #include "boolean.h"
 #include "Array/arraydinaction.h"
 #include "Array/arraydinbarang.h"
+#include "Array/arraydininventory.h"
 // #include "Jam/jam.h"
 // #include "List berkait/listlinier.h"
 #include "Matriks/matriks.h"
@@ -27,13 +28,14 @@
 // #include "Stack/stackt.h"
 // #include "Tree/tree.h"
 #include "Player/player.h"
+#include "Command/command.h"
 
 
 int main() {
     /*** DEKLARASI LIST BARANG ***/
     TabBarang ListBarang;
     MakeEmptyBarang(&ListBarang, 5);
-    MakeListBarang(&ListBarang, "Barang/barang.txt");
+    MakeListBarang(&ListBarang, "Array/Barang/barang.txt");
 
     /*** DEKLARASI KATA ***/
     Kata new;
@@ -65,14 +67,14 @@ int main() {
     upgrade.TabKata[5] = 'd';
     upgrade.TabKata[6] = 'e';
 
-    Action Build, Buy, Upgrade;
+    Action Build, Buy1, Upgrade;
     Build = MakeAction(build, 120);
-    Buy = MakeAction(buy, 30);
+    Buy1 = MakeAction(buy, 30);
     Upgrade = MakeAction(upgrade, 60);
 
     MakeEmptyAction(&ArrayPrep, 6);
     AddAction(&ArrayPrep, Build);
-    AddAction(&ArrayPrep, Buy);
+    AddAction(&ArrayPrep, Buy1);
     AddAction(&ArrayPrep, Upgrade);
 
     /*************/
@@ -105,8 +107,7 @@ int main() {
         printf("Halo, %s\n", Nama.TabKata);
         /***** DEKLARASI PLAYER *****/
         Player P1;
-        P1 = MakePlayer(Nama);
-
+        P1 = MakePlayer(Nama, "Array/Inventory/inventory.txt");
         /***** DEKLARASI VARIABEL UNIVERSAL *****/
         int day;
         boolean prepPhase;
@@ -160,6 +161,7 @@ int main() {
                 TulisJAM(closingJam);
                 printf("Time Remaining : ");
                 TulisJAM(hourRemaining);
+                TulisIsiTabInventory(InvPlayer(P1));
 
                 printf("Masukkan perintah ");
                 if (IsInOffice(currentMap)) {
@@ -184,15 +186,25 @@ int main() {
                         Move(&currentMap, 'd', PO);
                     }
                 } else if (IsAksiAda(ArrayPrep, PerintahPrep)) {
-                    if (IsKataSama(PerintahPrep, buy)) {
-                        int i;
-                        do {
-                            TulisIsiTabBarang(ListBarang);
+                    if (IsKataSama(PerintahPrep, buy)) {                // Buy
+                        int i, j;
+                        TulisIsiTabBarang(ListBarang);
+                        while (true) {
+                            printf("Beli barang nomor : ");
                             scanf("%d", &i);
-                        } while (i < 1 || i > NbElmtBarang(ListBarang));
-                    } else if (IsKataSama(PerintahPrep, build)) {
+                            if (i >= 1 && i <= NbElmtBarang(ListBarang)) break;
+                            printf("Input tidak valid, silakan ulangi.\n");
+                        }
+                        while (true) {
+                            printf("Jumlah : ");
+                            scanf("%d", &j);
+                            if (j > 0) break;
+                            printf("Input tidak valid, silakan ulangi.\n");
+                        }
+                        Buy(&P1, ListBarang, i, j);
+                    } else if (IsKataSama(PerintahPrep, build)) {       // Build
                         printf("");
-                    } else if (IsKataSama(PerintahPrep, upgrade)) {
+                    } else if (IsKataSama(PerintahPrep, upgrade)) {     // Upgrade
                         printf("");
                     }
                 } else {

@@ -2,7 +2,7 @@
 #define ARRAYDININVENTORY_H
 
 #include "../boolean.h"
-#include "../Inventory/inventory.h"
+#include "Inventory/inventory.h"
 #include "../Mesin/mesinkata.h"
 
 #define IdxMinInventory 0

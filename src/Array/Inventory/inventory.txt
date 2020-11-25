@@ -1,0 +1,7 @@
+Wood
+50
+Steel
+20
+Iron
+10
+.

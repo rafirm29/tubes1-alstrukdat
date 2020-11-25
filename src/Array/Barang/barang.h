@@ -1,8 +1,8 @@
 #ifndef barang_H
 #define barang_H
 
-#include "../Mesin/mesinkata.h"
-#include "../boolean.h"
+#include "../../Mesin/mesinkata.h"
+#include "../../boolean.h"
 
 /* Definisi elemen */
 typedef Kata nama;

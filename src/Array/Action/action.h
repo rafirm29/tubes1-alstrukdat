@@ -1,8 +1,8 @@
 #ifndef action_H
 #define action_H
 
-#include "../Mesin/mesinkata.h"
-#include "../boolean.h"
+#include "../../Mesin/mesinkata.h"
+#include "../../boolean.h"
 
 /* Definisi elemen */
 typedef Kata aksi;
