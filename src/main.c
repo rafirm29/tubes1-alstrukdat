@@ -12,6 +12,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include "boolean.h"
 #include "Array/arraydinaction.h"
 #include "Array/arraydinbarang.h"
@@ -105,9 +106,16 @@ int main() {
         printf("Masukkan nama:\n");
         Input(&Nama, false);
         printf("Halo, %s\n", Nama.TabKata);
+        sleep(1);
+        printf("Loading...\n");
+        sleep(1);
+        printf("Selamat bermain!\n");
+        sleep(1);
+
         /***** DEKLARASI PLAYER *****/
         Player P1;
         P1 = MakePlayer(Nama, "Array/Inventory/inventory.txt");
+
         /***** DEKLARASI VARIABEL UNIVERSAL *****/
         int day;
         boolean prepPhase;
@@ -119,13 +127,11 @@ int main() {
         MATRIKS currentMap;
 
         /***** LOAD MAP *****/
-        printf("***DEBUG TEST 1***");
         BacaMATRIKS(&Map1, "FileEksternal/peta1.txt");
         BacaMATRIKS(&Map2, "FileEksternal/peta2.txt");
         BacaMATRIKS(&Map3, "FileEksternal/peta3.txt");
         BacaMATRIKS(&Map4, "FileEksternal/peta4.txt");
         currentMap = Map1;
-        printf("***DEBUG TEST 2***");
 
         while (!exit) { // Loop pergantian day
             /***** DEKLARASI VARIABEL *****/
@@ -207,6 +213,7 @@ int main() {
                     } else if (IsKataSama(PerintahPrep, upgrade)) {     // Upgrade
                         printf("");
                     }
+                    sleep(2);
                 } else {
                     printf("Command tidak ditemukan.\n");
                 }
