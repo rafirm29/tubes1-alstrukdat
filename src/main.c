@@ -7,7 +7,7 @@
 */
 
 /**
- * gcc main.c Array/arraydinaction.c Array/Action/action.c Array/arraydinbarang.c Array/Barang/barang.c Array/arraydininventory.c Array/Inventory/inventory.c Matriks/matriks.c Mesin/mesinkata.c Mesin/mesinkar.c Point/point.c Jam/jam.c Player/player.c Queue/queue.c -o main
+ * gcc main.c Array/arraydinaction.c Array/Action/action.c Array/arraydinbarang.c Array/Barang/barang.c Array/arraydininventory.c Array/Inventory/inventory.c Matriks/matriks.c Mesin/mesinkata.c Mesin/mesinkar.c Point/point.c Jam/jam.c Player/player.c Queue/queue.c Command/command.c Wahana/wahana.c -o main
  * */
 
 #include <stdio.h>
@@ -30,9 +30,14 @@
 // #include "Tree/tree.h"
 #include "Player/player.h"
 #include "Command/command.h"
+#include "Wahana/wahana.h"
 
 
 int main() {
+    /*** DEKLARASI WAHANA ***/
+    Wahana W1;
+    MakeWahana(&W1, "Wahana/wahana.txt");
+
     /*** DEKLARASI LIST BARANG ***/
     TabBarang ListBarang;
     MakeEmptyBarang(&ListBarang, 5);
@@ -209,7 +214,8 @@ int main() {
                         }
                         Buy(&P1, ListBarang, i, j);
                     } else if (IsKataSama(PerintahPrep, build)) {       // Build
-                        printf("");
+                        BuildWahana(W1, &P1, &currentMap);
+                        sleep(2);
                     } else if (IsKataSama(PerintahPrep, upgrade)) {     // Upgrade
                         printf("");
                     }
