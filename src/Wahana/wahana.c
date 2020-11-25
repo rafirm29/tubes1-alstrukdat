@@ -58,7 +58,19 @@ void MakeWahana(Wahana * W, char * file) {
 }
 
 // Membuat wahana baru
-void BuildWahana(Wahana W, Player * P, MATRIKS * M);
+void BuildWahana(Wahana W, Player * P, MATRIKS * M) {
+    if (IsEnough(*P, W.biayaBuild)) {
+        POINT Player;
+        Player = PosisiPlayer(*M);
+        if (Elmt(*M, Ordinat(Player), Absis(Player)+1) == 'W') {
+            printf("Can't build. There's already a building.\n");
+        } else {
+            Elmt(*M, Ordinat(Player), Absis(Player)+1) = 'W';
+            SubstractMoney(P, W.biayaBuild);
+            printf("Build Successful.\n");    
+        }
+    } else printf("Not enough money. Please try again.\n");
+}
 
 // Detail wahana
 void Detail(Wahana W) {
