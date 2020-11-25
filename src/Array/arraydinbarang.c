@@ -168,7 +168,7 @@ void AddBarang(TabBarang *T, ElTypeBarang X){
     } else
     {
         ElmtBarang(*T, (GetLastIdxBarang(*T) + 1)) = X;
-        (*T).NeffBarang = (*T).NeffBarang + 1;
+        (*T).NeffBarang = (*T).N
     }
 }
 
