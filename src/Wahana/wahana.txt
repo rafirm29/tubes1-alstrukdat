@@ -1,0 +1,13 @@
+SuperCoaster
+1
+200
+3
+10
+Mantep abis
+1
+250
+300
+10
+3
+1
+.
