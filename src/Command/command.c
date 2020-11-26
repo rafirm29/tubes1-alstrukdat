@@ -35,7 +35,7 @@ void BuildWahana(Wahana W, Player * P, MATRIKS * M) {
                 printf("Build Successful.\n");
                 (InvPlayer(*P).TIInventory[0].Jumlah -= W.wood);
                 (InvPlayer(*P).TIInventory[1].Jumlah -= W.steel);
-                (InvPlayer(*P).TIInventory[2].Jumlah >= W.iron);
+                (InvPlayer(*P).TIInventory[2].Jumlah -= W.iron);
             }
         } else printf("Not enugh material. Please try again.\n");
     } else printf("Not enough money. Please try again.\n");
