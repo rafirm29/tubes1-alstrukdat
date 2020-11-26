@@ -176,6 +176,31 @@ POINT BangunanSekitarPlayer (MATRIKS M, POINT Player){
     }
 }
 
+boolean AdaBangunanSekitarPlayer (MATRIKS M, POINT Player){
+    // KAMUS LOKAL //
+    int i, j;
+
+    // ALGORITMA //
+    i = Ordinat(Player)+1;
+    j = Absis(Player)+1;
+
+    if (Elmt(M,i+1,j) == 'W'){
+        return true;
+    }
+    if (Elmt(M,i-1,j) == 'W'){
+        return true;
+    }
+    if (Elmt(M,i,j+1) == 'W'){
+        return true;
+    }
+    if (Elmt(M,i,j-1) == 'W'){
+        return true;
+    } 
+    if ((Elmt(M,i,j-1) == '-') && (Elmt(M,i,j+1) == '-') && (Elmt(M,i+1,j) == '-') && (Elmt(M,i-1,j) == '-')){
+        return false;
+    }
+}
+
 void CopyMATRIKS (MATRIKS Awal, MATRIKS * Hasil) {
     // KAMUS LOKAL //
 

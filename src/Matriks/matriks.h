@@ -59,6 +59,8 @@ boolean IsInOffice (MATRIKS M);
 
 POINT BangunanSekitarPlayer (MATRIKS M, POINT Player);
 
+boolean AdaBangunanSekitarPlayer (MATRIKS M, POINT Player);
+
 void CopyMATRIKS (MATRIKS MIn, MATRIKS * MHsl) ;
 
 void BacaMATRIKS (MATRIKS * M, char * file);

@@ -1,0 +1,13 @@
+Lightning Wheel
+2
+250
+8
+10
+Upgrade 1 versi 2 dari SuperCoaster
+1
+250
+300
+55
+30
+25
+.

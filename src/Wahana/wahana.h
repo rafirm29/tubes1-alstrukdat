@@ -26,9 +26,6 @@ typedef struct {
 // Menampilkan detail wahana
 void MakeWahana(Wahana * W, char * file);
 
-// Membuat wahana baru
-void BuildWahana(Wahana W, Player * P, MATRIKS * M);
-
 // Detail wahana
 void Detail(Wahana W);
 

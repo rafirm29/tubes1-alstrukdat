@@ -7,7 +7,7 @@
 */
 
 /**
- * gcc main.c Array/arraydinaction.c Array/Action/action.c Array/arraydinbarang.c Array/Barang/barang.c Array/arraydininventory.c Array/Inventory/inventory.c Matriks/matriks.c Mesin/mesinkata.c Mesin/mesinkar.c Point/point.c Jam/jam.c Player/player.c Queue/queue.c Command/command.c Wahana/wahana.c -o main
+ * gcc main.c Array/arraydinaction.c Array/Action/action.c Array/arraydinbarang.c Array/Barang/barang.c Array/arraydininventory.c Array/Inventory/inventory.c Matriks/matriks.c Mesin/mesinkata.c Mesin/mesinkar.c Point/point.c Jam/jam.c Player/player.c Queue/queue.c Command/command.c Wahana/wahana.c Tree/bintree.c -o main
  * */
 
 #include <stdio.h>
@@ -29,14 +29,22 @@
 // #include "Stack/stackt.h"
 // #include "Tree/tree.h"
 #include "Player/player.h"
-#include "Command/command.h"
 #include "Wahana/wahana.h"
+#include "Tree/bintree.h"
+#include "Command/command.h"
 
 
 int main() {
     /*** DEKLARASI WAHANA ***/
     Wahana W1;
-    MakeWahana(&W1, "Wahana/wahana.txt");
+    Wahana W1_1, W1_2;
+    MakeWahana(&W1, "Wahana/wahana1.txt");
+    MakeWahana(&W1_1, "Wahana/wahana1_1.txt");
+    MakeWahana(&W1_2, "Wahana/wahana1_2.txt");
+
+    BinTree T1;
+    T1 = Tree(W1, AlokNode(W1_1), AlokNode(W1_2));
+    printf("DEBUG TEST : %s\n", Akar(Right(T1)).namaWahana.TabKata);
 
     /*** DEKLARASI LIST BARANG ***/
     TabBarang ListBarang;
@@ -215,9 +223,14 @@ int main() {
                         Buy(&P1, ListBarang, i, j);
                     } else if (IsKataSama(PerintahPrep, build)) {       // Build
                         BuildWahana(W1, &P1, &currentMap);
-                        sleep(2);
+                        sleep(1);
                     } else if (IsKataSama(PerintahPrep, upgrade)) {     // Upgrade
-                        printf("");
+                        if (AdaBangunanSekitarPlayer(currentMap, PosisiPlayer(currentMap))) {
+                            UpgradeWahana(T1, &P1, &currentMap);
+                        } else {
+                            printf("Tidak ada wahana sekitar player.\n");
+                        }
+                        sleep(1);
                     }
                     sleep(2);
                 } else {
@@ -256,7 +269,11 @@ int main() {
                 }
                 PrintAntrian(Q);
 
-                printf("\nMasukkan perintah:\n");
+                printf("Masukkan perintah ");
+                if (IsInOffice(currentMap)) {
+                    printf("(Masukkan 'office' untuk mengakses office) ");
+                }
+                printf(":\n");
                 Input(&PerintahMain, false);
 
                 if (IsKataSama(PerintahMain, udah)) {// Exit

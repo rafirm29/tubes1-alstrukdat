@@ -5,14 +5,16 @@
 #include "../Matriks/matriks.h"
 #include "../Player/player.h"
 #include "../Array/arraydinbarang.h"
+#include "../Wahana/wahana.h"
+#include "../Tree/bintree.h"
 
 // Buy material
 void Buy(Player * P, TabBarang B, IdxTypeBarang i, int Jumlah);
 
-// Build wahana W pada matriks M
-// void Build(Wahana * W, MATRIKS * M, Player * P);
+// Membuat wahana baru
+void BuildWahana(Wahana W, Player * P, MATRIKS * M);
 
-// Upgrade wahana W pada matriks M
-// void Upgrade(Wahana * W, MATRIKS * M, Player * P);
+// Mengupgrade wahana
+void UpgradeWahana(BinTree T, Player * P, MATRIKS *M);
 
 #endif

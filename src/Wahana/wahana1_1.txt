@@ -1,0 +1,13 @@
+Coaster Wizard
+2
+300
+5
+10
+Upgrade 1 versi 1 dari SuperCoaster
+1
+250
+350
+5
+3
+2
+.
