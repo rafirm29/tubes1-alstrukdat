@@ -69,13 +69,6 @@ int main() {
     new.TabKata[1] = 'e';
     new.TabKata[2] = 'w';
 
-    Kata main;
-    main.Length = 4;
-    main.TabKata[0] = 'm';
-    main.TabKata[1] = 'a';
-    main.TabKata[2] = 'i';
-    main.TabKata[3] = 'n';
-
     Kata udah;
     udah.Length = 4;
     udah.TabKata[0] = 'u';
@@ -166,7 +159,12 @@ int main() {
                 printf(":\n");
                 Input(&PerintahPrep, false);
 
-                if (IsKataSama(PerintahPrep, main)) { // Execute
+
+                /* **** EKSEKUSI **** */
+                if (IsKataSama(PerintahPrep, ElmtAction(TAPrep, 4).Aksi)) {             // Execute
+                    mainPhase = true;
+                    prepPhase = false;
+                } else if (IsKataSama(PerintahPrep, ElmtAction(TAPrep, 5).Aksi)) {
                     mainPhase = true;
                     prepPhase = false;
                 }
@@ -183,7 +181,7 @@ int main() {
                     }
                 /* **** PERINTAH **** */
                 } else if (IsAksiAda(TAPrep, PerintahPrep)) {
-                    if (IsKataSama(PerintahPrep, ElmtAction(TAPrep, 0).Aksi)) { // Buy
+                    if (IsKataSama(PerintahPrep, ElmtAction(TAPrep, 0).Aksi)) {         // Buy
                         int i, j;
                         TulisIsiTabBarang(ListBarang);
                         while (true) {
@@ -199,10 +197,10 @@ int main() {
                             printf("Input tidak valid, silakan ulangi.\n");
                         }
                         Buy(&P1, ListBarang, i, j);
-                    } else if (IsKataSama(PerintahPrep, ElmtAction(TAPrep, 1).Aksi)) {       // Build
+                    } else if (IsKataSama(PerintahPrep, ElmtAction(TAPrep, 1).Aksi)) {  // Build
                         BuildWahana(W1, &P1, &currentMap);
                         sleep(1);
-                    } else if (IsKataSama(PerintahPrep, ElmtAction(TAPrep, 2).Aksi)) {     // Upgrade
+                    } else if (IsKataSama(PerintahPrep, ElmtAction(TAPrep, 2).Aksi)) {  // Upgrade
                         if (AdaBangunanSekitarPlayer(currentMap, PosisiPlayer(currentMap))) {
                             UpgradeWahana(T1, &P1, &currentMap);
                         } else {
