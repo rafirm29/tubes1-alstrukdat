@@ -1,0 +1,11 @@
+serve
+10
+repair
+30
+detail
+10
+office 
+10
+prepare
+0
+.

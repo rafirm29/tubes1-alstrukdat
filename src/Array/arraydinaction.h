@@ -130,6 +130,9 @@ void AddAction(TabAction *T, ElTypeAction X);
 /* I.S. Tabel T boleh kosong, tetapi tidak penuh */
 /* F.S. X adalah elemen terakhir T yang baru */
 
+// Membaca file kemudian membuat list barang.
+void MakeListAction(TabAction *T, char * file);
+
 /* ********** MENGHAPUS ELEMEN ********** */
 void DelLastAction(TabAction *T, ElTypeAction *X);
 /* Proses : Menghapus barang terakhir tabel */

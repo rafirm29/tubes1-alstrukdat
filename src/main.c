@@ -51,47 +51,24 @@ int main() {
     MakeEmptyBarang(&ListBarang, 5);
     MakeListBarang(&ListBarang, "Array/Barang/barang.txt");
 
-    /*** DEKLARASI KATA ***/
+    /*** DEKLARASI LIST PERINTAH ***/
+    // List perintah pada Prep Phase
+    TabAction TAPrep;
+    MakeEmptyAction(&TAPrep, 6);
+    MakeListAction(&TAPrep, "Array/Action/actionPrep.txt");
+
+    // List perintah pada Main Phase
+    TabAction TAMain;
+    MakeEmptyAction(&TAMain, 6);
+    MakeListAction(&TAMain, "Array/Action/mainPrep.txt");
+
+    /*************/
     Kata new;
     new.Length = 3;
     new.TabKata[0] = 'n';
     new.TabKata[1] = 'e';
     new.TabKata[2] = 'w';
 
-    TabAction ArrayPrep;
-    Kata build, buy, upgrade;
-    build.Length = 5;
-    build.TabKata[0] = 'b';
-    build.TabKata[1] = 'u';
-    build.TabKata[2] = 'i';
-    build.TabKata[3] = 'l';
-    build.TabKata[4] = 'd';
-
-    buy.Length = 3;
-    buy.TabKata[0] = 'b';
-    buy.TabKata[1] = 'u';
-    buy.TabKata[2] = 'y';
-
-    upgrade.Length = 7;
-    upgrade.TabKata[0] = 'u';
-    upgrade.TabKata[1] = 'p';
-    upgrade.TabKata[2] = 'g';
-    upgrade.TabKata[3] = 'r';
-    upgrade.TabKata[4] = 'a';
-    upgrade.TabKata[5] = 'd';
-    upgrade.TabKata[6] = 'e';
-
-    Action Build, Buy1, Upgrade;
-    Build = MakeAction(build, 120);
-    Buy1 = MakeAction(buy, 30);
-    Upgrade = MakeAction(upgrade, 60);
-
-    MakeEmptyAction(&ArrayPrep, 6);
-    AddAction(&ArrayPrep, Build);
-    AddAction(&ArrayPrep, Buy1);
-    AddAction(&ArrayPrep, Upgrade);
-
-    /*************/
     Kata main;
     main.Length = 4;
     main.TabKata[0] = 'm';
@@ -193,7 +170,7 @@ int main() {
                     mainPhase = true;
                     prepPhase = false;
                 }
-                /**** PERGERAKAN ****/
+                /* **** PERGERAKAN **** */
                 else if (PerintahPrep.Length == 1) {
                     if (PerintahPrep.TabKata[0] == 'w') {
                         Move(&currentMap, 'w', PO);
@@ -204,8 +181,9 @@ int main() {
                     } else if (PerintahPrep.TabKata[0] == 'd') {
                         Move(&currentMap, 'd', PO);
                     }
-                } else if (IsAksiAda(ArrayPrep, PerintahPrep)) {
-                    if (IsKataSama(PerintahPrep, buy)) {                // Buy
+                /* **** PERINTAH **** */
+                } else if (IsAksiAda(TAPrep, PerintahPrep)) {
+                    if (IsKataSama(PerintahPrep, ElmtAction(TAPrep, 0).Aksi)) { // Buy
                         int i, j;
                         TulisIsiTabBarang(ListBarang);
                         while (true) {
@@ -221,10 +199,10 @@ int main() {
                             printf("Input tidak valid, silakan ulangi.\n");
                         }
                         Buy(&P1, ListBarang, i, j);
-                    } else if (IsKataSama(PerintahPrep, build)) {       // Build
+                    } else if (IsKataSama(PerintahPrep, ElmtAction(TAPrep, 1).Aksi)) {       // Build
                         BuildWahana(W1, &P1, &currentMap);
                         sleep(1);
-                    } else if (IsKataSama(PerintahPrep, upgrade)) {     // Upgrade
+                    } else if (IsKataSama(PerintahPrep, ElmtAction(TAPrep, 2).Aksi)) {     // Upgrade
                         if (AdaBangunanSekitarPlayer(currentMap, PosisiPlayer(currentMap))) {
                             UpgradeWahana(T1, &P1, &currentMap);
                         } else {
@@ -295,7 +273,7 @@ int main() {
                         Move(&currentMap, 'd', PO);
                         currentJam = NextNMenit(currentJam, 1);
                     }
-                } else if (IsAksiAda(ArrayPrep, PerintahMain)) {
+                } else if (IsAksiAda(TAMain, PerintahMain)) {
                     printf("BERAKSI\n");
                     KurangKesabaran(&Q);
                 } else {

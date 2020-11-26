@@ -179,11 +179,15 @@ void AddAction(TabAction *T, ElTypeAction X){
 /* Proses: Menambahkan barang sebagai elemen terakhir tabel */
 /* I.S. Tabel T boleh kosong, tetapi tidak penuh */
 /* F.S. X adalah elemen terakhir T yang baru */
-    if (!IsFullAction(*T))
+    if (IsEmptyAction(*T))
+    {
+        ElmtAction(*T, 0) = X;
+        NeffAction(*T) = 1;
+    } else
     {
         ElmtAction(*T, (GetLastIdxAction(*T) + 1)) = X;
         (*T).NeffAction = (*T).NeffAction + 1;
-    }
+    }   
 }
 
 /* ********** MENGHAPUS ELEMEN ********** */
@@ -195,6 +199,25 @@ void DelLastAction(TabAction *T, ElTypeAction *X){
 /*      Tabel T mungkin menjadi kosong */
     *X = ElmtAction(*T, (GetLastIdxAction(*T)));
     (*T).NeffAction = (*T).NeffAction - 1;
+}
+
+// Membaca file kemudian membuat list barang.
+void MakeListAction(TabAction *T, char * file) {
+    Action A;
+    int durasi;
+    STARTFILE(file);
+    while (CC != '.') {
+        Kata NamaAction;
+        Kata DurasiAction;
+        Input(&NamaAction, true);
+        ADVFILE();
+        Input(&DurasiAction, true);
+        ADVFILE();
+        durasi = atoi(DurasiAction.TabKata);
+        Aksi(A) = NamaAction;
+        DurasiAksi(A) = durasi;
+        AddAction(T, A);
+    }
 }
 
 /* ********* MENGUBAH UKURAN ARRAY ********* */
