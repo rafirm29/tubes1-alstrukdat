@@ -20,6 +20,8 @@ typedef struct {
     int wood;
     int steel;
     int iron;
+    int jumlahPemainWahana;
+    POINT lokasiWahana;
 } Wahana;
 
 

@@ -7,7 +7,7 @@
 */
 
 /**
- * gcc main.c Array/arraydinaction.c Array/Action/action.c Array/arraydinbarang.c Array/Barang/barang.c Array/arraydininventory.c Array/Inventory/inventory.c Matriks/matriks.c Mesin/mesinkata.c Mesin/mesinkar.c Point/point.c Jam/jam.c Player/player.c Queue/queue.c Command/command.c Wahana/wahana.c Tree/bintree.c -o main
+ * gcc main.c Array/arraydinaction.c Array/Action/action.c Array/arraydinbarang.c Array/Barang/barang.c Array/arraydininventory.c Array/Inventory/inventory.c Matriks/matriks.c Mesin/mesinkata.c Mesin/mesinkar.c Point/point.c Jam/jam.c Player/player.c Queue/queue.c Command/command.c Wahana/wahana.c Tree/bintree.c Listberkait/listwahana.c -o main
  * */
 
 #include <stdio.h>
@@ -32,6 +32,7 @@
 #include "Wahana/wahana.h"
 #include "Tree/bintree.h"
 #include "Command/command.h"
+#include "Listberkait/listwahana.h"
 
 
 int main() {
@@ -42,9 +43,15 @@ int main() {
     MakeWahana(&W1_1, "Wahana/wahana1_1.txt");
     MakeWahana(&W1_2, "Wahana/wahana1_2.txt");
 
+    List listWahana;
+    CreateEmptyWahana(&listWahana);
+
+    // printf("**** BREAK POINT ****\n");
+    // int xy;
+    // scanf("%d", &xy);
+
     BinTree T1;
     T1 = Tree(W1, AlokNode(W1_1), AlokNode(W1_2));
-    printf("DEBUG TEST : %s\n", Akar(Right(T1)).namaWahana.TabKata);
 
     /*** DEKLARASI LIST BARANG ***/
     TabBarang ListBarang;
@@ -164,9 +171,8 @@ int main() {
                 if (IsKataSama(PerintahPrep, ElmtAction(TAPrep, 4).Aksi)) {             // Execute
                     mainPhase = true;
                     prepPhase = false;
-                } else if (IsKataSama(PerintahPrep, ElmtAction(TAPrep, 5).Aksi)) {
-                    mainPhase = true;
-                    prepPhase = false;
+                } else if (IsKataSama(PerintahPrep, ElmtAction(TAPrep, 5).Aksi)) {      // Main
+                    PrintInfoWahana(listWahana);
                 }
                 /* **** PERGERAKAN **** */
                 else if (PerintahPrep.Length == 1) {
@@ -198,7 +204,15 @@ int main() {
                         }
                         Buy(&P1, ListBarang, i, j);
                     } else if (IsKataSama(PerintahPrep, ElmtAction(TAPrep, 1).Aksi)) {  // Build
-                        BuildWahana(W1, &P1, &currentMap);
+                        boolean successBuild;
+                        BuildWahana(W1, &P1, &currentMap, &successBuild);
+                        if (successBuild) {
+                            POINT currentP;
+                            POINT wahanaBuild;
+                            currentP = PosisiPlayer(currentMap);
+                            wahanaBuild = MakePOINT(Absis(currentP), Ordinat(currentP)-1);
+                            InsVLastWahana(&listWahana, W1, wahanaBuild);
+                        }
                         sleep(1);
                     } else if (IsKataSama(PerintahPrep, ElmtAction(TAPrep, 2).Aksi)) {  // Upgrade
                         if (AdaBangunanSekitarPlayer(currentMap, PosisiPlayer(currentMap))) {
