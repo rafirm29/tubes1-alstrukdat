@@ -181,7 +181,7 @@ void AddAction(TabAction *T, ElTypeAction X){
 /* F.S. X adalah elemen terakhir T yang baru */
     if (IsEmptyAction(*T))
     {
-        ElmtAction(*T, 0) = X;
+        (*T).TIAction[0] = X;
         NeffAction(*T) = 1;
     } else
     {
