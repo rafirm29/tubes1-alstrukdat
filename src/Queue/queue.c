@@ -53,7 +53,7 @@ void DeAlokasi(Queue * Q){
     free((*Q).T);
 }
 /* *** Primitif Add/Delete *** */
-void EnqueuePrio (Queue * Q){
+void EnqueuePrio (Queue * Q, List L){
 /* Proses: Menambahkan X pada Q dengan aturan FIFO */
 /* I.S. Q mungkin kosong, tabel penampung elemen Q TIDAK penuh */
 /* F.S. X menjadi TAIL yang baru, TAIL "maju" dengan mekanisme circular buffer */
@@ -63,6 +63,14 @@ void EnqueuePrio (Queue * Q){
     if (!IsFull(*Q)){
         JumlahOrang(X) = 1;
         Kesabaran(X) = 5;   //Inisiasi kesabaran awal tiap pengunjung
+        int random;
+        random = (rand() % NbElmtWahana(L));
+        addressWahana P;
+        P = FirstLWahana(L);
+        for (int i = 0; i < random; i++) {
+            P = NextLWahana(P);
+        }
+        WahanaOrang(X) = P->info;
         //Jika antrian masih kosong, maka tambahkan langsung pengunjung tersebut
         if (IsEmpty(*Q)){
             Head(*Q) = 1;
@@ -157,7 +165,7 @@ void PrintAntrian (Queue Q){
           int orang = Head(Q);
           printf("Antrian [%d/5]:", NBElmt(Q)); printf("\n");
           while (orang<=Tail(Q)){
-              printf("(Daftar wahana)");
+              printf("(%s)", Q.T[orang].wahanaPengunjung.namaWahana.TabKata);
               printf(", kesabaran: %d\n", Q.T[orang].kesabaran);
               orang = orang + 1;
           }

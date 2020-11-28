@@ -13,6 +13,23 @@ int main(){
     scanf("%d", &Maxel);
     MakeEmptyQueue(&Q, Maxel);
 
+    Wahana W1;
+    Wahana W1_1, W1_2;
+    MakeWahana(&W1, "../Wahana/wahana1.txt");
+    MakeWahana(&W1_1, "../Wahana/wahana1_1.txt");
+    MakeWahana(&W1_2, "../Wahana/wahana1_2.txt");
+
+    /*** DEKLARASI LIST WAHANA ***/
+    List L;
+    POINT P;
+    P.X = 0;
+    P.Y = 0;
+    CreateEmptyWahana(&L);
+
+    InsVLastWahana(&L, W1, P);
+    InsVLastWahana(&L, W1_1, P);
+    InsVLastWahana(&L, W1_2, P);
+
     int menu,menu2;
     printf("Ingin mencoba driver?\n");
     printf("Jika iya ketik 1\n");
@@ -43,7 +60,7 @@ int main(){
             printf("%d\n", NBElmt(Q));
         } else if (menu2 == 4){
             //Add antrian
-            EnqueuePrio(&Q);
+            EnqueuePrio(&Q, L);
             PrintAntrian(Q); printf("\n");
         } else if (menu2 == 5){
             //Del antrian

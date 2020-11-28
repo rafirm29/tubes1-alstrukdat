@@ -6,13 +6,16 @@
 #define queue_H
 
 #include "../boolean.h"
+#include "../Listberkait/listwahana.h"
 
 #define Nil -1
 /* Konstanta untuk mendefinisikan address tak terdefinisi */
 
 /* Definisi elemen dan address */
-typedef struct { int kesabaran;
-                 int jumlahorang;
+typedef struct { 
+                int kesabaran;
+                int jumlahorang;
+                Wahana wahanaPengunjung;
 } pengunjung;
 typedef int address;   /* indeks tabel */
 /* Contoh deklarasi variabel bertype Queue : */
@@ -37,6 +40,7 @@ typedef struct { pengunjung * T;   /* tabel penyimpan elemen */
 #define InfoTailKesabaran(Q) (Q).T[(Q).TAIL].kesabaran
 #define JumlahOrang(X) (X).jumlahorang
 #define Kesabaran(X) (X).kesabaran
+#define WahanaOrang(X) (X).wahanaPengunjung
 #define ElmtQueue(Q,X) (Q).T[X]
 
 /* ********* Prototype ********* */
@@ -63,7 +67,7 @@ void DeAlokasi(Queue * Q);
 /* F.S. Q menjadi tidak terdefinisi lagi, MaxEl(Q) diset 0 */
 
 /* *** Primitif Add/Delete *** */
-void EnqueuePrio (Queue * Q);
+void EnqueuePrio (Queue * Q, List L);
 /* Proses: Menambahkan X pada Q dengan aturan FIFO */
 /* I.S. Q mungkin kosong, tabel penampung elemen Q TIDAK penuh */
 /* F.S. X menjadi TAIL yang baru, TAIL "maju" dengan mekanisme circular buffer */
