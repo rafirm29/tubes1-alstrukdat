@@ -100,7 +100,7 @@ void TulisIsiTabInventory(TabInventory T){
         for (i = 0; i < NeffInventory(T); i++)
         {
             // printf("Inventory : %d\n", i+1);
-            printf("\t- %s (%dx)\n", NamaInv(ElmtInventory(T,i)), JumlahInv(ElmtInventory(T, i)));
+            printf("\t- %s (%dx)\n", NamaInv(ElmtInventory(T,i)).TabKata, JumlahInv(ElmtInventory(T, i)));
             // printf("Jumlah : %d\n", Jumlah(ElmtInventory(T, i))); 
         } 
     }

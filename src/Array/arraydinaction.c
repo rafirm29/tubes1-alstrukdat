@@ -105,7 +105,7 @@ void TulisIsiTabAction(TabAction T){
     {
         for (i = 0; i < (T).NeffAction; i++)
         {
-          printf("Aksi : %s\n", Aksi(ElmtAction(T, i)));
+          printf("Aksi : %s\n", Aksi(ElmtAction(T, i)).TabKata);
           printf("Durasi : %d\n", DurasiAksi(ElmtAction(T,i)));
         } 
     }

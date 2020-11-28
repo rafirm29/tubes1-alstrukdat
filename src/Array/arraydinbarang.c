@@ -95,7 +95,7 @@ void TulisIsiTabBarang(TabBarang T){
         for (i = 0; i < (T).NeffBarang; i++)
         {
             //printf("Barang %d\n", i+1);
-            printf("\t%d. %s (Harga: %d)\n", i+1, Nama(ElmtBarang(T, i)), Harga(ElmtBarang(T, i)));
+            printf("\t%d. %s (Harga: %d)\n", i+1, Nama(ElmtBarang(T, i)).TabKata, Harga(ElmtBarang(T, i)));
             //printf("Harga : %d\n", Harga(ElmtBarang(T, i))); 
         } 
     }
