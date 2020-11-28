@@ -7,7 +7,7 @@
 */
 
 /**
- * gcc main.c Array/arraydinaction.c Array/Action/action.c Array/arraydinbarang.c Array/Barang/barang.c Array/arraydininventory.c Array/Inventory/inventory.c Matriks/matriks.c Mesin/mesinkata.c Mesin/mesinkar.c Point/point.c Jam/jam.c Player/player.c Queue/queue.c Command/command.c Wahana/wahana.c Tree/bintree.c Listberkait/listwahana.c Listberkait/listlinier.c Graph/graph.c -o main
+ * gcc main.c Array/arraydinaction.c Array/Action/action.c Array/arraydinbarang.c Array/Barang/barang.c Array/arraydininventory.c Array/Inventory/inventory.c Matriks/matriks.c Mesin/mesinkata.c Mesin/mesinkar.c Point/point.c Jam/jam.c Player/player.c Queue/queue.c Command/command.c Wahana/wahana.c Tree/bintree.c Listberkait/listwahana.c Listberkait/listlinier.c Graph/graph.c Stack/stackt -o main
  * */
 
 #include <stdio.h>
@@ -17,23 +17,20 @@
 #include "Array/arraydinaction.h"
 #include "Array/arraydinbarang.h"
 #include "Array/arraydininventory.h"
-// #include "Jam/jam.h"
 // #include "List berkait/listlinier.h"
 #include "Matriks/matriks.h"
 #include "Mesin/mesinkata.h"
 #include "Mesin/mesinkar.h"
-// #include "MesinFile/mesinfile.h"
 #include "Point/point.h"
 #include "Jam/jam.h"
 #include "Queue/queue.h"
-// #include "Stack/stackt.h"
-// #include "Tree/tree.h"
 #include "Player/player.h"
 #include "Wahana/wahana.h"
 #include "Tree/bintree.h"
 #include "Command/command.h"
 #include "Listberkait/listwahana.h"
 #include "Graph/graph.h"
+// #include "Stack/stackt.h"
 
 
 int main() {
@@ -61,7 +58,10 @@ int main() {
     // printf("**** BREAK POINT ****\n");
     // int xy;
     // scanf("%d", &xy);
+    
+    /*** DEKLARASI STACK ***/ 
 
+    /*** DEKLARASI UPGRADE TREE ***/
     BinTree T1;
     T1 = Tree(W1, AlokNode(W1_1), AlokNode(W1_2));
 
@@ -79,7 +79,7 @@ int main() {
     // List perintah pada Main Phase
     TabAction TAMain;
     MakeEmptyAction(&TAMain, 6);
-    MakeListAction(&TAMain, "Array/Action/mainPrep.txt");
+    MakeListAction(&TAMain, "Array/Action/actionMain.txt");
 
     /*************/
     Kata new;
@@ -257,21 +257,25 @@ int main() {
                     }
                 /* **** PERINTAH **** */
                 } else if (IsAksiAda(TAPrep, PerintahPrep)) {
+                    Kata inputAksi;
                     if (IsKataSama(PerintahPrep, ElmtAction(TAPrep, 0).Aksi)) {         // Buy
                         int i, j;
                         TulisIsiTabBarang(ListBarang);
                         while (true) {
                             printf("Beli barang nomor : ");
-                            scanf("%d", &i);
+                            Input(&inputAksi, false);
+                            i = atoi(inputAksi.TabKata);
                             if (i >= 1 && i <= NbElmtBarang(ListBarang)) break;
                             printf("Input tidak valid, silakan ulangi.\n");
                         }
                         while (true) {
                             printf("Jumlah : ");
-                            scanf("%d", &j);
+                            Input(&inputAksi, false);
+                            j = atoi(inputAksi.TabKata);
                             if (j > 0) break;
                             printf("Input tidak valid, silakan ulangi.\n");
                         }
+
                         Buy(&P1, ListBarang, i, j);
                     } else if (IsKataSama(PerintahPrep, ElmtAction(TAPrep, 1).Aksi)) {  // Build
                         boolean successBuild;
@@ -279,9 +283,13 @@ int main() {
                         if (successBuild) {
                             POINT currentP;
                             POINT wahanaBuild;
+                            Wahana WX;
                             currentP = PosisiPlayer(currentMap);
                             wahanaBuild = MakePOINT(Absis(currentP), Ordinat(currentP)-1);
-                            InsVLastWahana(&listWahana, W1, wahanaBuild);
+                            WX = W1;
+                            WX.lokasiWahana = wahanaBuild;
+                            WX.zona = currentZone;
+                            InsVLastWahana(&listWahana, WX, wahanaBuild);
                         }
                         sleep(1);
                     } else if (IsKataSama(PerintahPrep, ElmtAction(TAPrep, 2).Aksi)) {  // Upgrade
@@ -325,7 +333,7 @@ int main() {
                 TulisJAM(hourRemaining);
 
                 if (rand() % 5 == 0) {
-                    EnqueuePrio(&Q);
+                    EnqueuePrio(&Q, listWahana);
                 }
                 PrintAntrian(Q);
 
