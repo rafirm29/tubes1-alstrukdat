@@ -3,9 +3,9 @@ serve
 repair
 30
 detail
-10
+0
 office 
-10
+0
 prepare
 0
 .
