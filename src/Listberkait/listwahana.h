@@ -3,8 +3,8 @@
 /* Representasi addressWahana dengan pointer */
 /* infotype adalah integer */
 
-#ifndef listlinier_H
-#define listlinier_H
+#ifndef listwahana_H
+#define listwahana_H
 
 #include "../boolean.h"
 #include "../Wahana/wahana.h"
