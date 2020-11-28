@@ -55,7 +55,7 @@ POINT PosisiOffice (MATRIKS M);
 
 POINT PosisiBangunan (MATRIKS M);
 
-boolean IsInOffice (MATRIKS M);
+boolean IsInOffice (MATRIKS M, POINT PO);
 
 POINT BangunanSekitarPlayer (MATRIKS M, POINT Player);
 
@@ -69,6 +69,8 @@ void TulisFileMatriks(MATRIKS M,FILE *f);
 
 void TulisMATRIKS (MATRIKS M);
 
-void Move (MATRIKS * M, char X, POINT PO);
+void Move (MATRIKS * M, char X, POINT PO, int * zone);
+
+void MoveZone(MATRIKS * M, MATRIKS zoneMap, char gate);
 
 #endif

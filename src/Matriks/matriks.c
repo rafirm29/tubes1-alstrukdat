@@ -141,13 +141,13 @@ POINT PosisiBangunan (MATRIKS M){
     return P;
 }
 
-boolean IsInOffice (MATRIKS M){
+boolean IsInOffice (MATRIKS M, POINT PO){
     int i, j, x, y;
 
     i = Ordinat(PosisiPlayer(M))+1;
     j = Absis(PosisiPlayer(M))+1;
-    x = Ordinat(PosisiOffice(M))+1;
-    y = Absis(PosisiOffice(M))+1;
+    x = Ordinat(PO)+1;
+    y = Absis(PO)+1;
     return ((i == x) && (j == y));
 }
 
@@ -264,7 +264,7 @@ void TulisMATRIKS (MATRIKS M) {
     }
 }
 
-void Move (MATRIKS * M, char X, POINT PO){
+void Move (MATRIKS * M, char X, POINT PO, int * zone){
     // KAMUS LOKAL //
     int i, j;
     POINT CurrPlayer;
@@ -321,6 +321,13 @@ void Move (MATRIKS * M, char X, POINT PO){
                 printf("Tidak bisa pindah ke kiri, ada bangunan!\n");
             } else if (Elmt(*M,i,j-1) == '*'){
                 printf("Tidak bisa pindah ke kiri, ada tembok!\n");
+            } else if (Elmt(*M,i,j-1) == '<'){
+                Elmt(*M,i,j) = '-';
+                if (*zone == 2) {
+                    *zone = 1;
+                } else if (*zone == 4) {
+                    *zone = 3;
+                }
             }
         } else if (X == 'd' || X == 'D'){
             if (Elmt(*M,i,j+1) == '-' || Elmt(*M,i,j+1) == 'O'){
@@ -330,6 +337,13 @@ void Move (MATRIKS * M, char X, POINT PO){
                 printf("Tidak bisa pindah ke kanan, ada bangunan!\n");
             } else if (Elmt(*M,i,j+1) == '*'){
                 printf("Tidak bisa pindah ke kanan, ada tembok!\n");
+            } else if (Elmt(*M,i,j+1) == '>'){
+                Elmt(*M,i,j) = '-';
+                if (*zone == 1) {
+                    *zone = 2;
+                } else if (*zone == 3) {
+                    *zone = 4;
+                }
             }
         } else if (X == 's' || X == 'S'){
             if (Elmt(*M,i+1,j) == '-' || Elmt(*M,i+1,j) == 'O'){
@@ -339,6 +353,13 @@ void Move (MATRIKS * M, char X, POINT PO){
                 printf("Tidak bisa pindah ke bawah, ada bangunan!\n");
             } else if (Elmt(*M,i+1,j) == '*'){
                 printf("Tidak bisa pindah ke bawah, ada tembok!\n");
+            } else if (Elmt(*M,i+1,j) == 'v'){
+                Elmt(*M,i,j) = '-';
+                if (*zone == 1) {
+                    *zone = 3;
+                } else if (*zone == 2) {
+                    *zone = 4;
+                }
             }
         } else if (X == 'w' || X == 'W'){
             if (Elmt(*M,i-1,j) == '-' || Elmt(*M,i-1,j) == 'O'){
@@ -348,7 +369,80 @@ void Move (MATRIKS * M, char X, POINT PO){
                 printf("Tidak bisa pindah ke atas, ada bangunan!\n");
             } else if (Elmt(*M,i-1,j) == '*'){
                 printf("Tidak bisa pindah ke atas, ada tembok!\n");
+            } else if (Elmt(*M,i-1,j) == '^'){
+                Elmt(*M,i,j) = '-';
+                if (*zone == 3) {
+                    *zone = 1;
+                } else if (*zone == 4) {
+                    *zone = 2;
+                }
             }
         }
+    }
+}
+
+void MoveZone(MATRIKS * M, MATRIKS zoneMap, char gate) {
+    *M = zoneMap;
+    
+    int i, j;
+    POINT P;
+    boolean found;
+
+    
+    found = false;
+    i = 0;
+    j = 0;
+
+    if (gate == '<') {
+        while ((i <= GetLastIdxBrs(*M)+1) && !found){
+            i++;
+            j = 0;
+            while ((j <= GetLastIdxKol(*M)+1) && !found){
+                j++;
+                if (Elmt(*M,i,j) == '>'){
+                    found = true;
+                }
+            }
+        }
+        if (found){
+            P = MakePOINT(j-1,i-1);
+        }
+        Elmt(*M,i,j-1) = 'P';
+    } else if (gate == '>') {
+        while ((i <= GetLastIdxBrs(*M)+1) && !found){
+            i++;
+            j = 0;
+            while ((j <= GetLastIdxKol(*M)+1) && !found){
+                j++;
+                if (Elmt(*M,i,j) == '<'){
+                    found = true;
+                }
+            }
+        }
+        Elmt(*M,i,j+1) = 'P';
+    } else if (gate == 'v') {
+        while ((i <= GetLastIdxBrs(*M)+1) && !found){
+            i++;
+            j = 0;
+            while ((j <= GetLastIdxKol(*M)+1) && !found){
+                j++;
+                if (Elmt(*M,i,j) == '^'){
+                    found = true;
+                }
+            }
+        }
+        Elmt(*M,i+1,j) = 'P';
+    } else if (gate == '^') {
+        while ((i <= GetLastIdxBrs(*M)+1) && !found){
+            i++;
+            j = 0;
+            while ((j <= GetLastIdxKol(*M)+1) && !found){
+                j++;
+                if (Elmt(*M,i,j) == 'v'){
+                    found = true;
+                }
+            }
+        }
+        Elmt(*M,i-1,j) = 'P';
     }
 }

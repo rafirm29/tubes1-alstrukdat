@@ -7,7 +7,7 @@
 */
 
 /**
- * gcc main.c Array/arraydinaction.c Array/Action/action.c Array/arraydinbarang.c Array/Barang/barang.c Array/arraydininventory.c Array/Inventory/inventory.c Matriks/matriks.c Mesin/mesinkata.c Mesin/mesinkar.c Point/point.c Jam/jam.c Player/player.c Queue/queue.c Command/command.c Wahana/wahana.c Tree/bintree.c Listberkait/listwahana.c -o main
+ * gcc main.c Array/arraydinaction.c Array/Action/action.c Array/arraydinbarang.c Array/Barang/barang.c Array/arraydininventory.c Array/Inventory/inventory.c Matriks/matriks.c Mesin/mesinkata.c Mesin/mesinkar.c Point/point.c Jam/jam.c Player/player.c Queue/queue.c Command/command.c Wahana/wahana.c Tree/bintree.c Listberkait/listwahana.c Listberkait/listlinier.c Graph/graph.c -o main
  * */
 
 #include <stdio.h>
@@ -33,6 +33,7 @@
 #include "Tree/bintree.h"
 #include "Command/command.h"
 #include "Listberkait/listwahana.h"
+#include "Graph/graph.h"
 
 
 int main() {
@@ -43,8 +44,19 @@ int main() {
     MakeWahana(&W1_1, "Wahana/wahana1_1.txt");
     MakeWahana(&W1_2, "Wahana/wahana1_2.txt");
 
+    /*** DEKLARASI LIST WAHANA ***/
     List listWahana;
     CreateEmptyWahana(&listWahana);
+
+    /*** DEKLARASI GRAPH ***/
+    Graph G;
+    MakeGraph(&G, 4);   // Membuat graph dengan 4 node untuk merepresentasikan zona pada Map
+    /* Menghubungkan masing-masing zona Map */
+    AddLink(&G, 1, 2);  
+    AddLink(&G, 1, 3);
+    AddLink(&G, 2, 4);
+    AddLink(&G, 3, 4);
+    int currentZone = G.First->info;    // Deklarasi zona pertama yaitu pada Map 1
 
     // printf("**** BREAK POINT ****\n");
     // int xy;
@@ -160,7 +172,7 @@ int main() {
                 TulisIsiTabInventory(InvPlayer(P1));
 
                 printf("Masukkan perintah ");
-                if (IsInOffice(currentMap)) {
+                if (IsInOffice(currentMap, PO)) {
                     printf("(Masukkan 'office' untuk mengakses office) ");
                 }
                 printf(":\n");
@@ -176,14 +188,72 @@ int main() {
                 }
                 /* **** PERGERAKAN **** */
                 else if (PerintahPrep.Length == 1) {
+                    boolean changeZone;
+                    int prevZone;
                     if (PerintahPrep.TabKata[0] == 'w') {
-                        Move(&currentMap, 'w', PO);
+                        prevZone = currentZone;
+                        Move(&currentMap, 'w', PO, &currentZone);
+                        changeZone = prevZone == currentZone;
+                        if (!changeZone) {
+                            if (currentZone == 1) {                 // Map 3 ke 1
+                                CopyMATRIKS(currentMap, &Map3);
+                                MoveZone(&currentMap, Map1, '^');
+                                PO = PosisiOffice(currentMap);
+                            }
+                             else if (currentZone == 2) {
+                                CopyMATRIKS(currentMap, &Map4);     // Map 4 ke 2
+                                MoveZone(&currentMap, Map2, '^');
+                                PO = MakePOINT(0, 0);
+                            }
+                        }
                     } else if (PerintahPrep.TabKata[0] == 'a') {
-                        Move(&currentMap, 'a', PO);
+                        prevZone = currentZone;
+                        Move(&currentMap, 'a', PO, &currentZone);
+                        changeZone = prevZone == currentZone;
+                        if (!changeZone) {
+                            if (currentZone == 1) {                 // Map 2 ke 1
+                                CopyMATRIKS(currentMap, &Map2);
+                                MoveZone(&currentMap, Map1, '<');
+                                PO = PosisiOffice(currentMap);
+                            }
+                            else if (currentZone == 3) {
+                                CopyMATRIKS(currentMap, &Map4);     // Map 4 ke 3
+                                MoveZone(&currentMap, Map3, '<');
+                                PO = MakePOINT(0, 0);
+                            }
+                        }
                     } else if (PerintahPrep.TabKata[0] == 's') {
-                        Move(&currentMap, 's', PO);
+                        prevZone = currentZone;
+                        Move(&currentMap, 's', PO, &currentZone);
+                        changeZone = prevZone == currentZone;
+                        if (!changeZone) {
+                            if (currentZone == 3) {                 // Map 1 ke 3
+                                CopyMATRIKS(currentMap, &Map1);
+                                MoveZone(&currentMap, Map3, 'v');
+                                PO = MakePOINT(0, 0);
+                            }
+                            else if (currentZone == 4) {
+                                CopyMATRIKS(currentMap, &Map2);     // Map 2 ke 4
+                                MoveZone(&currentMap, Map4, 'v');
+                                PO = MakePOINT(0, 0);
+                            }
+                        }
                     } else if (PerintahPrep.TabKata[0] == 'd') {
-                        Move(&currentMap, 'd', PO);
+                        prevZone = currentZone;
+                        Move(&currentMap, 'd', PO, &currentZone);
+                        changeZone = prevZone == currentZone;
+                        if (!changeZone) {
+                            if (currentZone == 2) {                 // Map 1 ke 2
+                                CopyMATRIKS(currentMap, &Map1);
+                                MoveZone(&currentMap, Map2, '>');
+                                PO = MakePOINT(0, 0);
+                            }
+                            else if (currentZone == 4) {
+                                CopyMATRIKS(currentMap, &Map3);     // Map 3 ke 4
+                                MoveZone(&currentMap, Map4, '>');
+                                PO = MakePOINT(0, 0);
+                            }
+                        }
                     }
                 /* **** PERINTAH **** */
                 } else if (IsAksiAda(TAPrep, PerintahPrep)) {
@@ -260,7 +330,7 @@ int main() {
                 PrintAntrian(Q);
 
                 printf("Masukkan perintah ");
-                if (IsInOffice(currentMap)) {
+                if (IsInOffice(currentMap, PO)) {
                     printf("(Masukkan 'office' untuk mengakses office) ");
                 }
                 printf(":\n");
@@ -271,20 +341,79 @@ int main() {
                     prepPhase = true;
                 }
                 /**** PERGERAKAN ****/
-                else if (PerintahMain.Length == 1) {
-                    if (PerintahMain.TabKata[0] == 'w') {
-                        Move(&currentMap, 'w', PO);
+                else if (PerintahPrep.Length == 1) {
+                    boolean changeZone;
+                    int prevZone;
+                    if (PerintahPrep.TabKata[0] == 'w') {
+                        prevZone = currentZone;
+                        Move(&currentMap, 'w', PO, &currentZone);
+                        changeZone = prevZone == currentZone;
+                        if (!changeZone) {
+                            if (currentZone == 1) {                 // Map 3 ke 1
+                                CopyMATRIKS(currentMap, &Map3);
+                                MoveZone(&currentMap, Map1, '^');
+                                PO = PosisiOffice(currentMap);
+                            }
+                             else if (currentZone == 2) {
+                                CopyMATRIKS(currentMap, &Map4);     // Map 4 ke 2
+                                MoveZone(&currentMap, Map2, '^');
+                                PO = MakePOINT(0, 0);
+                            }
+                        }
                         currentJam = NextNMenit(currentJam, 1);
-                    } else if (PerintahMain.TabKata[0] == 'a') {
-                        Move(&currentMap, 'a', PO);
+                    } else if (PerintahPrep.TabKata[0] == 'a') {
+                        prevZone = currentZone;
+                        Move(&currentMap, 'a', PO, &currentZone);
+                        changeZone = prevZone == currentZone;
+                        if (!changeZone) {
+                            if (currentZone == 1) {                 // Map 2 ke 1
+                                CopyMATRIKS(currentMap, &Map2);
+                                MoveZone(&currentMap, Map1, '<');
+                                PO = PosisiOffice(currentMap);
+                            }
+                            else if (currentZone == 3) {
+                                CopyMATRIKS(currentMap, &Map4);     // Map 4 ke 3
+                                MoveZone(&currentMap, Map3, '<');
+                                PO = MakePOINT(0, 0);
+                            }
+                        }
                         currentJam = NextNMenit(currentJam, 1);
-                    } else if (PerintahMain.TabKata[0] == 's') {
-                        Move(&currentMap, 's', PO);
+                    } else if (PerintahPrep.TabKata[0] == 's') {
+                        prevZone = currentZone;
+                        Move(&currentMap, 's', PO, &currentZone);
+                        changeZone = prevZone == currentZone;
+                        if (!changeZone) {
+                            if (currentZone == 3) {                 // Map 1 ke 3
+                                CopyMATRIKS(currentMap, &Map1);
+                                MoveZone(&currentMap, Map3, 'v');
+                                PO = MakePOINT(0, 0);
+                            }
+                            else if (currentZone == 4) {
+                                CopyMATRIKS(currentMap, &Map2);     // Map 2 ke 4
+                                MoveZone(&currentMap, Map4, 'v');
+                                PO = MakePOINT(0, 0);
+                            }
+                        }
                         currentJam = NextNMenit(currentJam, 1);
-                    } else if (PerintahMain.TabKata[0] == 'd') {
-                        Move(&currentMap, 'd', PO);
+                    } else if (PerintahPrep.TabKata[0] == 'd') {
+                        prevZone = currentZone;
+                        Move(&currentMap, 'd', PO, &currentZone);
+                        changeZone = prevZone == currentZone;
+                        if (!changeZone) {
+                            if (currentZone == 2) {                 // Map 1 ke 2
+                                CopyMATRIKS(currentMap, &Map1);
+                                MoveZone(&currentMap, Map2, '>');
+                                PO = MakePOINT(0, 0);
+                            }
+                            else if (currentZone == 4) {
+                                CopyMATRIKS(currentMap, &Map3);     // Map 3 ke 4
+                                MoveZone(&currentMap, Map4, '>');
+                                PO = MakePOINT(0, 0);
+                            }
+                        }
                         currentJam = NextNMenit(currentJam, 1);
                     }
+                /**** PERINTAH ****/
                 } else if (IsAksiAda(TAMain, PerintahMain)) {
                     printf("BERAKSI\n");
                     KurangKesabaran(&Q);
