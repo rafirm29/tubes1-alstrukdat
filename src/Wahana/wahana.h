@@ -22,6 +22,7 @@ typedef struct {
     int iron;
     int jumlahPemainWahana;
     POINT lokasiWahana;
+    int zona;
 } Wahana;
 
 
