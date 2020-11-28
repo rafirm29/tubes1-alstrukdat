@@ -12,7 +12,7 @@
 typedef struct tElmtgraph *addressGraph;
 typedef struct tElmtgraph {
 	infotypeList info;
-	List link;
+	ListLinier link;
 	addressGraph next;
 } ElmtGraph;
 typedef struct {

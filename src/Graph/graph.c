@@ -105,7 +105,7 @@ void AddLink(Graph *G, infotypeList n, infotypeList m){
 void PrintLink(Graph G, infotypeList X){
     /* KAMUS LOKAL */
     addressGraph P;
-    List L;
+    ListLinier L;
 
     /* ALGORITMA */
     P = FirstGraph(G);
