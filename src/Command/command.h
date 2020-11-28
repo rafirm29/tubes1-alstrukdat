@@ -7,6 +7,7 @@
 #include "../Array/arraydinbarang.h"
 #include "../Wahana/wahana.h"
 #include "../Tree/bintree.h"
+#include "../Listberkait/listwahana.h"
 
 // Buy material
 void Buy(Player * P, TabBarang B, IdxTypeBarang i, int Jumlah);
@@ -15,6 +16,6 @@ void Buy(Player * P, TabBarang B, IdxTypeBarang i, int Jumlah);
 void BuildWahana(Wahana W, Player * P, MATRIKS * M, boolean * success);
 
 // Mengupgrade wahana
-void UpgradeWahana(BinTree T, Player * P, MATRIKS *M);
+void UpgradeWahana(BinTree T, Player * P, MATRIKS * M, int i, POINT lokUpgrade, List * L);
 
 #endif

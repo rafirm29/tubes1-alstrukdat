@@ -3,7 +3,6 @@
 /* TOP adalah alamat elemen puncak */
 /* Implementasi dalam bahasa C dengan alokasi statik */
 
-#include "boolean.h"
 #include "stackt.h"
 
 /* ************ Prototype ************ */
@@ -18,8 +17,8 @@ void CreateEmptyStack (Stack *S)
 
     // ALGORITMA
     Top(*S) = NilStack;
-    Durasi(*S) = 0;
-    Biaya(*S) = 0;
+    DurasiStack(*S) = 0;
+    BiayaStack(*S) = 0;
 }
 
 
@@ -39,7 +38,7 @@ boolean IsFullStack (Stack S)
     // KAMUS LOKAL
 
     // ALGORITMA
-    return Top(S) == MaxEl-1;
+    return Top(S) == MaxElStack-1;
 }
 
 
@@ -54,8 +53,8 @@ void Push (Stack * S, infoStack X, int Durasi, int Biaya)
     // ALGORITMA
     Top(*S)++;
     InfoTop(*S) = X;
-    Durasi(*S) += Durasi;
-    Biaya(*S) += Biaya;
+    DurasiStack(*S) += Durasi;
+    BiayaStack(*S) += Biaya;
 }
 
 
@@ -70,7 +69,7 @@ void Pop (Stack * S, infoStack* X, int Durasi, int Biaya)
     // ALGORITMA
     *X = InfoTop(*S);
     Top(*S)--;
-    Durasi(*S) -= Durasi;
-    Biaya(*S) -= Biaya;
+    DurasiStack(*S) -= Durasi;
+    BiayaStack(*S) -= Biaya;
 }
 

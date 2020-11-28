@@ -7,7 +7,7 @@
 */
 
 /**
- * gcc main.c Array/arraydinaction.c Array/Action/action.c Array/arraydinbarang.c Array/Barang/barang.c Array/arraydininventory.c Array/Inventory/inventory.c Matriks/matriks.c Mesin/mesinkata.c Mesin/mesinkar.c Point/point.c Jam/jam.c Player/player.c Queue/queue.c Command/command.c Wahana/wahana.c Tree/bintree.c Listberkait/listwahana.c Listberkait/listlinier.c Graph/graph.c Stack/stackt -o main
+ * gcc main.c Array/arraydinaction.c Array/Action/action.c Array/arraydinbarang.c Array/Barang/barang.c Array/arraydininventory.c Array/Inventory/inventory.c Matriks/matriks.c Mesin/mesinkata.c Mesin/mesinkar.c Point/point.c Jam/jam.c Player/player.c Queue/queue.c Command/command.c Wahana/wahana.c Tree/bintree.c Listberkait/listwahana.c Listberkait/listlinier.c Graph/graph.c Stack/stackt.c -o main
  * */
 
 #include <stdio.h>
@@ -30,7 +30,7 @@
 #include "Command/command.h"
 #include "Listberkait/listwahana.h"
 #include "Graph/graph.h"
-// #include "Stack/stackt.h"
+#include "Stack/stackt.h"
 
 
 int main() {
@@ -59,7 +59,9 @@ int main() {
     // int xy;
     // scanf("%d", &xy);
     
-    /*** DEKLARASI STACK ***/ 
+    /*** DEKLARASI STACK ***/
+    Stack StackPerintah;
+    CreateEmptyStack(&StackPerintah);
 
     /*** DEKLARASI UPGRADE TREE ***/
     BinTree T1;
@@ -181,8 +183,47 @@ int main() {
 
                 /* **** EKSEKUSI **** */
                 if (IsKataSama(PerintahPrep, ElmtAction(TAPrep, 4).Aksi)) {             // Execute
-                    mainPhase = true;
-                    prepPhase = false;
+                    Stack S;
+                    infoStack X;
+
+                    /* Membalik stack agar perintah pengguna sesuai dengan urutan */
+                    CreateEmptyStack(&S);
+                    while (!IsEmptyStack(StackPerintah)) {
+                        Pop(&StackPerintah, &X, 0, 0);
+                        Push(&S, X, 0, 0);
+                    }
+
+                    /* Proses eksekusi perintah dari stack */
+                    while (!IsEmptyStack(S)) {
+                        Pop(&S, &X, 0, 0);
+                        if (X.action == 1) {
+                            Buy(&P1, ListBarang, X.idxcode, X.Jumlah);
+                        } else if (X.action == 2) {
+                            /*build*/
+                        } else if (X.action == 3) {
+                            switch (X.Jumlah)   // Zona
+                            {
+                            case 1:
+                                UpgradeWahana(T1, &P1, &Map1, X.idxcode, X.lokasiBuild, &listWahana);
+                                currentMap = Map1;
+                                break;
+                            case 2:
+                                UpgradeWahana(T1, &P1, &Map2, X.idxcode, X.lokasiBuild, &listWahana);
+                                break;
+                            case 3:
+                                UpgradeWahana(T1, &P1, &Map3, X.idxcode, X.lokasiBuild, &listWahana);
+                                break;
+                            case 4:
+                                UpgradeWahana(T1, &P1, &Map4, X.idxcode, X.lokasiBuild, &listWahana);
+                                break;
+                            default:
+                                break;
+                            }
+                        }
+                    }
+                    
+                    // mainPhase = true;
+                    // prepPhase = false;
                 } else if (IsKataSama(PerintahPrep, ElmtAction(TAPrep, 5).Aksi)) {      // Main
                     PrintInfoWahana(listWahana);
                 }
@@ -275,9 +316,21 @@ int main() {
                             if (j > 0) break;
                             printf("Input tidak valid, silakan ulangi.\n");
                         }
+                        infoStack X;
+                        int D, B;
 
-                        Buy(&P1, ListBarang, i, j);
+                        X.action = 1;
+                        X.idxcode = i;
+                        X.Jumlah = j;
+                        D = ElmtAction(TAPrep, 0).Durasi;
+                        B = j * (ListBarang.TIBarang[i-1].Harga);
+                        Push(&StackPerintah, X, D, B);
+
+                        printf("Action : %d\n", InfoTop(StackPerintah).action);
+                        printf("Jumlah : %d\n", InfoTop(StackPerintah).Jumlah);
+                        // Buy(&P1, ListBarang, i, j);
                     } else if (IsKataSama(PerintahPrep, ElmtAction(TAPrep, 1).Aksi)) {  // Build
+
                         boolean successBuild;
                         BuildWahana(W1, &P1, &currentMap, &successBuild);
                         if (successBuild) {
@@ -294,7 +347,57 @@ int main() {
                         sleep(1);
                     } else if (IsKataSama(PerintahPrep, ElmtAction(TAPrep, 2).Aksi)) {  // Upgrade
                         if (AdaBangunanSekitarPlayer(currentMap, PosisiPlayer(currentMap))) {
-                            UpgradeWahana(T1, &P1, &currentMap);
+                            int i;
+                            printf("Upgrade %s menjadi ?\n", Akar(T1).namaWahana.TabKata);
+                            printf("\t1. %s (Biaya : %d)\n", Akar(Left(T1)).namaWahana.TabKata, Akar(Left(T1)).biayaUpgrade);
+                            printf("\t\tMaterial needed : Wood x%d, Steel x%d, Iron x%d\n", Akar(Left(T1)).wood, Akar(Left(T1)).steel, Akar(Left(T1)).iron);
+                            printf("\t2. %s (Biaya : %d)\n", Akar(Right(T1)).namaWahana.TabKata, Akar(Right(T1)).biayaUpgrade);
+                            printf("\t\tMaterial needed : Wood x%d, Steel x%d, Iron x%d\n", Akar(Right(T1)).wood, Akar(Right(T1)).steel, Akar(Right(T1)).iron);
+                            while (true) {
+                                printf("Input: ");
+                                Input(&inputAksi, false);
+                                i = atoi(inputAksi.TabKata);
+                                if (i == 1 || i == 2) break;
+                                printf("Input invalid! Silakan input kembali.\n");
+                            }
+                            infoStack X;
+                            int D, B;
+
+                            X.action = 3;
+                            X.Jumlah = currentZone;
+                            switch (currentZone)
+                            {
+                            case 1:
+                                X.matriks = Map1; 
+                                break;
+                            case 2:
+                                X.matriks = Map2; 
+                                break;
+                            case 3:
+                                X.matriks = Map3; 
+                                break;
+                            case 4:
+                                X.matriks = Map4; 
+                                break;
+                            default:
+                                break;
+                            }
+                            X.idxcode = i;
+                            X.lokasiBuild = BangunanSekitarPlayer(currentMap, PosisiPlayer(currentMap));
+                            D = ElmtAction(TAPrep, 2).Durasi;
+                            switch (i)
+                            {
+                            case 1:
+                                B = Akar(Left(T1)).biayaUpgrade;
+                                break;
+                            case 2:
+                                B = Akar(Right(T1)).biayaUpgrade;
+                                break;
+                            default:
+                                break;
+                            }
+                            Push(&StackPerintah, X, D, B);
+                            // UpgradeWahana(T1, &P1, &currentMap);
                         } else {
                             printf("Tidak ada wahana sekitar player.\n");
                         }

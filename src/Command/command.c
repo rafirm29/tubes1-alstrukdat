@@ -44,19 +44,7 @@ void BuildWahana(Wahana W, Player * P, MATRIKS * M, boolean * success) {
 }
 
 // Mengupgrade wahana (Prekondisi : Player sudah berada di sebelah wahana.)
-void UpgradeWahana(BinTree T, Player * P, MATRIKS * M) {
-    int i;
-    printf("Upgrade %s menjadi ?\n", Akar(T).namaWahana.TabKata);
-    printf("\t1. %s (Biaya : %d)\n", Akar(Left(T)).namaWahana.TabKata, Akar(Left(T)).biayaUpgrade);
-    printf("\t\tMaterial needed : Wood x%d, Steel x%d, Iron x%d\n", Akar(Left(T)).wood, Akar(Left(T)).steel, Akar(Left(T)).iron);
-    printf("\t2. %s (Biaya : %d)\n", Akar(Right(T)).namaWahana.TabKata, Akar(Right(T)).biayaUpgrade);
-    printf("\t\tMaterial needed : Wood x%d, Steel x%d, Iron x%d\n", Akar(Right(T)).wood, Akar(Right(T)).steel, Akar(Right(T)).iron);
-    while (true) {
-        printf("Input: ");
-        scanf("%d", &i);
-        if (i == 1 || i == 2) break;
-        printf("Input invalid! Silakan input kembali.\n");
-    }
+void UpgradeWahana(BinTree T, Player * P, MATRIKS * M, int i, POINT LokasiWahana, List * L) {
 
     if (i == 1) {   /* Memilih upgrade 1 (Left) */
         if (IsEnough(*P, Akar(Left(T)).biayaBuild)) {
@@ -66,13 +54,16 @@ void UpgradeWahana(BinTree T, Player * P, MATRIKS * M) {
                                 (InvPlayer(*P).TIInventory[1].Jumlah >= Akar(Left(T)).steel) &&
                                 (InvPlayer(*P).TIInventory[2].Jumlah >= Akar(Left(T)).iron));
             if (IsMaterialEnough) {
-                POINT LokasiWahana;
-                LokasiWahana = BangunanSekitarPlayer(*M, PosisiPlayer(*M));
                 Elmt(*M, Ordinat(LokasiWahana)+1, Absis(LokasiWahana)+1) = Akar(Left(T)).namaWahana.TabKata[0];
                 SubstractMoney(P, Akar(Left(T)).biayaUpgrade);
                 (InvPlayer(*P).TIInventory[0].Jumlah -= Akar(Left(T)).wood);
                 (InvPlayer(*P).TIInventory[1].Jumlah -= Akar(Left(T)).steel);
                 (InvPlayer(*P).TIInventory[2].Jumlah -= Akar(Left(T)).iron);
+                
+                //
+                // TO DO: UPDATE LIST WAHANA
+                //
+
             } else printf("Not enugh material. Please try again.\n");
         } else printf("Not enough money. Please try again.\n");
     } else if (i == 2) {
@@ -83,13 +74,16 @@ void UpgradeWahana(BinTree T, Player * P, MATRIKS * M) {
                                 (InvPlayer(*P).TIInventory[1].Jumlah >= Akar(Right(T)).steel) &&
                                 (InvPlayer(*P).TIInventory[2].Jumlah >= Akar(Right(T)).iron));
             if (IsMaterialEnough) {
-                POINT LokasiWahana;
-                LokasiWahana = BangunanSekitarPlayer(*M, PosisiPlayer(*M));
                 Elmt(*M, Ordinat(LokasiWahana)+1, Absis(LokasiWahana)+1) = Akar(Right(T)).namaWahana.TabKata[0];
                 SubstractMoney(P, Akar(Right(T)).biayaUpgrade);
                 (InvPlayer(*P).TIInventory[0].Jumlah -= Akar(Right(T)).wood);
                 (InvPlayer(*P).TIInventory[1].Jumlah -= Akar(Right(T)).steel);
                 (InvPlayer(*P).TIInventory[2].Jumlah -= Akar(Right(T)).iron);
+                
+                //
+                // TO DO: UPDATE LIST WAHANA
+                //
+                
             } else printf("Not enugh material. Please try again.\n");
         } else printf("Not enough money. Please try again.\n");
     }

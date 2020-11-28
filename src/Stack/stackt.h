@@ -10,7 +10,7 @@
 
 
 #define NilStack -1
-#define MaxEl 100
+#define MaxElStack 100
 /* Nil adalah stack dengan elemen kosong . */
 
 typedef struct {
@@ -19,16 +19,17 @@ typedef struct {
   // kode dari komponen yang diperlukan oleh aksi: 
   // Buy: index type barang
   // Build: Nil
-  // Upgrade: 0. ke cabang kiri pohon, 1. ke cabang kanan pohon
+  // Upgrade: 1. ke cabang kiri pohon, 2. ke cabang kanan pohon
   MATRIKS matriks; // Matriks yang dibutuhkan Build dan Upgrade
-  int Jumlah; // ini khusus untuk Buy, yang lain Nil
+  POINT lokasiBuild;
+  int Jumlah; // ini khusus untuk Buy, yang lain zona
 } infoStack;
 typedef int addressStack;   /* indeks tabel */
 
 /* Contoh deklarasi variabel bertype stack dengan ciri TOP : */
 /* Versi I : dengan menyimpan tabel dan alamat top secara eksplisit*/
 typedef struct { 
-  infoStack T[MaxEl]; /* tabel penyimpan elemen */
+  infoStack T[MaxElStack]; /* tabel penyimpan elemen */
   addressStack TOP;  /* alamat TOP: elemen puncak */
   int durasi;
   int biaya;
@@ -42,8 +43,8 @@ typedef struct {
 /* Definisi akses dengan Selektor : Set dan Get */
 #define Top(S) (S).TOP
 #define InfoTop(S) (S).T[(S).TOP]
-#define Durasi(S) (S).durasi
-#define Biaya(S) (S).biaya
+#define DurasiStack(S) (S).durasi
+#define BiayaStack(S) (S).biaya
 
 /* ************ Prototype ************ */
 /* *** Konstruktor/Kreator *** */
