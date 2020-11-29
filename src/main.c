@@ -952,6 +952,12 @@ int main() {
                             printf("Anda tidak berada di sekitar antrian. Tidak dapat melakukan serve.\n");
                         }
                         currentJam = NextNMenit(currentJam, ElmtAction(TAMain, 0).Durasi);
+                    } else if (IsKataSama(PerintahMain, ElmtAction(TAMain, 2).Aksi)) { // Details
+                        if (AdaBangunanSekitarPlayer(currentMap, PosisiPlayer(currentMap))){
+                            POINT building = BangunanSekitarPlayer(currentMap, PosisiPlayer(currentMap));
+                            addressWahana P = SerachWahanaLokasi(listWahana, building, currentZone);
+                            Detail(P->info);
+                        } else printf("Tak de building\n");
                     }
 
                     sleep(1);
