@@ -24,6 +24,8 @@ typedef struct {
     int zona;
 } Wahana;
 
+// Cek apakah wahana penuh
+void IsFullWahana(Wahana W);
 
 // Menampilkan detail wahana
 void MakeWahana(Wahana * W, char * file);

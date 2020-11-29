@@ -2,6 +2,11 @@
 #include <stdlib.h>
 #include "wahana.h"
 
+// Cek apakah wahana penuh
+void IsFullWahana(Wahana W) {
+    return (W.kapasitasWahana == W.jumlahPemainWahana);
+}
+
 // Menampilkan detail wahana
 void MakeWahana(Wahana * W, char * file) {
     STARTFILE(file);
