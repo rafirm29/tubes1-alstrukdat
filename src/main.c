@@ -778,10 +778,10 @@ int main() {
                 TulisJAM(hourRemaining);
 
                 // Randomizer untuk menambahkan pengunjung (dirandom setiap aksi)
-                if (rand() % 5 == 0) {
+                /*if (rand() % 5 == 0) {
                     EnqueuePrio(&Q, listWahana);
                 }
-                PrintAntrian(Q);
+                PrintAntrian(Q);*/
 
                 printf("Masukkan perintah ");
                 if (IsInOffice(currentMap, PO)) {
@@ -868,10 +868,22 @@ int main() {
                         currentJam = NextNMenit(currentJam, 1);
                     }
                 /**** PERINTAH ****/
-                } else if (IsAksiAda(TAMain, PerintahMain)) {
-                    printf("BERAKSI\n");
-                    KurangKesabaran(&Q);
-                } else {
+                } 
+                else if (IsAksiAda(TAMain, PerintahMain)) {
+                    if (IsKataSama(PerintahMain, ElmtAction(TAMain, 3).Aksi)) { // office
+                        if (IsInOffice(currentMap,PO))
+                        {
+                            printf("Masuk office\n");
+                        }
+                        else
+                        {
+                            printf("Anda tidak berada di office\n");
+                        }
+                        printf("BERAKSI\n");
+                        KurangKesabaran(&Q);
+                    }
+                }
+                else {
                     printf("Command tidak ditemukan.\n");
                 }
             }

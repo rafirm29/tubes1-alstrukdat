@@ -4,7 +4,7 @@ repair
 30
 detail
 0
-office 
+office
 0
 prepare
 0
