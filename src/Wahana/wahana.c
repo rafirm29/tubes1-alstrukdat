@@ -3,7 +3,7 @@
 #include "wahana.h"
 
 // Cek apakah wahana penuh
-void IsFullWahana(Wahana W) {
+boolean IsFullWahana(Wahana W) {
     return (W.kapasitasWahana == W.jumlahPemainWahana);
 }
 
