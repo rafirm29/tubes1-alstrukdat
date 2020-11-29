@@ -78,7 +78,7 @@ addressWahana SearchWahana (List L, Wahana X)
     object = FirstLWahana(L);
 
     while ((ans == NilWahana) && (object != NilWahana)) {
-        if (EQ(object->info.lokasiWahana, X.lokasiWahana)) {
+        if (EQ(object->info.lokasiWahana, X.lokasiWahana) && object->info.zona == X.zona) {
             ans = object;
         }
 

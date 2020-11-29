@@ -1,6 +1,6 @@
 /* File: queue.c */
 /* Implementasi Queue */
-/* Model Implementasi Versi I dengan Priority Queue */
+/* Model Implementasi Versi III dengan Priority Queue */
 
 #include <stdio.h>
 #include "queue.h"
@@ -187,20 +187,22 @@ void PrintAntrian (Queue Q){
     }
     return ada;
 }*/
-void serve (Queue * Q, Wahana W1, Player * P1, List * L){
-    if (IsFullWahana(InfoHead(*Q).wahanaPengunjung)){
+void serve (Queue * Q, Player * P1, List * L){
+    addressWahana P;
+    P = SearchWahana(*L, (*Q).T[(*Q).HEAD].wahanaPengunjung);
+    if (IsFullWahana(P->info)){
         printf("Wahana yang ingin dinaiki penuh!\n");
     } else {
-        if (W1.statusWahana == 0){
+        if (P->info.statusWahana == 0){
             printf("Wahana yang ingin dinaiki rusak!\n");
         } else {
             pengunjung X;
-            addressWahana W2 = SearchWahana(*L,W1);
-            W2->laporan.dinaikiHari += 1;
-            W2->laporan.dinaikiTotal += 1;
-            W2->laporan.penghasilanHari += W1.hargaWahana;
-            W2->laporan.penghasilanTotal += W1.hargaWahana;
-            (*P1).Money += W1.hargaWahana;
+            P->laporan.dinaikiHari += 1;
+            P->laporan.dinaikiTotal += 1;
+            P->laporan.penghasilanHari += (*Q).T[(*Q).HEAD].wahanaPengunjung.hargaWahana;
+            P->laporan.penghasilanTotal += (*Q).T[(*Q).HEAD].wahanaPengunjung.hargaWahana;
+            P->info.jumlahPemainWahana += 1;
+            (*P1).Money += (*Q).T[(*Q).HEAD].wahanaPengunjung.hargaWahana;
             Dequeue(Q,&X);
         }
     }

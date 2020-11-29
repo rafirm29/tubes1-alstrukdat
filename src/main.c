@@ -779,10 +779,10 @@ int main() {
                 TulisJAM(hourRemaining);
 
                 // Randomizer untuk menambahkan pengunjung (dirandom setiap aksi)
-                /*if (rand() % 5 == 0) {
+                if (rand() % 5 == 1) {
                     EnqueuePrio(&Q, listWahana);
                 }
-                PrintAntrian(Q);*/
+                PrintAntrian(Q);
 
                 printf("Masukkan perintah ");
                 if (IsInOffice(currentMap, PO)) {
@@ -791,7 +791,7 @@ int main() {
                 printf(":\n");
                 Input(&PerintahMain, false);
 
-                if (IsKataSama(PerintahMain, ElmtAction(TAMain, 4).Aksi)) {// Exit
+                if (IsKataSama(PerintahMain, ElmtAction(TAMain, 4).Aksi)) { // prepare
                     mainPhase = false;
                     prepPhase = true;
                 }
@@ -944,6 +944,14 @@ int main() {
                         {
                             printf("Anda tidak berada di office\n");
                         }
+                    } else if (IsKataSama(PerintahMain, ElmtAction(TAMain, 0).Aksi)) {  // serve
+                        if (AdaAntrianSekitarPlayer(currentMap, PosisiPlayer(currentMap))) {
+                            printf("Anda sekitar antrian.\n");
+                            serve(&Q, &P1, &listWahana);
+                        } else {
+                            printf("Anda tidak berada di sekitar antrian. Tidak dapat melakukan serve.\n");
+                        }
+                        currentJam = NextNMenit(currentJam, ElmtAction(TAMain, 0).Durasi);
                     }
 
                     sleep(1);

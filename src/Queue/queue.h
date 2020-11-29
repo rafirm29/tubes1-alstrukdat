@@ -86,5 +86,5 @@ void PrintAntrian (Queue Q);
         "Antrian [2/5]:
          (Daftar Wahana), kesabaran: 5
          (Daftar Wahana), kesabaran: 5 */
-void serve (Queue * Q, Wahana W1, Player * P1, List * L);
+void serve (Queue * Q, Player * P1, List * L);
 #endif
