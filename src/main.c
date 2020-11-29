@@ -198,98 +198,116 @@ int main() {
 
                 /* **** EKSEKUSI **** */
                 if (IsKataSama(PerintahPrep, ElmtAction(TAPrep, 4).Aksi)) {             // Execute
-                    Stack S;
-                    infoStack X;
+                    if (IsEnough(P1, BiayaStack(StackPerintah)) && DurasiStack(StackPerintah) <= JAMToMenit(hourRemaining)) {
+                        Stack S;
+                        infoStack X;
 
-                    POINT currentP;
-                    currentP = PosisiPlayer(currentMap);
+                        // Penyimpan posisi player pada current map
+                        POINT currentP;
+                        currentP = PosisiPlayer(currentMap);
 
-                    /* Membalik stack agar perintah pengguna sesuai dengan urutan */
-                    CreateEmptyStack(&S);
-                    while (!IsEmptyStack(StackPerintah)) {
-                        Pop(&StackPerintah, &X, 0, 0);
-                        Push(&S, X, 0, 0);
-                    }
+                        /* Membalik stack agar perintah pengguna sesuai dengan urutan */
+                        CreateEmptyStack(&S);
+                        while (!IsEmptyStack(StackPerintah)) {
+                            Pop(&StackPerintah, &X, 0, 0);
+                            Push(&S, X, 0, 0);
+                        }
 
-                    /* Proses eksekusi perintah dari stack */
-                    while (!IsEmptyStack(S)) {
-                        Pop(&S, &X, 0, 0);
-                        if (X.action == 1) {                                // Buy
-                            Buy(&P1, ListBarang, X.idxcode, X.Jumlah);
-                        } else if (X.action == 2) {                         // Build
-                            /* Pemilihan wahana */
-                            addressWahana P;
-                            P = FirstLWahana(daftarWahana);
-                            for (int i = 0; i < X.idxcode; i++){
-                                P = NextLWahana(P);
-                            }
-                            Wahana WBuild;
-                            WBuild = P->info;
-                            WBuild.lokasiWahana = X.lokasiBuild;
-                            WBuild.zona = X.Jumlah;
-                            switch (X.Jumlah)   // Zona
-                            {
-                            case 1:
-                                BuildWahana(WBuild, &P1, &Map1, X.lokasiBuild);
-                                break;
-                            case 2:
-                                BuildWahana(WBuild, &P1, &Map2, X.lokasiBuild);
-                                break;
-                            case 3:
-                                BuildWahana(WBuild, &P1, &Map3, X.lokasiBuild);
-                                break;
-                            case 4:
-                                BuildWahana(WBuild, &P1, &Map4, X.lokasiBuild);
-                                break;
-                            default:
-                                break;
-                            }
-                            InsVLastWahana(&listWahana, WBuild);
-                        } else if (X.action == 3) {                         // Upgrade
-                            switch (X.Jumlah)   // Zona
-                            {
-                            case 1:
-                                UpgradeWahana(T1, &P1, &Map1, X.idxcode, X.lokasiBuild, &listWahana, X.Jumlah);
-                                break;
-                            case 2:
-                                UpgradeWahana(T1, &P1, &Map2, X.idxcode, X.lokasiBuild, &listWahana, X.Jumlah);
-                                break;
-                            case 3:
-                                UpgradeWahana(T1, &P1, &Map3, X.idxcode, X.lokasiBuild, &listWahana, X.Jumlah);
-                                break;
-                            case 4:
-                                UpgradeWahana(T1, &P1, &Map4, X.idxcode, X.lokasiBuild, &listWahana, X.Jumlah);
-                                break;
-                            default:
-                                break;
+                        /* Proses eksekusi perintah dari stack */
+                        while (!IsEmptyStack(S)) {
+                            Pop(&S, &X, 0, 0);
+                            if (X.action == 1) {                                // Buy
+                                Buy(&P1, ListBarang, X.idxcode, X.Jumlah);
+                            } else if (X.action == 2) {                         // Build
+                                /* Pemilihan wahana */
+                                addressWahana P;
+                                P = FirstLWahana(daftarWahana);
+                                for (int i = 0; i < X.idxcode; i++){
+                                    P = NextLWahana(P);
+                                }
+                                Wahana WBuild;
+                                WBuild = P->info;
+                                WBuild.lokasiWahana = X.lokasiBuild;
+                                WBuild.zona = X.Jumlah;
+                                switch (X.Jumlah)   // Zona
+                                {
+                                case 1:
+                                    BuildWahana(WBuild, &P1, &Map1, X.lokasiBuild);
+                                    break;
+                                case 2:
+                                    BuildWahana(WBuild, &P1, &Map2, X.lokasiBuild);
+                                    break;
+                                case 3:
+                                    BuildWahana(WBuild, &P1, &Map3, X.lokasiBuild);
+                                    break;
+                                case 4:
+                                    BuildWahana(WBuild, &P1, &Map4, X.lokasiBuild);
+                                    break;
+                                default:
+                                    break;
+                                }
+                                InsVLastWahana(&listWahana, WBuild);
+                            } else if (X.action == 3) {                         // Upgrade
+                                switch (X.Jumlah)   // Zona
+                                {
+                                case 1:
+                                    UpgradeWahana(T1, &P1, &Map1, X.idxcode, X.lokasiBuild, &listWahana, X.Jumlah);
+                                    break;
+                                case 2:
+                                    UpgradeWahana(T1, &P1, &Map2, X.idxcode, X.lokasiBuild, &listWahana, X.Jumlah);
+                                    break;
+                                case 3:
+                                    UpgradeWahana(T1, &P1, &Map3, X.idxcode, X.lokasiBuild, &listWahana, X.Jumlah);
+                                    break;
+                                case 4:
+                                    UpgradeWahana(T1, &P1, &Map4, X.idxcode, X.lokasiBuild, &listWahana, X.Jumlah);
+                                    break;
+                                default:
+                                    break;
+                                }
                             }
                         }
+
+                        // Refresh map
+                        switch (currentZone)
+                        {
+                        case 1:
+                            currentMap = Map1;
+                            break;
+                        case 2:
+                            currentMap = Map2;
+                            break;
+                        case 3:
+                            currentMap = Map3;
+                            break;
+                        case 4:
+                            currentMap = Map4;
+                            break;
+                        default:
+                            break;
+                        }
+            
+                        
+                        Elmt(currentMap, Ordinat(currentP)+1, Absis(currentP)+1) = 'P';
+
+                        DurasiStack(StackPerintah) = 0;
+                        BiayaStack(StackPerintah) = 0;
+                        
+                        mainPhase = true;
+                        prepPhase = false;
+                    } else {
+                        printf("Durasi melebihi batas wawktu tersisa!\n");
                     }
-                    switch (currentZone)
-                    {
-                    case 1:
-                        currentMap = Map1;
-                        break;
-                    case 2:
-                        currentMap = Map2;
-                        break;
-                    case 3:
-                        currentMap = Map3;
-                        break;
-                    case 4:
-                        currentMap = Map4;
-                        break;
-                    default:
-                        break;
-                    }
-        
-                    
-                    Elmt(currentMap, Ordinat(currentP)+1, Absis(currentP)+1) = 'P';
-                    
-                    // mainPhase = true;
-                    // prepPhase = false;
                 } else if (IsKataSama(PerintahPrep, ElmtAction(TAPrep, 5).Aksi)) {      // Main
-                    PrintInfoWahana(listWahana);
+                    /* Pengosongan stack tanpa menjalankan eksekusinya */
+                    infoStack X;
+                    while (!IsEmptyStack(StackPerintah)) {
+                        Pop(&StackPerintah, &X, 0, 0);
+                        
+                    }
+
+                    mainPhase = true;
+                    prepPhase = false;
                 }
                 /* **** PERGERAKAN **** */
                 else if (PerintahPrep.Length == 1) {
@@ -474,7 +492,31 @@ int main() {
                                 X.lokasiBuild = MakePOINT(Absis(currentP), Ordinat(currentP)-1);
 
                                 Push(&StackPerintah, X, D, B);
-                                Elmt(currentMap, Ordinat(currentP), Absis(currentP)+1) = 'W';
+
+                                // Menuliskan W pada map
+                                switch (currentZone)
+                                {
+                                case 1:
+                                    Elmt(Map1, Ordinat(currentP), Absis(currentP)+1) = 'W';
+                                    currentMap = Map1;
+                                    break;
+                                case 2:
+                                    Elmt(Map2, Ordinat(currentP), Absis(currentP)+1) = 'W';
+                                    currentMap = Map2;
+                                    break;
+                                case 3:
+                                    Elmt(Map3, Ordinat(currentP), Absis(currentP)+1) = 'W';
+                                    currentMap = Map3;
+                                    break;
+                                case 4:
+                                    Elmt(Map4, Ordinat(currentP), Absis(currentP)+1) = 'W';
+                                    currentMap = Map4;
+                                    break;
+                                default:
+                                    break;
+                                }
+
+                                Elmt(currentMap, Ordinat(currentP)+1, Absis(currentP)+1) = 'P';
 
                                 PTemp.Money -= B;
                                 ElmtInventory(PTemp.InvPlayer, 0).Jumlah -= WBuild.wood;
