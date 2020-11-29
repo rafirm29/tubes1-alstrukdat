@@ -1003,6 +1003,7 @@ int main() {
                                     P = NextLWahana(P);
                                 }
                                 InfoLWahana(P).statusWahana = true;
+                                currentJam = NextNMenit(currentJam, 20);
                             }
                             else
                             {
