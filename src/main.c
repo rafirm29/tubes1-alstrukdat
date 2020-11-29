@@ -46,6 +46,11 @@ int main() {
     // List wahana yang tersedia pada map
     List listWahana;
     CreateEmptyWahana(&listWahana);
+    Wahana def = W1;
+    def.statusWahana = 1;
+    def.lokasiWahana = MakePOINT(11, 4);
+    def.zona = 1;
+    InsVLastWahana(&listWahana, def);
 
     // List wahana yang dapat dibangun
     List daftarWahana;
@@ -85,7 +90,7 @@ int main() {
     /*** DEKLARASI LIST PERINTAH ***/
     // List perintah pada Prep Phase
     TabAction TAPrep;
-    MakeEmptyAction(&TAPrep, 6);
+    MakeEmptyAction(&TAPrep, 7);
     MakeListAction(&TAPrep, "Array/Action/actionPrep.txt");
 
     // List perintah pada Main Phase
@@ -100,12 +105,8 @@ int main() {
     new.TabKata[1] = 'e';
     new.TabKata[2] = 'w';
 
-    Kata udah;
-    udah.Length = 4;
-    udah.TabKata[0] = 'u';
-    udah.TabKata[1] = 'd';
-    udah.TabKata[2] = 'a';
-    udah.TabKata[3] = 'h';
+    Kata exitProgram;
+    exitProgram = MakeKata("exit");
 
     Kata First, Nama, PerintahPrep, PerintahMain;
 
@@ -146,8 +147,10 @@ int main() {
         BacaMATRIKS(&Map2, "FileEksternal/peta2.txt");
         BacaMATRIKS(&Map3, "FileEksternal/peta3.txt");
         BacaMATRIKS(&Map4, "FileEksternal/peta4.txt");
+        Elmt(Map1, 5, 12) = 'W';
         currentMap = Map1;
         Elmt(currentMap, 5, 11) = 'P';
+        
 
 
         while (!exit) { // Loop pergantian day
@@ -305,10 +308,11 @@ int main() {
                     while (!IsEmptyStack(StackPerintah)) {
                         Pop(&StackPerintah, &X, 0, 0);
                         if (X.action == 2) {
+                            int j;
                             addressWahana P;
                             POINT lokBuild = X.lokasiBuild;
                             P = FirstLWahana(daftarWahana);
-                            for (int j = 0; j < X.idxcode; j++) {
+                            for (j = 0; j < X.idxcode; j++) {
                                 P = NextLWahana(P);
                             }
                             // Menghapus W pada map
@@ -329,30 +333,29 @@ int main() {
                             default:
                                 break;
                             }
-
-                            // Refresh map
-                            POINT currentP;
-                            currentP = PosisiPlayer(currentMap);
-                            switch (currentZone)
-                            {
-                            case 1:
-                                currentMap = Map1;
-                                break;
-                            case 2:
-                                currentMap = Map2;
-                                break;
-                            case 3:
-                                currentMap = Map3;
-                                break;
-                            case 4:
-                                currentMap = Map4;
-                                break;
-                            default:
-                                break;
-                            }
-                            Elmt(currentMap, Ordinat(currentP)+1, Absis(currentP)+1) = 'P';
                         }
                     }
+                    // Refresh map
+                    POINT currentP;
+                    currentP = PosisiPlayer(currentMap);
+                    switch (currentZone)
+                    {
+                    case 1:
+                        currentMap = Map1;
+                        break;
+                    case 2:
+                        currentMap = Map2;
+                        break;
+                    case 3:
+                        currentMap = Map3;
+                        break;
+                    case 4:
+                        currentMap = Map4;
+                        break;
+                    default:
+                        break;
+                    }
+                    Elmt(currentMap, Ordinat(currentP)+1, Absis(currentP)+1) = 'P';
 
                     mainPhase = true;
                     prepPhase = false;
@@ -743,14 +746,16 @@ int main() {
                         }
                     }
                     sleep(1);
+                } else if (IsKataSama(PerintahPrep, exitProgram)) {
+                    return 0;
                 } else {
                     printf("Command tidak ditemukan.\n");
                 }
             }
 
-            ElmtInventory(PTemp.InvPlayer, 0) = ElmtInventory(P1.InvPlayer, 0);
-            ElmtInventory(PTemp.InvPlayer, 1) = ElmtInventory(P1.InvPlayer, 1);
-            ElmtInventory(PTemp.InvPlayer, 2) = ElmtInventory(P1.InvPlayer, 2);
+            // ElmtInventory(PTemp.InvPlayer, 0) = ElmtInventory(P1.InvPlayer, 0);
+            // ElmtInventory(PTemp.InvPlayer, 1) = ElmtInventory(P1.InvPlayer, 1);
+            // ElmtInventory(PTemp.InvPlayer, 2) = ElmtInventory(P1.InvPlayer, 2);
 
             /********************************/
             /********** MAIN PHASE **********/
@@ -974,7 +979,9 @@ int main() {
                     } else if (IsKataSama(PerintahMain, ElmtAction(TAMain, 2).Aksi)) { // Details
                         if (AdaBangunanSekitarPlayer(currentMap, PosisiPlayer(currentMap))){
                             POINT building = BangunanSekitarPlayer(currentMap, PosisiPlayer(currentMap));
+                            printf("*DEBUG 1*\n");
                             addressWahana P = SerachWahanaLokasi(listWahana, building, currentZone);
+                            printf("*DEBUG 2*\n");
                             Detail(P->info);
                         } else printf("Tak de building\n");
                     }
@@ -1008,6 +1015,8 @@ int main() {
                         }
                     }
                     sleep(1);
+                } else if (IsKataSama(PerintahMain, exitProgram)) {
+                    return 0;
                 }
                 else {
                     printf("Command tidak ditemukan.\n");
@@ -1015,6 +1024,14 @@ int main() {
             }
             day++;
         }
+    }
+
+    else if (IsKataSama(First, exitProgram)) {
+        printf("Exiting game..");
+        sleep(1);
+        printf(".");
+        sleep(1);
+        printf(".\n");
     }
 
     return 0;
