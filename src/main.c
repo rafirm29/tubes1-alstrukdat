@@ -165,6 +165,7 @@ int main() {
 
             currentJam = MakeJAM(21,0); // Deklarasi Jam saat preperation phase.
             closingJam = MakeJAM(9,0);
+            Player PTemp = P1;
 
             while (prepPhase) {
                 printf("Preperation day %d\n", day);
@@ -184,6 +185,7 @@ int main() {
                 printf("Time Remaining : ");
                 TulisJAM(hourRemaining);
                 TulisIsiTabInventory(InvPlayer(P1));
+                PrintStack(StackPerintah);
 
                 printf("Masukkan perintah ");
                 if (IsInOffice(currentMap, PO)) {
@@ -380,7 +382,7 @@ int main() {
 
                         /* Mengecek apakah uang player cukup */
                         int B = j * (ListBarang.TIBarang[i-1].Harga); // Harga barang dikali jumlah barang
-                        if (IsEnough(P1, B)) {
+                        if (IsEnough(PTemp, B)) {
                             infoStack X;
                             int D;
 
@@ -389,6 +391,22 @@ int main() {
                             X.Jumlah = j;
                             D = ElmtAction(TAPrep, 0).Durasi;
                             Push(&StackPerintah, X, D, B);
+
+                            PTemp.Money -= B;
+                            switch (i)
+                            {
+                            case 1:
+                                ElmtInventory(PTemp.InvPlayer, 0).Jumlah += j;
+                                break;
+                            case 2:
+                                ElmtInventory(PTemp.InvPlayer, 1).Jumlah += j;
+                                break;
+                            case 3:
+                                ElmtInventory(PTemp.InvPlayer, 2).Jumlah += j;
+                                break;
+                            default:
+                                break;
+                            }
                         } else printf("Uang anda tidak mencukupi!\n");
 
                     } else if (IsKataSama(PerintahPrep, ElmtAction(TAPrep, 1).Aksi)) {  // Build
@@ -436,13 +454,16 @@ int main() {
                                 P = NextLWahana(P);
                             }
 
+                            
                             Wahana WBuild;
                             WBuild = P->info;
-                            if (IsEnough(P1, WBuild.biayaBuild) && IsEnoughMaterial(P1, WBuild)) {
+                            int B = WBuild.biayaBuild;
+
+                            // Pengecekan apakah uang dan material player akan cukup
+                            if (IsEnough(PTemp, WBuild.biayaBuild) && IsEnoughMaterial(PTemp, WBuild)) {
                                 infoStack X;
                                 POINT currentP;
-                                int B, D;
-                                B = WBuild.biayaBuild;
+                                int D;
                                 D = ElmtAction(TAPrep, 1).Durasi;
 
                                 X.action = 2;
@@ -451,11 +472,20 @@ int main() {
                                 currentP = PosisiPlayer(currentMap);
                                 X.lokasiBuild = MakePOINT(Absis(currentP), Ordinat(currentP)-1);
 
-                                /***DEBUG***/
-                                printf("***DEBUG***\n");
-
                                 Push(&StackPerintah, X, D, B);
                                 Elmt(currentMap, Ordinat(currentP), Absis(currentP)+1) = 'W';
+
+                                PTemp.Money -= B;
+                                ElmtInventory(PTemp.InvPlayer, 0).Jumlah -= WBuild.wood;
+                                ElmtInventory(PTemp.InvPlayer, 1).Jumlah -= WBuild.steel;
+                                ElmtInventory(PTemp.InvPlayer, 2).Jumlah -= WBuild.iron;
+                            }
+
+                            if (!IsEnough(PTemp, B)) {
+                                printf("Uang anda tidak akan mencukupi!\n");
+                            }
+                            if (!IsEnoughMaterial(PTemp, WBuild)) {
+                                printf("Material anda tidak akan mencukupi!\n");
                             }
                         }
                         sleep(1);
@@ -491,7 +521,8 @@ int main() {
                                 break;
                             }
 
-                            if (IsEnough(P1, B) && IsEnoughMaterial(P1, WUp)) {
+                            // Mengecek apakah uang dan material player akan cukup
+                            if (IsEnough(PTemp, B) && IsEnoughMaterial(PTemp, WUp)) {
                                 infoStack X;
                                 int D;
 
@@ -519,13 +550,18 @@ int main() {
                                 D = ElmtAction(TAPrep, 2).Durasi;
                     
                                 Push(&StackPerintah, X, D, B);
+
+                                PTemp.Money -= B;
+                                ElmtInventory(PTemp.InvPlayer, 0).Jumlah -= WUp.wood;
+                                ElmtInventory(PTemp.InvPlayer, 1).Jumlah -= WUp.steel;
+                                ElmtInventory(PTemp.InvPlayer, 2).Jumlah -= WUp.iron;
                             }
 
-                            if (!IsEnough(P1, B)) {
-                                printf("Uang anda tidak mencukupi!\n");
+                            if (!IsEnough(PTemp, B)) {
+                                printf("Uang anda tidak akan mencukupi!\n");
                             }
-                            if (!IsEnoughMaterial(P1, WUp)) {
-                                printf("Material anda tidak mencukupi!\n");
+                            if (!IsEnoughMaterial(PTemp, WUp)) {
+                                printf("Material anda tidak akan mencukupi!\n");
                             }
                         } else {
                             printf("Tidak ada wahana sekitar player.\n");

@@ -82,7 +82,7 @@ void PrintStack (Stack S)
     // KAMUS LOKAL
 
     // ALGORITMA
-    printf("Total aksi yang akan dilakukan: %d\n", Top(S));
+    printf("Total aksi yang akan dilakukan: %d\n", Top(S)+1);
     printf("Total waktu yang dibutuhkan: %d hour(s) %d minute(s)\n", (DurasiStack(S)/60), (DurasiStack(S)%60));
     printf("Tutal uang yang dibutuhkan: %d\n", BiayaStack(S));
 }
