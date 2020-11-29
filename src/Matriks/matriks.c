@@ -185,7 +185,7 @@ POINT BangunanSekitarPlayer (MATRIKS M, POINT Player){
     j = Absis(Player)+1;
 
     if (Elmt(M,i+1,j) == 'W' || Elmt(M,i+1,j) == 'L' || Elmt(M,i+1,j) == 'C'){
-        return (MakePOINT(j-1,i-1));
+        return (MakePOINT(j-1,i));
     }
     if (Elmt(M,i-1,j) == 'W' || Elmt(M,i-1,j) == 'L' || Elmt(M,i-1,j) == 'C'){
         return (MakePOINT(j-1,i-2));

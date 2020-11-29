@@ -70,7 +70,7 @@ void Detail(Wahana W) {
     printf("Nama wahana : %s\n", W.namaWahana.TabKata);
     printf("Tipe        : %d\n", W.tipeWahana);
     printf("Harga       : %d\n", W.hargaWahana);
-    printf("Lokasi      : (%d,%d) Map %d\n", W.lokasiWahana.X, W.lokasiWahana.Y), W.zona;
+    printf("Lokasi      : (%d,%d) Map %d\n", W.lokasiWahana.X, W.lokasiWahana.Y, W.zona);
     printf("Deskripsi   : %s\n", W.deskripsiWahana.TabKata);
     printf("Kapasitas   : %d orang\n", W.kapasitasWahana);
     printf("Durasi      : %d menit\n", W.durasiWahana);
