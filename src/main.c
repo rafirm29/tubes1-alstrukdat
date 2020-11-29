@@ -303,7 +303,54 @@ int main() {
                     infoStack X;
                     while (!IsEmptyStack(StackPerintah)) {
                         Pop(&StackPerintah, &X, 0, 0);
-                        
+                        if (X.action == 2) {
+                            addressWahana P;
+                            POINT lokBuild = X.lokasiBuild;
+                            P = FirstLWahana(daftarWahana);
+                            for (int j = 0; j < X.idxcode; j++) {
+                                P = NextLWahana(P);
+                            }
+                            // Menghapus W pada map
+                            switch (X.Jumlah)   // Zona
+                            {
+                            case 1:
+                                Elmt(Map1, Ordinat(lokBuild)+1, Absis(lokBuild)+1) = '-';
+                                break;
+                            case 2:
+                                Elmt(Map2, Ordinat(lokBuild)+1, Absis(lokBuild)+1) = '-';
+                                break;
+                            case 3:
+                                Elmt(Map3, Ordinat(lokBuild)+1, Absis(lokBuild)+1) = '-';
+                                break;
+                            case 4:
+                                Elmt(Map4, Ordinat(lokBuild)+1, Absis(lokBuild)+1) = '-';
+                                break;
+                            default:
+                                break;
+                            }
+
+                            // Refresh map
+                            POINT currentP;
+                            currentP = PosisiPlayer(currentMap);
+                            switch (currentZone)
+                            {
+                            case 1:
+                                currentMap = Map1;
+                                break;
+                            case 2:
+                                currentMap = Map2;
+                                break;
+                            case 3:
+                                currentMap = Map3;
+                                break;
+                            case 4:
+                                currentMap = Map4;
+                                break;
+                            default:
+                                break;
+                            }
+                            Elmt(currentMap, Ordinat(currentP)+1, Absis(currentP)+1) = 'P';
+                        }
                     }
 
                     mainPhase = true;
@@ -700,6 +747,10 @@ int main() {
                 }
             }
 
+            ElmtInventory(PTemp.InvPlayer, 0) = ElmtInventory(P1.InvPlayer, 0);
+            ElmtInventory(PTemp.InvPlayer, 1) = ElmtInventory(P1.InvPlayer, 1);
+            ElmtInventory(PTemp.InvPlayer, 2) = ElmtInventory(P1.InvPlayer, 2);
+
             /********************************/
             /********** MAIN PHASE **********/
             /********************************/
@@ -726,6 +777,7 @@ int main() {
                 printf("Time Remaining : ");
                 TulisJAM(hourRemaining);
 
+                // Randomizer untuk menambahkan pengunjung (dirandom setiap aksi)
                 if (rand() % 5 == 0) {
                     EnqueuePrio(&Q, listWahana);
                 }
@@ -738,15 +790,15 @@ int main() {
                 printf(":\n");
                 Input(&PerintahMain, false);
 
-                if (IsKataSama(PerintahMain, udah)) {// Exit
+                if (IsKataSama(PerintahMain, ElmtAction(TAMain, 4).Aksi)) {// Exit
                     mainPhase = false;
                     prepPhase = true;
                 }
                 /**** PERGERAKAN ****/
-                else if (PerintahPrep.Length == 1) {
+                else if (PerintahMain.Length == 1) {
                     boolean changeZone;
                     int prevZone;
-                    if (PerintahPrep.TabKata[0] == 'w') {
+                    if (PerintahMain.TabKata[0] == 'w') {
                         prevZone = currentZone;
                         Move(&currentMap, 'w', PO, &currentZone);
                         changeZone = prevZone == currentZone;
@@ -763,7 +815,7 @@ int main() {
                             }
                         }
                         currentJam = NextNMenit(currentJam, 1);
-                    } else if (PerintahPrep.TabKata[0] == 'a') {
+                    } else if (PerintahMain.TabKata[0] == 'a') {
                         prevZone = currentZone;
                         Move(&currentMap, 'a', PO, &currentZone);
                         changeZone = prevZone == currentZone;
@@ -780,7 +832,7 @@ int main() {
                             }
                         }
                         currentJam = NextNMenit(currentJam, 1);
-                    } else if (PerintahPrep.TabKata[0] == 's') {
+                    } else if (PerintahMain.TabKata[0] == 's') {
                         prevZone = currentZone;
                         Move(&currentMap, 's', PO, &currentZone);
                         changeZone = prevZone == currentZone;
@@ -797,7 +849,7 @@ int main() {
                             }
                         }
                         currentJam = NextNMenit(currentJam, 1);
-                    } else if (PerintahPrep.TabKata[0] == 'd') {
+                    } else if (PerintahMain.TabKata[0] == 'd') {
                         prevZone = currentZone;
                         Move(&currentMap, 'd', PO, &currentZone);
                         changeZone = prevZone == currentZone;
