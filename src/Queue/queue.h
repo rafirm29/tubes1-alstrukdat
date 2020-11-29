@@ -87,4 +87,7 @@ void PrintAntrian (Queue Q);
          (Daftar Wahana), kesabaran: 5
          (Daftar Wahana), kesabaran: 5 */
 void serve (Queue * Q, Player * P1, List * L);
+/* I.S. Q terdefinisi */
+/* F.S. Isi dari antrian berkurang 1 jika wahana tidak rusak,
+        jika wahana rusak tidak bisa serve. */
 #endif

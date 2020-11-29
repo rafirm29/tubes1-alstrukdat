@@ -62,7 +62,7 @@ void EnqueuePrio (Queue * Q, List L){
     pengunjung X,QTemp;
 
     if (!IsFull(*Q)){
-        JumlahOrang(X) = 1;
+        JumlahOrang(X) = 1; //Jumlah pengunjung yg bertambah antri
         Kesabaran(X) = 5;   //Inisiasi kesabaran awal tiap pengunjung
         int random;
         random = (rand() % NbElmtWahana(L));
@@ -168,6 +168,7 @@ void PrintAntrian (Queue Q){
           int orang = Head(Q);
           printf("Antrian [%d/5]:", NBElmt(Q)); printf("\n");
           while (orang<=Tail(Q)){
+              //Daftar wahana yg ada di listwahana
               printf("(%s)", Q.T[orang].wahanaPengunjung.namaWahana.TabKata);
               printf(", kesabaran: %d\n", Q.T[orang].kesabaran);
               orang = orang + 1;
@@ -188,22 +189,28 @@ void PrintAntrian (Queue Q){
     return ada;
 }*/
 void serve (Queue * Q, Player * P1, List * L){
+/* I.S. Q terdefinisi */
+/* F.S. Isi dari antrian berkurang 1 jika wahana tidak rusak,
+        jika wahana rusak tidak bisa serve. */
     addressWahana P;
-    P = SearchWahana(*L, (*Q).T[(*Q).HEAD].wahanaPengunjung);
-    if (IsFullWahana(P->info)){
+    P = SearchWahana(*L, (*Q).T[(*Q).HEAD].wahanaPengunjung); //mencari address wahana yang ingin dinaiki oleh pengunjung
+    if (IsFullWahana(P->info)){ //Jika jumlah kapasitas wahana sudah penuh
         printf("Wahana yang ingin dinaiki penuh!\n");
+    //Jika tidak penuh
     } else {
+        //Jika status wahana rusak
         if (P->info.statusWahana == 0){
             printf("Wahana yang ingin dinaiki rusak!\n");
+        //Jika tidak rusak
         } else {
             pengunjung X;
-            P->laporan.dinaikiHari += 1;
-            P->laporan.dinaikiTotal += 1;
-            P->laporan.penghasilanHari += (*Q).T[(*Q).HEAD].wahanaPengunjung.hargaWahana;
-            P->laporan.penghasilanTotal += (*Q).T[(*Q).HEAD].wahanaPengunjung.hargaWahana;
-            P->info.jumlahPemainWahana += 1;
-            (*P1).Money += (*Q).T[(*Q).HEAD].wahanaPengunjung.hargaWahana;
-            Dequeue(Q,&X);
+            P->laporan.dinaikiHari += 1;                                                //banyaknya suatu wahana dinaiki oleh pengunjung
+            P->laporan.dinaikiTotal += 1;                                               //banyaknya total suatu wahana dinaiki oleh pengunjung
+            P->laporan.penghasilanHari += (*Q).T[(*Q).HEAD].wahanaPengunjung.hargaWahana; //penghasilan hari ini bertambah
+            P->laporan.penghasilanTotal += (*Q).T[(*Q).HEAD].wahanaPengunjung.hargaWahana; //penghasilan total juga bertambah
+            P->info.jumlahPemainWahana += 1;                                               //Jumlah pemain dalam wahana bertambah 1
+            (*P1).Money += (*Q).T[(*Q).HEAD].wahanaPengunjung.hargaWahana;              //Uang user bertambah
+            Dequeue(Q,&X);                                                              //Menaikkan pengunjung
         }
     }
 }
