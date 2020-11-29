@@ -44,6 +44,10 @@ addressWahana AlokasiWahana (Wahana X)
     InfoLWahana(tempAd) = X;
     NextLWahana(tempAd) = NilWahana;
     tempAd->upgradeList.First = NilWahana;
+    tempAd->laporan.dinaikiHari = 0;
+    tempAd->laporan.dinaikiTotal = 0;
+    tempAd->laporan.penghasilanHari = 0;
+    tempAd->laporan.penghasilanTotal = 0;
 
     return tempAd;
 }
@@ -385,6 +389,16 @@ void PrintHistoryWahana(addressWahana P) {
     printf("%s", InfoLWahana(P).namaWahana.TabKata);
 
     printf("\n");
+}
+
+// Menuliskan report suatu wahana yang ditunjuk address P;
+void ReportWahana(addressWahana P) {
+    printf("[%s]\n", InfoLWahana(P).namaWahana.TabKata);
+    printf("Lokasi (%d, %d) pada Map %d\n", InfoLWahana(P).lokasiWahana.X, InfoLWahana(P).lokasiWahana.Y, InfoLWahana(P).zona);
+    printf("Pengunjung total    : %d\n", P->laporan.dinaikiTotal);
+    printf("Pengunjung hari ini : %d\n", P->laporan.dinaikiHari);
+    printf("Penghasilan total   : %d\n", P->laporan.penghasilanTotal);
+    printf("Penghasilan hari ini: %d\n", P->laporan.penghasilanHari);
 }
 
 int NbElmtWahana (List L)

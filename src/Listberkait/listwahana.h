@@ -13,10 +13,18 @@
 
 typedef struct tElmtlist *addressWahana;
 typedef struct {
+	int dinaikiTotal;
+	int penghasilanTotal;
+	int dinaikiHari;
+	int penghasilanHari;
+} Laporan;
+
+typedef struct {
 	addressWahana First;
 } List;
 typedef struct tElmtlist {
 	Wahana info;
+	Laporan laporan;
 	addressWahana next;
 	List upgradeList;
 } ElmtList;
@@ -30,6 +38,7 @@ typedef struct tElmtlist {
 #define InfoLWahana(P) (P)->info
 #define NextLWahana(P) (P)->next
 #define FirstLWahana(L) ((L).First)
+#define Laporan(P) (P).laporan
 
 /* PROTOTYPE */
 /****************** TEST LIST KOSONG ******************/
@@ -131,6 +140,9 @@ void PrintWahanaRusak (List L);
 
 // Menuliskan history wahana pada address P
 void PrintHistoryWahana(addressWahana P);
+
+// Menuliskan report suatu wahana yang ditunjuk address P;
+void ReportWahana(addressWahana P);
 
 int NbElmtWahana (List L);
 /* Mengirimkan banyaknya elemen list; mengirimkan 0 jika list kosong */

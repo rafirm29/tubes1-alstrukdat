@@ -914,6 +914,28 @@ int main() {
                                     Detail(P->info);
                                     printf("History     : ");
                                     PrintHistoryWahana(P);
+                                } else if (IsKataSama(InputAksi, Report)) {
+                                    int i;
+
+                                    // Input wahana yang ingin dilihat reportsnya
+                                    printf("Pilih wahana yang akan ditampilkan reportnya :\n");
+                                    PrintInfoWahana(listWahana);
+                                    while (true) {
+                                        Input(&InputAksi, false);
+                                        i = atoi(InputAksi.TabKata);
+                                        if (i >= 1 && i <= NbElmtWahana(listWahana)) break;
+                                        printf("Input invalid! silakan input kembali.\n");
+                                    }
+
+                                    // Menggeser address P hingga sesuai dengan wahwana yang dituju
+                                    addressWahana P;
+                                    P = FirstLWahana(listWahana);
+                                    for (int j = 0; j < i-1; j++) {
+                                        P = NextLWahana(P);
+                                    }
+                                    
+                                    // Menampilkan report wahana yang ditunjuk oleh address P
+                                    ReportWahana(P);
                                 }
                             } while (!IsKataSama(InputAksi, Exit));
                             KurangKesabaran(&Q);
