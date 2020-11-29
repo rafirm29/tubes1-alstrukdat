@@ -62,4 +62,7 @@ boolean IsKataSama(Kata K1, Kata K2);
  * Membandingkan true jika kedua kata sama, false jika tidak.
  * */
 
+Kata MakeKata(char * K);
+/* Menerima string kemudian mengembalikannya sebagai Kata */
+
 #endif

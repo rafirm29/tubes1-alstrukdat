@@ -2,6 +2,7 @@
 /* Implementasi Mesin Kata */
 
 #include <stdio.h>
+#include <string.h>
 #include "../boolean.h"
 #include "mesinkata.h"
 #include "mesinkar.h"
@@ -122,3 +123,13 @@ boolean IsKataSama(Kata K1, Kata K2){
 
     return isEq;
 }
+
+Kata MakeKata(char * K) {
+    Kata W;
+    W.Length = strlen(K);
+    for (int i = 0; i<W.Length; i++) {
+        W.TabKata[i] = K[i];
+    }
+    return W;
+}
+/* Menerima string kemudian mengembalikannya sebagai Kata */
