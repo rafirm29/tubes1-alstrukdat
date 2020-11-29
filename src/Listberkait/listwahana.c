@@ -88,6 +88,27 @@ addressWahana SearchWahana (List L, Wahana X)
     return ans;
 }
 
+addressWahana SerachWahanaLokasi (List L, POINT loc, int zone) {
+    // KAMUS LOKAL
+    addressWahana object;
+    addressWahana ans = NilWahana;
+
+    // ALGORITMA
+    object = FirstLWahana(L);
+
+    while ((ans == NilWahana) && (object != NilWahana)) {
+        if (EQ(object->info.lokasiWahana, loc) && object->info.zona == zone) {
+            ans = object;
+        }
+
+        object = NextLWahana(object);
+    }
+
+    return ans;
+}
+/* Mencari wahana dengan lokasi pada list */
+/* Mengirimkan addressWahana dari Wahana yang memiliki lokasi loc dan berada di map ke-zone */
+
 
 /****************** PRIMITIF BERDASARKAN NilWahanaAI ******************/
 /*** PENAMBAHAN ELEMEN ***/

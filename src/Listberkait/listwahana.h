@@ -67,6 +67,10 @@ addressWahana SearchWahana (List L, Wahana X);
 /* Jika ada, mengirimkan addressWahana elemen tersebut. */
 /* Jika tidak ada, mengirimkan Nil */
 
+addressWahana SerachWahanaLokasi (List L, POINT loc, int zone);
+/* Mencari wahana dengan lokasi pada list */
+/* Mengirimkan addressWahana dari Wahana yang memiliki lokasi loc dan berada di map ke-zone */
+
 /****************** PRIMITIF BERDASARKAN NILAI ******************/
 /*** PENAMBAHAN ELEMEN ***/
 void InsVFirstWahana (List *L, Wahana X);
