@@ -15,7 +15,7 @@ void MakeEmptyInventory(TabInventory *T, int maxel){
 
 void DealokasiInventory(TabInventory *T){
 /* I.S. T terdefinisi; */
-/* F.S. TI(T) dikembalikan ke system, MaxEl(T)=0; Neff(T)=0 */
+/* F.S. TI(T) dikembalikan ke system, MaxElInventory(T)=0; NeffInventory(T)=0 */
     free(T);
     (*T).NeffInventory = 0;
     (*T).MaxElInventory = 0;
@@ -76,18 +76,6 @@ boolean IsFullInventory(TabInventory T){
 }
 
 /* ********** BACA dan TULIS dengan INPUT/OUTPUT device ********** */
-/* *** Mendefinisikan isi tabel dari pembacaan *** */
-//void BacaIsi(TabBarang *T);
-/* I.S. T sembarang dan sudah dialokasikan sebelumnya */
-/* F.S. Tabel T terdefinisi */
-/* Proses : membaca banyaknya elemen T dan mengisi nilainya */
-/* 1. Baca banyaknya elemen diakhiri enter, misalnya N */
-/*    Pembacaan diulangi sampai didapat N yang benar yaitu 0 <= N <= MaxElement(T) */
-/*    Jika N tidak valid, tidak diberikan pesan kesalahan */
-/* 2. Jika 0 < N <= MaxElement(T); Lakukan N kali: Baca elemen mulai dari indeks
-      IdxMin satu per satu diakhiri enter */
-/*    Jika N = 0; hanya terbentuk T kosong */
-
 void TulisIsiTabInventory(TabInventory T){
     IdxTypeInventory i;
     if (IsEmptyInventory(T))
@@ -152,12 +140,6 @@ boolean IsInventoryAda (TabInventory T, namainv X){
     }
     return found;
 }
-
-/* ********** OPERASI LAIN ********** */
-//void CopyTab(TabBarang Tin, TabInt *Tout);
-/* I.S. Tin terdefinisi tidak kosong, Tout sembarang */
-/* F.S. Tout berisi salinan dari Tin (identik, Neff dan MaxEl sama) */
-/* Proses : Menyalin isi Tin ke Tout */
 
 /* ********** MENAMBAH DAN MENGHAPUS ELEMEN DI AKHIR ********** */
 /* *** Menambahkan elemen terakhir *** */

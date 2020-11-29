@@ -14,7 +14,7 @@ typedef struct {
 } Inventory;
 
 /* ********* AKSES (Selektor) ********* */
-/* Jika B adalah Barang, maka akses elemen : */
+/* Jika B adalah Inventory, maka akses elemen : */
 #define NamaInv(B) (B).NamaInv
 #define JumlahInv(B) (B).Jumlah
 

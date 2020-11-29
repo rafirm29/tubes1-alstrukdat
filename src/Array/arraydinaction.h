@@ -13,23 +13,21 @@ typedef Action ElTypeAction;  /* type elemen tabel */
 typedef struct{
   ElTypeAction *TIAction; /* memori tempat penyimpan elemen (container) */
   int NeffAction;   /* >=0, banyaknya elemen efektif */
-  int MaxElAction;  /* ukuran elemen */
+  int MaxElAction;  /* ukuran elemen / elemen maximum tabel */
 } TabAction;
 /* Indeks yang digunakan [IdxMin..MaxEl] */
 /* Jika T adalah TabInt, cara deklarasi dan akses: */
 /* Deklarasi : T : TabInt */
 /* Maka cara akses:
-   T.Neff  untuk mengetahui banyaknya elemen
-   T.TI    untuk mengakses seluruh nilai elemen tabel
-   T.TI[i] untuk mengakses elemen ke-i */
+   T.NeffAction untuk mengetahui banyaknya elemen efektif
+   T.TIAction[i] untuk mengakses elemen ke-i */
 /* Definisi :
-  Tabel kosong: T.Neff = 0
-  Definisi elemen pertama : T.TI[i] dengan i=0
-  Definisi elemen terakhir yang terdefinisi: T.TI[i] dengan i=T.Neff */
+  Tabel kosong: T.NeffAction = 0
+  Definisi elemen pertama : T.TIAction[i] dengan i=0
+  Definisi elemen terakhir yang terdefinisi: T.TIAction[i] dengan i=T.NeffAction */
 
 /* ********** SELEKTOR ********** */
 #define NeffAction(T) (T).NeffAction
-// #define TIAction(T) (T).TIAction
 #define ElmtAction(T, i) (T).TIAction[(i)]
 #define MaxElAction(T) (T).MaxElAction
 
@@ -41,20 +39,19 @@ void MakeEmptyAction(TabAction *T, int maxel);
 
 void DealokasiAction(TabAction *T);
 /* I.S. T terdefinisi; */
-/* F.S. TI(T) dikembalikan ke system, MaxEl(T)=0; Neff(T)=0 */
+/* F.S. TI(T) dikembalikan ke system, MaxElAction(T)=0; NeffAction(T)=0 */
 
 /* ********** SELEKTOR (TAMBAHAN) ********** */
 /* *** Banyaknya elemen *** */
-
 int NbElmtAction(TabAction T);
 /* Mengirimkan banyaknya elemen efektif tabel */
 /* Mengirimkan nol jika tabel kosong */
-/* *** Daya tampung container *** */
 
+/* *** Daya tampung container *** */
 int MaxElementAction(TabAction T);
 /* Mengirimkan maksimum elemen yang dapat ditampung oleh tabel */
-/* *** Selektor INDEKS *** */
 
+/* *** Selektor INDEKS *** */
 IdxTypeAction GetFirstIdxAction(TabAction T);
 /* Prekondisi : Tabel T tidak kosong */
 /* Mengirimkan indeks elemen T pertama */
@@ -81,27 +78,10 @@ boolean IsEmptyAction(TabAction T);
 boolean IsFullAction(TabAction T);
 /* Mengirimkan true jika tabel T penuh, mengirimkan false jika tidak */
 
-/* ********** BACA dan TULIS dengan INPUT/OUTPUT device ********** */
-/* *** Mendefinisikan isi tabel dari pembacaan *** */
-//void BacaIsi(TabBarang *T);
-/* I.S. T sembarang dan sudah dialokasikan sebelumnya */
-/* F.S. Tabel T terdefinisi */
-/* Proses : membaca banyaknya elemen T dan mengisi nilainya */
-/* 1. Baca banyaknya elemen diakhiri enter, misalnya N */
-/*    Pembacaan diulangi sampai didapat N yang benar yaitu 0 <= N <= MaxElement(T) */
-/*    Jika N tidak valid, tidak diberikan pesan kesalahan */
-/* 2. Jika 0 < N <= MaxElement(T); Lakukan N kali: Baca elemen mulai dari indeks
-      IdxMin satu per satu diakhiri enter */
-/*    Jika N = 0; hanya terbentuk T kosong */
-
+/** Baca Tulis **/
 void TulisIsiTabAction(TabAction T);
-/* Proses : Menuliskan isi tabel dengan traversal, tabel ditulis di antara kurung siku;
-   antara dua elemen dipisahkan dengan separator "koma", tanpa tambahan karakter di depan,
-   di tengah, atau di belakang, termasuk spasi dan enter */
 /* I.S. T boleh kosong */
-/* F.S. Jika T tidak kosong: [e1,e2,...,en] */
-/* Contoh : jika ada tiga elemen bernilai 1, 20, 30 akan dicetak: [1,20,30] */
-/* Jika tabel kosong : menulis [] */
+/* F.S. Jika T tidak kosong: dituliskan elemen tabel sesuai implementasi */
 
 /* ********** SEARCHING ********** */
 /* ***  Perhatian : Tabel boleh kosong!! *** */
@@ -114,14 +94,11 @@ IdxTypeAction SearchIdxAksi (TabAction T, aksi X);
 
 
 boolean IsAksiAda (TabAction T, aksi X);
+/* Mengecek apakah ada aksi dengan nama aksi X */
 
 Action SearchAction (TabAction T, aksi X);
+/* mencari aksi dalam tabel dan mengembalikan lokasinya */
 
-/* ********** OPERASI LAIN ********** */
-//void CopyTab(TabBarang Tin, TabInt *Tout);
-/* I.S. Tin terdefinisi tidak kosong, Tout sembarang */
-/* F.S. Tout berisi salinan dari Tin (identik, Neff dan MaxEl sama) */
-/* Proses : Menyalin isi Tin ke Tout */
 
 /* ********** MENAMBAH DAN MENGHAPUS ELEMEN DI AKHIR ********** */
 /* *** Menambahkan elemen terakhir *** */
@@ -130,8 +107,8 @@ void AddAction(TabAction *T, ElTypeAction X);
 /* I.S. Tabel T boleh kosong, tetapi tidak penuh */
 /* F.S. X adalah elemen terakhir T yang baru */
 
-// Membaca file kemudian membuat list barang.
 void MakeListAction(TabAction *T, char * file);
+// Membaca file kemudian membuat list barang.
 
 /* ********** MENGHAPUS ELEMEN ********** */
 void DelLastAction(TabAction *T, ElTypeAction *X);

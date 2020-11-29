@@ -33,38 +33,21 @@ JAM MakeJAM (int HH, int MM);
 void BacaJAM (JAM * J);
 /* I.S. : J tidak terdefinisi */
 /* F.S. : J terdefinisi dan merupakan jam yang valid */
-/* Proses : mengulangi membaca komponen HH, MM, SS sehingga membentuk J */
-/* yang valid. Tidak mungkin menghasilkan J yang tidak valid. */
-/* Pembacaan dilakukan dengan mengetikkan komponen HH, MM, SS
-   dalam satu baris, masing-masing dipisahkan 1 spasi, diakhiri enter. */
-/* Jika JAM tidak valid maka diberikan pesan: "Jam tidak valid", dan pembacaan
-   diulangi hingga didapatkan jam yang valid. */
-/* Contoh:
-   60 3 4
-   Jam tidak valid
-   1 3 4
-   --> akan terbentuk JAM <1,3,4> */
 
 void TulisJAM (JAM J);
 /* I.S. : J sembarang */
 /* F.S. :   Nilai J ditulis dg format HH:MM:SS */
-/* Proses : menulis nilai setiap komponen J ke layar dalam format HH:MM:SS
-   tanpa karakter apa pun di depan atau belakangnya, termasuk spasi, enter, dll.
-   Jika jam / menit / detik hanya satu digit, tuliskan satu digit tanpa 0 di depannya. */
+/* Proses : menulis nilai setiap komponen J ke layar dalam format HH:MM
+
 
 /* ***************************************************************** */
 /* KELOMPOK KONVERSI TERHADAP TYPE                                   */
 /* ***************************************************************** */
 int JAMToMenit (JAM J);
-/* Diberikan sebuah JAM, mengkonversi menjadi jumlah detik dari pukul 0:0:0 */
-/* Rumus : detik = 3600*HH + 60*MM + SS */
-/* Nilai maksimum = 3600*23+59*60+59 */
+// konversi dari jam ke menit
 
 JAM MenitToJAM (int N);
-/* Mengirim  konversi detik ke JAM */
-/* Catatan: Jika N >= 86400, maka harus dikonversi dulu menjadi jumlah detik yang
-   mewakili jumlah detik yang mungkin dalam 1 hari, yaitu dengan rumus:
-   N1 = N mod 86400, baru N1 dikonversi menjadi JAM */
+// konversi dari menit ke jam
 
 /* ***************************************************************** */
 /* KELOMPOK OPERASI TERHADAP TYPE                                    */
@@ -78,18 +61,20 @@ boolean JLT (JAM J1, JAM J2);
 /* Mengirimkan true jika J1<J2, false jika tidak */
 boolean JGT (JAM J1, JAM J2);
 /* Mengirimkan true jika J1>J2, false jika tidak */
+
 /* *** Operator aritmatika JAM *** */
 JAM NextMenit (JAM J);
-/* Mengirim 1 detik setelah J dalam bentuk JAM */
+/* Mengirim 1 menit setelah J dalam bentuk JAM */
 JAM NextNMenit (JAM J, int N);
-/* Mengirim N detik setelah J dalam bentuk JAM */
+/* Mengirim N meint setelah J dalam bentuk JAM */
 JAM PrevMenit (JAM J);
-/* Mengirim 1 detik sebelum J dalam bentuk JAM */
+/* Mengirim 1 meint sebelum J dalam bentuk JAM */
 JAM PrevNMenit (JAM J, int N);
-/* Mengirim N detik sebelum J dalam bentuk JAM */
+/* Mengirim N menit sebelum J dalam bentuk JAM */
+
 /* *** Kelompok Operator Aritmetika *** */
 int Durasi (JAM JAw, JAM JAkh);
-/* Mengirim JAkh-JAw dlm Detik, dengan kalkulasi */
+/* Mengirim JAkh-JAw dlm menit, dengan kalkulasi */
 /* Jika JAw > JAkh, maka JAkh adalah 1 hari setelah JAw */
 
 #endif

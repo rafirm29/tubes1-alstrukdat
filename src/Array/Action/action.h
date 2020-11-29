@@ -14,7 +14,7 @@ typedef struct {
 } Action;
 
 /* ********* AKSES (Selektor) ********* */
-/* Jika B adalah Barang, maka akses elemen : */
+/* Jika P adalah Aksi, maka akses elemen : */
 #define Aksi(P) (P).Aksi
 #define DurasiAksi(B) (B).Durasi
 

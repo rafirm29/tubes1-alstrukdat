@@ -14,7 +14,7 @@ void MakeEmptyAction(TabAction *T, int maxel){
 
 void DealokasiAction(TabAction *T){
 /* I.S. T terdefinisi; */
-/* F.S. TI(T) dikembalikan ke system, MaxEl(T)=0; Neff(T)=0 */
+/* F.S. TI(T) dikembalikan ke system, MaxElAction(T)=0; NeffAction(T)=0 */
     free(T);
     (*T).NeffAction = 0;
     (*T).MaxElAction = 0;
@@ -76,26 +76,7 @@ boolean IsFullAction(TabAction T){
 }
 
 /* ********** BACA dan TULIS dengan INPUT/OUTPUT device ********** */
-/* *** Mendefinisikan isi tabel dari pembacaan *** */
-//void BacaIsi(TabBarang *T);
-/* I.S. T sembarang dan sudah dialokasikan sebelumnya */
-/* F.S. Tabel T terdefinisi */
-/* Proses : membaca banyaknya elemen T dan mengisi nilainya */
-/* 1. Baca banyaknya elemen diakhiri enter, misalnya N */
-/*    Pembacaan diulangi sampai didapat N yang benar yaitu 0 <= N <= MaxElement(T) */
-/*    Jika N tidak valid, tidak diberikan pesan kesalahan */
-/* 2. Jika 0 < N <= MaxElement(T); Lakukan N kali: Baca elemen mulai dari indeks
-      IdxMin satu per satu diakhiri enter */
-/*    Jika N = 0; hanya terbentuk T kosong */
-
 void TulisIsiTabAction(TabAction T){
-/* Proses : Menuliskan isi tabel dengan traversal, tabel ditulis di antara kurung siku;
-   antara dua elemen dipisahkan dengan separator "koma", tanpa tambahan karakter di depan,
-   di tengah, atau di belakang, termasuk spasi dan enter */
-/* I.S. T boleh kosong */
-/* F.S. Jika T tidak kosong: [e1,e2,...,en] */
-/* Contoh : jika ada tiga elemen bernilai 1, 20, 30 akan dicetak: [1,20,30] */
-/* Jika tabel kosong : menulis [] */
     IdxTypeAction i;
     if (IsEmptyAction(T))
     {
@@ -111,9 +92,9 @@ void TulisIsiTabAction(TabAction T){
     }
 }
 
+
 /* ********** SEARCHING ********** */
 /* ***  Perhatian : Tabel boleh kosong!! *** */
-
 IdxTypeAction SearchIdxAksi (TabAction T, aksi X){
 // Mengirim index adanya aksi X jika tidak ada mengirim idxundef
   boolean found = false;
@@ -167,11 +148,6 @@ Action SearchAction (TabAction T, aksi X){
   return ElmtAction(T, i);  
 }
 
-/* ********** OPERASI LAIN ********** */
-//void CopyTab(TabBarang Tin, TabInt *Tout);
-/* I.S. Tin terdefinisi tidak kosong, Tout sembarang */
-/* F.S. Tout berisi salinan dari Tin (identik, Neff dan MaxEl sama) */
-/* Proses : Menyalin isi Tin ke Tout */
 
 /* ********** MENAMBAH DAN MENGHAPUS ELEMEN DI AKHIR ********** */
 /* *** Menambahkan elemen terakhir *** */
