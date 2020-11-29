@@ -17,7 +17,6 @@
 #include "Array/arraydinaction.h"
 #include "Array/arraydinbarang.h"
 #include "Array/arraydininventory.h"
-// #include "List berkait/listlinier.h"
 #include "Matriks/matriks.h"
 #include "Mesin/mesinkata.h"
 #include "Mesin/mesinkar.h"
@@ -35,17 +34,18 @@
 
 int main() {
     /*** DEKLARASI WAHANA ***/
-    Wahana W1, W2;
+    Wahana W1;
     Wahana W1_1, W1_2;
     MakeWahana(&W1, "Wahana/wahana1.txt");
     MakeWahana(&W1_1, "Wahana/wahana1_1.txt");
     MakeWahana(&W1_2, "Wahana/wahana1_2.txt");
-    MakeWahana(&W2, "Wahana/wahana2.txt");
 
     /*** DEKLARASI LIST WAHANA ***/
     // List wahana yang tersedia pada map
     List listWahana;
     CreateEmptyWahana(&listWahana);
+
+    // Deklarasi wahana pertama pada map dalam list
     Wahana def = W1;
     def.statusWahana = 1;
     def.lokasiWahana = MakePOINT(11, 4);
@@ -57,7 +57,7 @@ int main() {
     CreateEmptyWahana(&daftarWahana);
     W1.lokasiWahana = MakePOINT(0,0);
     InsVLastWahana(&daftarWahana, W1);
-    // InsVLastWahana(&daftarWahana, W2, MakePOINT(0, 0));
+    
 
 
     /*** DEKLARASI GRAPH ***/
@@ -69,10 +69,6 @@ int main() {
     AddLink(&G, 2, 4);
     AddLink(&G, 3, 4);
     int currentZone = G.First->info;    // Deklarasi zona pertama yaitu pada Map 1
-
-    // printf("**** BREAK POINT ****\n");
-    // int xy;
-    // scanf("%d", &xy);
 
     /*** DEKLARASI STACK ***/
     Stack StackPerintah;
@@ -98,16 +94,14 @@ int main() {
     MakeEmptyAction(&TAMain, 6);
     MakeListAction(&TAMain, "Array/Action/actionMain.txt");
 
-    /*************/
+    /*** DEKLARASI KATA ***/
     Kata new;
-    new.Length = 3;
-    new.TabKata[0] = 'n';
-    new.TabKata[1] = 'e';
-    new.TabKata[2] = 'w';
+    new = MakeKata("new");
 
     Kata exitProgram;
     exitProgram = MakeKata("exit");
 
+    // Deklarasi kata untuk input perintah
     Kata First, Nama, PerintahPrep, PerintahMain;
 
     printf("// Welcome to Willy wangky's fum factory!!//\n");
@@ -119,7 +113,7 @@ int main() {
     if (IsKataSama(First, new)) {
         printf("Memulai permainan baru...\n");
         printf("Masukkan nama:\n");
-        Input(&Nama, false);
+        Input(&Nama, false);        // Input nama pemain
         printf("Halo, %s\n", Nama.TabKata);
         sleep(1);
         printf("Loading...\n");
@@ -147,6 +141,8 @@ int main() {
         BacaMATRIKS(&Map2, "FileEksternal/peta2.txt");
         BacaMATRIKS(&Map3, "FileEksternal/peta3.txt");
         BacaMATRIKS(&Map4, "FileEksternal/peta4.txt");
+
+        // Penulisan wahana pertama dan player
         Elmt(Map1, 5, 12) = 'W';
         currentMap = Map1;
         Elmt(currentMap, 5, 11) = 'P';
@@ -175,10 +171,12 @@ int main() {
 
                 TulisMATRIKS(currentMap);
 
+                /*** Menampilkan detail player ***/
                 printf("\n\n");
                 printf("Name: %s\n", Name(P1).TabKata);
                 printf("Money: %d\n", Money(P1));
 
+                /*** Menampilkan waktu ***/
                 timeRemaining = Durasi(currentJam, closingJam);
                 hourRemaining = MenitToJAM(timeRemaining);
                 printf("Current Time : ");
@@ -191,16 +189,14 @@ int main() {
                 TulisIsiTabInventory(InvPlayer(PTemp));
                 PrintStack(StackPerintah);
 
-                printf("Masukkan perintah ");
-                if (IsInOffice(currentMap, PO)) {
-                    printf("(Masukkan 'office' untuk mengakses office) ");
-                }
-                printf(":\n");
+                /*** Menerima input pengguna ***/
+                printf("Masukkan perintah\n");
                 Input(&PerintahPrep, false);
 
 
                 /* **** EKSEKUSI **** */
                 if (IsKataSama(PerintahPrep, ElmtAction(TAPrep, 4).Aksi)) {             // Execute
+                    /* Memastikan bahwa total durasi dan total uang yang dibutuhkan tidak melebihi batas */
                     if (IsEnough(P1, BiayaStack(StackPerintah)) && DurasiStack(StackPerintah) <= JAMToMenit(hourRemaining)) {
                         Stack S;
                         infoStack X;
@@ -228,6 +224,7 @@ int main() {
                                 for (int i = 0; i < X.idxcode; i++){
                                     P = NextLWahana(P);
                                 }
+                                /* Pembuatan jenis wahana yang akan dibuild */
                                 Wahana WBuild;
                                 WBuild.statusWahana = 1;
                                 WBuild = P->info;
@@ -250,6 +247,7 @@ int main() {
                                 default:
                                     break;
                                 }
+                                /* Memasukkan wahana yang telah dibuild dalam list wahana */
                                 InsVLastWahana(&listWahana, WBuild);
                             } else if (X.action == 3) {                         // Upgrade
                                 switch (X.Jumlah)   // Zona
@@ -290,13 +288,13 @@ int main() {
                         default:
                             break;
                         }
-
-
                         Elmt(currentMap, Ordinat(currentP)+1, Absis(currentP)+1) = 'P';
 
+                        /* Mengosongkan stack */
                         DurasiStack(StackPerintah) = 0;
                         BiayaStack(StackPerintah) = 0;
 
+                        /* Memulai main phase */
                         mainPhase = true;
                         prepPhase = false;
                     } else {
@@ -307,11 +305,14 @@ int main() {
                     infoStack X;
                     while (!IsEmptyStack(StackPerintah)) {
                         Pop(&StackPerintah, &X, 0, 0);
+
+                        /* Khusus untuk build, maka 'W' yang tertulis pada map akan di-undo menjadi '-' */
                         if (X.action == 2) {
                             int j;
                             addressWahana P;
                             POINT lokBuild = X.lokasiBuild;
                             P = FirstLWahana(daftarWahana);
+                            // Mencari jenis wahana yang dibuild
                             for (j = 0; j < X.idxcode; j++) {
                                 P = NextLWahana(P);
                             }
@@ -357,13 +358,14 @@ int main() {
                     }
                     Elmt(currentMap, Ordinat(currentP)+1, Absis(currentP)+1) = 'P';
 
+                    /* Memulai main phase */
                     mainPhase = true;
                     prepPhase = false;
                 }
                 /* **** PERGERAKAN **** */
                 else if (PerintahPrep.Length == 1) {
-                    boolean changeZone;
-                    int prevZone;
+                    boolean changeZone;     // Deklarasi pindah zone (true jika berpindah dari satu map ke yang lain)
+                    int prevZone;           // Variabel yang menyimpan zona sebelum mulai bergerak
                     if (PerintahPrep.TabKata[0] == 'w') {
                         prevZone = currentZone;
                         Move(&currentMap, 'w', PO, &currentZone);
@@ -434,6 +436,8 @@ int main() {
                     Kata inputAksi;
                     if (IsKataSama(PerintahPrep, ElmtAction(TAPrep, 0).Aksi)) {         // Buy
                         int i, j;
+
+                        /* Menampilkan list barang yang dapat dibeli */
                         TulisIsiTabBarang(ListBarang);
                         while (true) {
                             printf("Beli barang nomor : ");
@@ -456,12 +460,14 @@ int main() {
                             infoStack X;
                             int D;
 
+                            /* Memasukkan info pada infostack */
                             X.action = 1;
                             X.idxcode = i;
                             X.Jumlah = j;
                             D = ElmtAction(TAPrep, 0).Durasi;
                             Push(&StackPerintah, X, D, B);
 
+                            /* Mengurangi uang dan inventory player temporer (Bukan P1) */
                             PTemp.Money -= B;
                             switch (i)
                             {
@@ -544,7 +550,7 @@ int main() {
 
                                 Push(&StackPerintah, X, D, B);
 
-                                // Menuliskan W pada map
+                                // Menuliskan W pada map sekaligus refresh map
                                 switch (currentZone)
                                 {
                                 case 1:
@@ -568,7 +574,8 @@ int main() {
                                 }
 
                                 Elmt(currentMap, Ordinat(currentP)+1, Absis(currentP)+1) = 'P';
-
+                                
+                                /* Mengurangi uang dan inventory player temporer (Bukan P1) */
                                 PTemp.Money -= B;
                                 ElmtInventory(PTemp.InvPlayer, 0).Jumlah -= WBuild.wood;
                                 ElmtInventory(PTemp.InvPlayer, 1).Jumlah -= WBuild.steel;
@@ -584,6 +591,8 @@ int main() {
                         }
                         sleep(1);
                     } else if (IsKataSama(PerintahPrep, ElmtAction(TAPrep, 2).Aksi)) {  // Upgrade
+
+                        /* Pengecekan apakah ada wahana di sekitar player untuk diupgrade */
                         if (AdaBangunanSekitarPlayer(currentMap, PosisiPlayer(currentMap))) {
                             int i;
                             printf("Upgrade %s menjadi ?\n", Akar(T1).namaWahana.TabKata);
@@ -591,6 +600,8 @@ int main() {
                             printf("\t\tMaterial needed : Wood x%d, Steel x%d, Iron x%d\n", Akar(Left(T1)).wood, Akar(Left(T1)).steel, Akar(Left(T1)).iron);
                             printf("\t2. %s (Biaya : %d)\n", Akar(Right(T1)).namaWahana.TabKata, Akar(Right(T1)).biayaUpgrade);
                             printf("\t\tMaterial needed : Wood x%d, Steel x%d, Iron x%d\n", Akar(Right(T1)).wood, Akar(Right(T1)).steel, Akar(Right(T1)).iron);
+
+                            /* Looping input upgrade (1 = Kiri, 2 = kanan) */
                             while (true) {
                                 printf("Input: ");
                                 Input(&inputAksi, false);
@@ -663,15 +674,20 @@ int main() {
                         sleep(1);
                     } else if (IsKataSama(PerintahPrep, ElmtAction(TAPrep, 3).Aksi)) {  // Undo
                         infoStack X;
+
+                        // Pop perintah terakhir dari stack
                         Pop(&StackPerintah, &X, 0, 0);
                         switch (X.action)
                         {
                         case 1:                                     // Undo Buy
+                            /* Mengembalikan material dari inventory temporer player */
+                            /* Mengurangi total durasi dan biaya pada stack yang tercatat */
                             DurasiStack(StackPerintah) -= 30;
                             BiayaStack(StackPerintah) -= X.Jumlah * ElmtBarang(ListBarang, X.idxcode-1).Harga;
                             ElmtInventory(PTemp.InvPlayer, X.idxcode-1).Jumlah -= X.Jumlah;
                             break;
                         case 2:                                     // Undo Build
+                            /* Mengembalikan material pada inventory temporer player */
                             DurasiStack(StackPerintah) -= 120;
                             addressWahana P;
                             POINT lokBuild = X.lokasiBuild;
@@ -727,6 +743,7 @@ int main() {
                         case 3:                                     // Undo Upgrade
                             DurasiStack(StackPerintah) -= 180;
                             int B;
+                            /* Mengecek upgrade pilihan (1 = kiri, 2 = kanan) */
                             if (X.idxcode == 1) { // Upgrade kiri
                                 B = Akar(Left(T1)).biayaUpgrade;
                                 ElmtInventory(PTemp.InvPlayer, 0).Jumlah += Akar(Left(T1)).wood;
@@ -753,9 +770,9 @@ int main() {
                 }
             }
 
-            // ElmtInventory(PTemp.InvPlayer, 0) = ElmtInventory(P1.InvPlayer, 0);
-            // ElmtInventory(PTemp.InvPlayer, 1) = ElmtInventory(P1.InvPlayer, 1);
-            // ElmtInventory(PTemp.InvPlayer, 2) = ElmtInventory(P1.InvPlayer, 2);
+            ElmtInventory(PTemp.InvPlayer, 0) = ElmtInventory(P1.InvPlayer, 0);
+            ElmtInventory(PTemp.InvPlayer, 1) = ElmtInventory(P1.InvPlayer, 1);
+            ElmtInventory(PTemp.InvPlayer, 2) = ElmtInventory(P1.InvPlayer, 2);
 
             /********************************/
             /********** MAIN PHASE **********/
@@ -784,7 +801,7 @@ int main() {
                 TulisJAM(hourRemaining);
 
                 // Randomizer wahana rusak
-                if (rand() % 20 == 1) {
+                if (rand() % 50 == 1) { // 2% kemungkinan setiap command untuk rusak
                     addressWahana R;
                     int random = rand() % NbElmtWahana(listWahana);
                     R = FirstLWahana(listWahana);
@@ -792,6 +809,17 @@ int main() {
                         R = NextLWahana(R);
                     }
                     R->info.statusWahana = 0;
+                }
+
+                // Pengurangan pengunjung dalam wahana tiap 'durasi-wahana' menit
+                if (JAMToMenit(currentJam) % 10 == 0) {
+                    addressWahana P;
+                    P = FirstLWahana(listWahana);
+                    /* Pengurangan 1 pengunjung dari setiap wahana untuk setiap 10 menit */
+                    for (int i = 0; i < NbElmtWahana(listWahana); i++) {
+                        if (P->info.jumlahPemainWahana > 0) P->info.jumlahPemainWahana--;
+                        P = NextLWahana(P);
+                    }
                 }
 
                 // Print list wahana rusak (Jika ada)
@@ -804,6 +832,7 @@ int main() {
                 PrintAntrian(Q);
 
                 printf("Masukkan perintah ");
+                /* Menampilkan perintah khusus jika player dalam office */
                 if (IsInOffice(currentMap, PO)) {
                     printf("(Masukkan 'office' untuk mengakses office) ");
                 }
@@ -896,8 +925,10 @@ int main() {
                 else if (IsAksiAda(TAMain, PerintahMain)) {
                     Kata InputAksi;
                     if (IsKataSama(PerintahMain, ElmtAction(TAMain, 3).Aksi)) { // office
+                        /* Mengecek apakah player dalam office */
                         if (IsInOffice(currentMap,PO))
                         {
+                            /* Deklarasi sebagai input perintah dalam office */
                             Kata Details = MakeKata("Details");
                             Kata Report = MakeKata("Report");
                             Kata Exit = MakeKata("Exit");
@@ -967,41 +998,57 @@ int main() {
                         {
                             printf("Anda tidak berada di office\n");
                         }
-                    } else if (IsKataSama(PerintahMain, ElmtAction(TAMain, 0).Aksi)) { // serve
+                    } else if (IsKataSama(PerintahMain, ElmtAction(TAMain, 0).Aksi)) {  // serve
                         KurangKesabaran(&Q);
+                        /* Mengecek apabila player berada di sebelah antrian atau tidak */
                         if (AdaAntrianSekitarPlayer(currentMap, PosisiPlayer(currentMap))) {
                             printf("Anda sekitar antrian.\n");
                             serve(&Q, &P1, &listWahana);
                         } else {
                             printf("Anda tidak berada di sekitar antrian. Tidak dapat melakukan serve.\n");
                         }
+                        /* Menambahkan jam sesuai dengan durasi serve yang telah ditentukan */
                         currentJam = NextNMenit(currentJam, ElmtAction(TAMain, 0).Durasi);
-                    } else if (IsKataSama(PerintahMain, ElmtAction(TAMain, 2).Aksi)) { // Details
+                    } else if (IsKataSama(PerintahMain, ElmtAction(TAMain, 2).Aksi)) {  // Details
+
+                        /* Mengecek apakah ada wahana di sekitar player */
                         if (AdaBangunanSekitarPlayer(currentMap, PosisiPlayer(currentMap))){
+                            /* Menentukan lokasi wahana yang akan dicek detailsnya */
                             POINT building = BangunanSekitarPlayer(currentMap, PosisiPlayer(currentMap));
-                            printf("*DEBUG 1*\n");
+
+                            /* Menerima address P dari lokasi wahana yang akan dicek detailnya */
                             addressWahana P = SerachWahanaLokasi(listWahana, building, currentZone);
-                            printf("*DEBUG 2*\n");
+
+                            /* Akses terhadap detail dari wahana yang ditunjuk oleh P */
                             Detail(P->info);
-                        } else printf("Tak de building\n");
+                        } else printf("Tidak ada building di sekitar.\n");
                     }
-                    else if (IsKataSama(PerintahMain,  ElmtAction(TAMain, 1).Aksi))
-                    { //Repair
+                    else if (IsKataSama(PerintahMain,  ElmtAction(TAMain, 1).Aksi)) {   //Repair
                         KurangKesabaran(&Q);
+                        /* Mengecek apabila ada wahana di sekitar player */
                         if (AdaBangunanSekitarPlayer(currentMap, PosisiPlayer(currentMap)))
                         {
+                            /* Deklarasi address pointer untuk elemen list wahana */
                             addressWahana P;
                             P = FirstLWahana(listWahana);
                             POINT BangunanSekitar, BangunanTerdaftar;
+
+                            /* Mengecek lokasi wahana di sekitar player */
                             BangunanSekitar = BangunanSekitarPlayer(currentMap, PosisiPlayer(currentMap));
+
+                            /* Mengecek apakah lokasi wahana tersebut merupakan lokasi wahana yang sedang rusak */
                             BangunanTerdaftar = PosisiWahanaRusak(listWahana, BangunanSekitar);
 
+                            /* Mengecek apabila benar bahwa lokasi wahana merupakan lokasi wahana yang rusak */
                             if ((BangunanSekitar.X == BangunanTerdaftar.X) && (BangunanSekitar.Y == BangunanTerdaftar.Y))
                             {
+                                /* Looping hingga ditemukan Wahana dalam list wahana yang lokasinya bersesuaian */
                                 while (!EQ(BangunanTerdaftar, InfoLWahana(P).lokasiWahana))
                                 {
                                     P = NextLWahana(P);
                                 }
+
+                                /* Mengembalikan status wahana menjadi true (berfungsi) */
                                 InfoLWahana(P).statusWahana = true;
                                 currentJam = NextNMenit(currentJam, 20);
                             }
@@ -1016,7 +1063,7 @@ int main() {
                         }
                     }
                     sleep(1);
-                } else if (IsKataSama(PerintahMain, exitProgram)) {
+                } else if (IsKataSama(PerintahMain, exitProgram)) {                 // Exit program
                     return 0;
                 }
                 else {
@@ -1027,7 +1074,7 @@ int main() {
         }
     }
 
-    else if (IsKataSama(First, exitProgram)) {
+    else if (IsKataSama(First, exitProgram)) { // Exit program
         printf("Exiting game..");
         sleep(1);
         printf(".");
