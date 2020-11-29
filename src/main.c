@@ -226,6 +226,7 @@ int main() {
                                     P = NextLWahana(P);
                                 }
                                 Wahana WBuild;
+                                WBuild.statusWahana = 1;
                                 WBuild = P->info;
                                 WBuild.lokasiWahana = X.lokasiBuild;
                                 WBuild.zona = X.Jumlah;
@@ -870,18 +871,60 @@ int main() {
                 /**** PERINTAH ****/
                 } 
                 else if (IsAksiAda(TAMain, PerintahMain)) {
+                    Kata InputAksi;
                     if (IsKataSama(PerintahMain, ElmtAction(TAMain, 3).Aksi)) { // office
                         if (IsInOffice(currentMap,PO))
                         {
+                            Kata Details = MakeKata("Details");
+                            Kata Report = MakeKata("Report");
+                            Kata Exit = MakeKata("Exit");
+
                             printf("Masuk office\n");
+                            
+                            do {
+                                // Input aksi dalam office
+                                printf("Masukkan perintah : Details / Report / Exit\n");
+                                while (true) {
+                                    Input(&InputAksi, false);
+                                    if (IsKataSama(InputAksi, Details) || IsKataSama(InputAksi, Report) || IsKataSama(InputAksi, Exit)) break;
+                                    printf("Perintah invalid! silakan input kembali.\n");
+                                }
+
+                                if (IsKataSama(InputAksi, Details)) {
+                                    int i;
+
+                                    // Input wahana yang ingin dilihat detailsnya
+                                    printf("Pilih wahana yang akan ditampilkan detailnya :\n");
+                                    PrintInfoWahana(listWahana);
+                                    while (true) {
+                                        Input(&InputAksi, false);
+                                        i = atoi(InputAksi.TabKata);
+                                        if (i >= 1 && i <= NbElmtWahana(listWahana)) break;
+                                        printf("Input invalid! silakan input kembali.\n");
+                                    }
+
+                                    // Menggeser address P hingga sesuai dengan wahwana yang dituju
+                                    addressWahana P;
+                                    P = FirstLWahana(listWahana);
+                                    for (int j = 0; j < i-1; j++) {
+                                        P = NextLWahana(P);
+                                    }
+
+                                    // Membuka detail wahana yang ditunjuk address P
+                                    Detail(P->info);
+                                    printf("History     : ");
+                                    PrintHistoryWahana(P);
+                                }
+                            } while (!IsKataSama(InputAksi, Exit));
+                            KurangKesabaran(&Q);
                         }
                         else
                         {
                             printf("Anda tidak berada di office\n");
                         }
-                        printf("BERAKSI\n");
-                        KurangKesabaran(&Q);
                     }
+
+                    sleep(1);
                 }
                 else {
                     printf("Command tidak ditemukan.\n");
