@@ -366,7 +366,7 @@ void PrintInfoWahana (List L)
     } else {
         while(scannee != NilWahana) {
             printf("\t%d. Wahana %s", i, InfoLWahana(scannee).namaWahana.TabKata);
-            if (InfoLWahana(scannee).lokasiWahana.X != 0 || InfoLWahana(scannee).lokasiWahana.Y != 0) {
+            if ((InfoLWahana(scannee).lokasiWahana.X != 0 || InfoLWahana(scannee).lokasiWahana.Y != 0) && InfoLWahana(scannee).zona <= 4) {
                 printf(" (%d, %d) Map %d",    InfoLWahana(scannee).lokasiWahana.X, InfoLWahana(scannee).lokasiWahana.Y,
                                                 InfoLWahana(scannee).zona);
             } printf("\n");
