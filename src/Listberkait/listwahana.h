@@ -141,6 +141,8 @@ void PrintInfoWahana (List L);
 
 // Menuliskan list wahana yang rusak serta lokasinya
 void PrintWahanaRusak (List L);
+POINT PosisiWahanaRusak(List L, POINT Pos);
+
 
 // Menuliskan history wahana pada address P
 void PrintHistoryWahana(addressWahana P);

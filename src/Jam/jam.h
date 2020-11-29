@@ -37,7 +37,7 @@ void BacaJAM (JAM * J);
 void TulisJAM (JAM J);
 /* I.S. : J sembarang */
 /* F.S. :   Nilai J ditulis dg format HH:MM:SS */
-/* Proses : menulis nilai setiap komponen J ke layar dalam format HH:MM
+/* Proses : menulis nilai setiap komponen J ke layar dalam format HH:MM */
 
 
 /* ***************************************************************** */

@@ -959,7 +959,31 @@ int main() {
                             Detail(P->info);
                         } else printf("Tak de building\n");
                     }
+                    else if (IsKataSama(PerintahMain,  ElmtAction(TAMain, 1).Aksi))
+                    {
+                        addressWahana P;
+                        P = FirstLWahana(listWahana);
+                        PrintInfoWahana(listWahana);
+                        POINT BangunanSekitar, BangunanTerdaftar;
+                        BangunanSekitar = BangunanSekitarPlayer(currentMap, PosisiPlayer(currentMap));
+                        printf("(%d %d)\n", BangunanSekitar.X, BangunanSekitar.Y);
+                        BangunanTerdaftar = PosisiWahanaRusak(listWahana, BangunanSekitar);
+                        printf("(%d %d)\n", BangunanTerdaftar.X, BangunanTerdaftar.Y);
 
+                        if ((BangunanSekitar.X == BangunanTerdaftar.X) && (BangunanSekitar.Y == BangunanTerdaftar.Y))
+                        {
+                            while (InfoLWahana(P).lokasiWahana.X != BangunanSekitar.X && InfoLWahana(P).lokasiWahana.Y != BangunanSekitar.Y)
+                            {
+                                P = NextLWahana(P);
+                            }
+                            InfoLWahana(P).statusWahana += 1;
+                        }
+                        else
+                        {
+                            printf("Tidak ada wahana yang bisa rusak\n");
+                        }
+                        
+                    }
                     sleep(1);
                 }
                 else {

@@ -397,6 +397,27 @@ void PrintWahanaRusak (List L) {
     }
 }
 
+POINT PosisiWahanaRusak(List L, POINT Pos){
+    addressWahana P;
+    boolean found = false;
+    POINT R;
+    P = FirstLWahana(L);
+    while (P != NilWahana)
+    {
+        if ((InfoLWahana(P).statusWahana == 0) && (InfoLWahana(P).lokasiWahana.X == Pos.X) && (InfoLWahana(P).lokasiWahana.Y == Pos.Y))
+        {
+            R = MakePOINT(InfoLWahana(P).lokasiWahana.X, InfoLWahana(P).lokasiWahana.Y);
+            return R;
+        }
+        else
+        {
+            P = NextLWahana(P);
+        }
+    }
+    R = MakePOINT(0,0);
+    return R;
+}
+
 // Menuliskan history wahana pada address P
 void PrintHistoryWahana(addressWahana P) {
     if (FirstLWahana(P->upgradeList) != NilWahana) {
