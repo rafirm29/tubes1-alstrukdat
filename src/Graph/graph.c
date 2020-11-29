@@ -92,15 +92,7 @@ void AddLink(Graph *G, infotypeList n, infotypeList m){
     }
 }
 /* I. S. Graph G terdefinisi, n dan p pasti tidak lebih dari jumlah building
-   F. S. Link dari elemen n bertambah dengan p, dan sebaliknya (soalnya bolak balik)
-   contoh :
-   1 2->3
-   2 1
-   3 1
-   Add(&G, 2, 3) 
-   1 2->3
-   2 1->3
-   3 1->3 */
+   F. S. Link dari elemen n bertambah dengan p, dan sebaliknya */
 
 void PrintLink(Graph G, infotypeList X){
     /* KAMUS LOKAL */
@@ -148,3 +140,5 @@ addressGraph SearchGraph(Graph G, infotypeList X){
 
     return P;
 }
+/* Mencari X pada info masing-masing node dalam graph kemudian
+mengembalikan addressnya */
