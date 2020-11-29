@@ -64,6 +64,7 @@ boolean IsIdxEff (MATRIKS M, indeks i, indeks j){
 }
 
 POINT PosisiPlayer (MATRIKS M){
+/* Mengirimkan point player */
     // KAMUS LOKAL //
     int i, j;
     POINT P;
@@ -91,6 +92,7 @@ POINT PosisiPlayer (MATRIKS M){
 }
 
 POINT PosisiOffice (MATRIKS M){
+/* Mengirimkan point office */
     // KAMUS LOKAL //
     int i, j;
     POINT P;
@@ -118,6 +120,7 @@ POINT PosisiOffice (MATRIKS M){
 }
 
 POINT PosisiBangunan (MATRIKS M){
+/* Mengirimkan point bangunan */
     // KAMUS LOKAL //
     int i, j;
     POINT P;
@@ -142,6 +145,7 @@ POINT PosisiBangunan (MATRIKS M){
 }
 
 POINT PosisiAntrian (MATRIKS M){
+/* Mengirim point antrian */
     // KAMUS LOKAL //
     int i, j;
     POINT P;
@@ -167,8 +171,11 @@ POINT PosisiAntrian (MATRIKS M){
 
 
 boolean IsInOffice (MATRIKS M, POINT PO){
+/* Mengirim true jika player di office */
+    // KAMUS LOKAL //
     int i, j, x, y;
 
+    // Algoritma //
     i = Ordinat(PosisiPlayer(M))+1;
     j = Absis(PosisiPlayer(M))+1;
     x = Ordinat(PO)+1;
@@ -177,6 +184,7 @@ boolean IsInOffice (MATRIKS M, POINT PO){
 }
 
 POINT BangunanSekitarPlayer (MATRIKS M, POINT Player){
+/* Mengirim point bangunan di sekitar player */
     // KAMUS LOKAL //
     int i, j;
 
@@ -202,6 +210,7 @@ POINT BangunanSekitarPlayer (MATRIKS M, POINT Player){
 }
 
 boolean AdaBangunanSekitarPlayer (MATRIKS M, POINT Player){
+/* Mengirim true jika ada bangunan di sekitar player */
     // KAMUS LOKAL //
     int i, j;
 
@@ -226,12 +235,8 @@ boolean AdaBangunanSekitarPlayer (MATRIKS M, POINT Player){
     }
 }
 
-
-//
-
-//
-
 POINT AntrianSekitarPlayer (MATRIKS M, POINT Antrian){
+/* Mengirim point antrian di sekitar player */
     // KAMUS LOKAL //
     int i, j;
 
@@ -257,6 +262,7 @@ POINT AntrianSekitarPlayer (MATRIKS M, POINT Antrian){
 }
 
 boolean AdaAntrianSekitarPlayer (MATRIKS M, POINT Antrian){
+/* Mengirim true jika ada antrian di sekitar player */
     // KAMUS LOKAL //
     int i, j;
 
@@ -282,6 +288,7 @@ boolean AdaAntrianSekitarPlayer (MATRIKS M, POINT Antrian){
 }
 
 void CopyMATRIKS (MATRIKS Awal, MATRIKS * Hasil) {
+/* Copy matriks awal ke hasil */
     // KAMUS LOKAL //
 
     // ALGORITMA // 
@@ -295,6 +302,7 @@ void CopyMATRIKS (MATRIKS Awal, MATRIKS * Hasil) {
 }
 
 void BacaMATRIKS (MATRIKS * M, char * namafile) {
+/* Membaca matriks dari file eksternal */
     // KAMUS LOKAL //
     int NB;
     int NK;
@@ -318,6 +326,7 @@ void BacaMATRIKS (MATRIKS * M, char * namafile) {
 }
 
 void TulisFileMatriks(MATRIKS M, FILE *f){
+/* Tulis matriks */
     // KAMUS LOKAL //
     int i, j;
 
@@ -331,6 +340,7 @@ void TulisFileMatriks(MATRIKS M, FILE *f){
 }
 
 void TulisMATRIKS (MATRIKS M) {
+/* Print matriks */
     // KAMUS LOKAL //
 
     // ALGORITMA //
@@ -345,6 +355,7 @@ void TulisMATRIKS (MATRIKS M) {
 }
 
 void Move (MATRIKS * M, char X, POINT PO, int * zone){
+/* Move dengan w, a, s, d */
     // KAMUS LOKAL //
     int i, j;
     POINT CurrPlayer;
@@ -462,6 +473,7 @@ void Move (MATRIKS * M, char X, POINT PO, int * zone){
 }
 
 void MoveZone(MATRIKS * M, MATRIKS zoneMap, char gate) {
+/* Pindah zona */
     *M = zoneMap;
     
     int i, j;
