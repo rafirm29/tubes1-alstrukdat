@@ -141,6 +141,31 @@ POINT PosisiBangunan (MATRIKS M){
     return P;
 }
 
+POINT PosisiAntrian (MATRIKS M){
+    // KAMUS LOKAL //
+    int i, j;
+    POINT P;
+    boolean found;
+
+    // ALGORITMA //
+    found = false;
+    i = GetFirstIdxBrs(M);
+    j = GetFirstIdxKol(M);
+
+    while ((i <= GetLastIdxBrs(M)) && (!found)){
+        i++;
+        while ((j <= GetLastIdxKol(M)) && (!found)){
+            j++;
+            if (Elmt(M,i,j) == 'A'){
+                found = true;
+            }
+        }
+    }
+    P = MakePOINT(j-1,i-1);
+    return P;
+}
+
+
 boolean IsInOffice (MATRIKS M, POINT PO){
     int i, j, x, y;
 
@@ -159,16 +184,16 @@ POINT BangunanSekitarPlayer (MATRIKS M, POINT Player){
     i = Ordinat(Player)+1;
     j = Absis(Player)+1;
 
-    if (Elmt(M,i+1,j) == 'W'){
+    if (Elmt(M,i+1,j) == 'W' || Elmt(M,i+1,j) == 'L' || Elmt(M,i+1,j) == 'C'){
         return (MakePOINT(j-1,i-1));
     }
-    if (Elmt(M,i-1,j) == 'W'){
+    if (Elmt(M,i-1,j) == 'W' || Elmt(M,i-1,j) == 'L' || Elmt(M,i-1,j) == 'C'){
         return (MakePOINT(j-1,i-2));
     }
-    if (Elmt(M,i,j+1) == 'W'){
+    if (Elmt(M,i,j+1) == 'W' || Elmt(M,i,j+1) == 'L' || Elmt(M,i,j+1) == 'C'){
         return (MakePOINT(j,i-1));
     }
-    if (Elmt(M,i,j-1) == 'W'){
+    if (Elmt(M,i,j-1) == 'W' || Elmt(M,i,j-1) == 'L' || Elmt(M,i,j-1) == 'C'){
         return (MakePOINT(j-2,i-1));
     } 
     if ((Elmt(M,i,j-1) == '-') && (Elmt(M,i,j+1) == '-') && (Elmt(M,i+1,j) == '-') && (Elmt(M,i-1,j) == '-')){
@@ -184,16 +209,71 @@ boolean AdaBangunanSekitarPlayer (MATRIKS M, POINT Player){
     i = Ordinat(Player)+1;
     j = Absis(Player)+1;
 
-    if (Elmt(M,i+1,j) == 'W'){
+    if (Elmt(M,i+1,j) == 'W' || Elmt(M,i+1,j) == 'L' || Elmt(M,i+1,j) == 'C'){
         return true;
     }
-    if (Elmt(M,i-1,j) == 'W'){
+    if (Elmt(M,i-1,j) == 'W' || Elmt(M,i-1,j) == 'L' || Elmt(M,i-1,j) == 'C'){
         return true;
     }
-    if (Elmt(M,i,j+1) == 'W'){
+    if (Elmt(M,i,j+1) == 'W' || Elmt(M,i,j+1) == 'L' || Elmt(M,i,j+1) == 'C'){
         return true;
     }
-    if (Elmt(M,i,j-1) == 'W'){
+    if (Elmt(M,i,j-1) == 'W' || Elmt(M,i,j-1) == 'L' || Elmt(M,i,j-1) == 'C'){
+        return true;
+    } 
+    if ((Elmt(M,i,j-1) == '-') && (Elmt(M,i,j+1) == '-') && (Elmt(M,i+1,j) == '-') && (Elmt(M,i-1,j) == '-')){
+        return false;
+    }
+}
+
+
+//
+
+//
+
+POINT AntrianSekitarPlayer (MATRIKS M, POINT Antrian){
+    // KAMUS LOKAL //
+    int i, j;
+
+    // ALGORITMA //
+    i = Ordinat(Antrian)+1;
+    j = Absis(Antrian)+1;
+
+    if (Elmt(M,i+1,j) == 'A'){
+        return (MakePOINT(j-1,i-1));
+    }
+    if (Elmt(M,i-1,j) == 'A'){
+        return (MakePOINT(j-1,i-2));
+    }
+    if (Elmt(M,i,j+1) == 'A'){
+        return (MakePOINT(j,i-1));
+    }
+    if (Elmt(M,i,j-1) == 'A'){
+        return (MakePOINT(j-2,i-1));
+    } 
+    if ((Elmt(M,i,j-1) == '-') && (Elmt(M,i,j+1) == '-') && (Elmt(M,i+1,j) == '-') && (Elmt(M,i-1,j) == '-')){
+        return (MakePOINT(0,0));
+    }
+}
+
+boolean AdaAntrianSekitarPlayer (MATRIKS M, POINT Antrian){
+    // KAMUS LOKAL //
+    int i, j;
+
+    // ALGORITMA //
+    i = Ordinat(Antrian)+1;
+    j = Absis(Antrian)+1;
+
+    if (Elmt(M,i+1,j) == 'A'){
+        return true;
+    }
+    if (Elmt(M,i-1,j) == 'A'){
+        return true;
+    }
+    if (Elmt(M,i,j+1) == 'A'){
+        return true;
+    }
+    if (Elmt(M,i,j-1) == 'A'){
         return true;
     } 
     if ((Elmt(M,i,j-1) == '-') && (Elmt(M,i,j+1) == '-') && (Elmt(M,i+1,j) == '-') && (Elmt(M,i-1,j) == '-')){
@@ -279,7 +359,7 @@ void Move (MATRIKS * M, char X, POINT PO, int * zone){
             if (Elmt(*M,i,j-1) == '-' || Elmt(*M,i,j-1) == 'O'){
                 Elmt(*M,i,j-1) = Elmt(*M,i,j);
                 Elmt(*M,i,j) = 'O';
-            } else if (Elmt(*M,i,j-1) == 'W'){
+            } else if (Elmt(*M,i,j-1) == 'W' || Elmt(*M,i,j-1) == 'L' || Elmt(*M,i,j-1) == 'C'){
                 printf("Tidak bisa pindah ke kiri, ada bangunan!\n");
             } else if (Elmt(*M,i,j-1) == '*'){
                 printf("Tidak bisa pindah ke kiri, ada tembok!\n");
@@ -288,7 +368,7 @@ void Move (MATRIKS * M, char X, POINT PO, int * zone){
             if (Elmt(*M,i,j+1) == '-' || Elmt(*M,i,j+1) == 'O'){
                 Elmt(*M,i,j+1) = Elmt(*M,i,j);
                 Elmt(*M,i,j) = 'O';
-            } else if (Elmt(*M,i,j+1) == 'W'){
+            } else if (Elmt(*M,i,j+1) == 'W' || Elmt(*M,i,j+1) == 'L' || Elmt(*M,i,j+1) == 'C'){
                 printf("Tidak bisa pindah ke kanan, ada bangunan!\n");
             } else if (Elmt(*M,i,j+1) == '*'){
                 printf("Tidak bisa pindah ke kanan, ada tembok!\n");
@@ -297,7 +377,7 @@ void Move (MATRIKS * M, char X, POINT PO, int * zone){
             if (Elmt(*M,i+1,j) == '-' || Elmt(*M,i+1,j) == 'O'){
                 Elmt(*M,i+1,j) = Elmt(*M,i,j);
                 Elmt(*M,i,j) = 'O';
-            } else if (Elmt(*M,i+1,j) == 'W'){
+            } else if (Elmt(*M,i+1,j) == 'W' || Elmt(*M,i+1,j) == 'L' || Elmt(*M,i+1,j) == 'C'){
                 printf("Tidak bisa pindah ke bawah, ada bangunan!\n");
             } else if (Elmt(*M,i+1,j) == '*'){
                 printf("Tidak bisa pindah ke bawah, ada tembok!\n");
@@ -306,7 +386,7 @@ void Move (MATRIKS * M, char X, POINT PO, int * zone){
             if (Elmt(*M,i-1,j) == '-' || Elmt(*M,i-1,j) == 'O'){
                 Elmt(*M,i-1,j) = Elmt(*M,i,j);
                 Elmt(*M,i,j) = 'O';
-            } else if (Elmt(*M,i-1,j) == 'W'){
+            } else if (Elmt(*M,i-1,j) == 'W' || Elmt(*M,i-1,j) == 'L' || Elmt(*M,i-1,j) == 'C'){
                 printf("Tidak bisa pindah ke atas, ada bangunan!\n");
             } else if (Elmt(*M,i-1,j) == '*'){
                 printf("Tidak bisa pindah ke atas, ada tembok!\n");
@@ -317,7 +397,7 @@ void Move (MATRIKS * M, char X, POINT PO, int * zone){
             if (Elmt(*M,i,j-1) == '-' || Elmt(*M,i,j-1) == 'O'){
                 Elmt(*M,i,j-1) = Elmt(*M,i,j);
                 Elmt(*M,i,j) = '-';
-            } else if (Elmt(*M,i,j-1) == 'W'){
+            } else if (Elmt(*M,i,j-1) == 'W' || Elmt(*M,i,j-1) == 'L' || Elmt(*M,i,j-1) == 'C'){
                 printf("Tidak bisa pindah ke kiri, ada bangunan!\n");
             } else if (Elmt(*M,i,j-1) == '*'){
                 printf("Tidak bisa pindah ke kiri, ada tembok!\n");
@@ -333,7 +413,7 @@ void Move (MATRIKS * M, char X, POINT PO, int * zone){
             if (Elmt(*M,i,j+1) == '-' || Elmt(*M,i,j+1) == 'O'){
                 Elmt(*M,i,j+1) = Elmt(*M,i,j);
                 Elmt(*M,i,j) = '-';
-            } else if (Elmt(*M,i,j+1) == 'W'){
+            } else if (Elmt(*M,i,j+1) == 'W' || Elmt(*M,i,j+1) == 'L' || Elmt(*M,i,j+1) == 'C'){
                 printf("Tidak bisa pindah ke kanan, ada bangunan!\n");
             } else if (Elmt(*M,i,j+1) == '*'){
                 printf("Tidak bisa pindah ke kanan, ada tembok!\n");
@@ -349,7 +429,7 @@ void Move (MATRIKS * M, char X, POINT PO, int * zone){
             if (Elmt(*M,i+1,j) == '-' || Elmt(*M,i+1,j) == 'O'){
                 Elmt(*M,i+1,j) = Elmt(*M,i,j);
                 Elmt(*M,i,j) = '-';
-            } else if (Elmt(*M,i+1,j) == 'W'){
+            } else if (Elmt(*M,i+1,j) == 'W' || Elmt(*M,i+1,j) == 'L' || Elmt(*M,i+1,j) == 'C'){
                 printf("Tidak bisa pindah ke bawah, ada bangunan!\n");
             } else if (Elmt(*M,i+1,j) == '*'){
                 printf("Tidak bisa pindah ke bawah, ada tembok!\n");
@@ -365,7 +445,7 @@ void Move (MATRIKS * M, char X, POINT PO, int * zone){
             if (Elmt(*M,i-1,j) == '-' || Elmt(*M,i-1,j) == 'O'){
                 Elmt(*M,i-1,j) = Elmt(*M,i,j);
                 Elmt(*M,i,j) = '-';
-            } else if (Elmt(*M,i-1,j) == 'W'){
+            } else if (Elmt(*M,i-1,j) == 'W' || Elmt(*M,i-1,j) == 'L' || Elmt(*M,i-1,j) == 'C'){
                 printf("Tidak bisa pindah ke atas, ada bangunan!\n");
             } else if (Elmt(*M,i-1,j) == '*'){
                 printf("Tidak bisa pindah ke atas, ada tembok!\n");
