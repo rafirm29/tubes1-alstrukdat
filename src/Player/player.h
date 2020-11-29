@@ -3,6 +3,7 @@
 
 #include "../Mesin/mesinkata.h"
 #include "../Array/arraydininventory.h"
+#include "../Wahana/wahana.h"
 #include "../boolean.h"
 
 /* Definisi elemen */
@@ -24,6 +25,9 @@ typedef struct {
 /*** Test keadaan uang ***/
 boolean IsEnough(Player P, money N);
 /* Mengembalikan true jika uang player cukup untuk membayar sejumlah N */
+
+boolean IsEnoughMaterial(Player P, Wahana W);
+/* Mengembalikan true jika material pada inventory player cukup untuk memangun wahana W */
 
 /*** Konstruktor ***/
 Player MakePlayer(Kata K, char * file);
