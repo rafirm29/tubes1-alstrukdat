@@ -1,10 +1,11 @@
 /* File: queue.c */
 /* Implementasi Queue */
-/* Model Implementasi Versi III dengan Priority Queue */
+/* Model Implementasi Versi I dengan Priority Queue */
 
 #include <stdio.h>
 #include "queue.h"
 #include "../boolean.h"
+#include "../Player/player.h"
 #include <stdlib.h>
 
 /* ********* Prototype ********* */
@@ -67,8 +68,10 @@ void EnqueuePrio (Queue * Q, List L){
         random = (rand() % NbElmtWahana(L));
         addressWahana P;
         P = FirstLWahana(L);
-        for (int i = 0; i < random; i++) {
+        int i = 0;
+        while (i<random){
             P = NextLWahana(P);
+            i += 1;
         }
         WahanaOrang(X) = P->info;
         //Jika antrian masih kosong, maka tambahkan langsung pengunjung tersebut
@@ -170,4 +173,35 @@ void PrintAntrian (Queue Q){
               orang = orang + 1;
           }
      }
+}
+/*boolean DaftarWahana(Queue *Q, List L){
+    addressWahana P1;
+    boolean ada;
+    ada = false;
+    P1 = FirstLWahana(L);
+    while (P1!=Nil){
+         if (Q->T->wahanaPengunjung.namaWahana.TabKata == P1->info){
+              ada = true;
+         }
+         P1 = NextLWahana(P1);
+    }
+    return ada;
+}*/
+void serve (Queue * Q, Wahana W1, Player * P1, List * L){
+    if (IsFullWahana(InfoHead(*Q).wahanaPengunjung)){
+        printf("Wahana yang ingin dinaiki penuh!\n");
+    } else {
+        if (W1.statusWahana == 0){
+            printf("Wahana yang ingin dinaiki rusak!\n");
+        } else {
+            pengunjung X;
+            addressWahana W2 = SearchWahana(*L,W1);
+            W2->laporan.dinaikiHari += 1;
+            W2->laporan.dinaikiTotal += 1;
+            W2->laporan.penghasilanHari += W1.hargaWahana;
+            W2->laporan.penghasilanTotal += W1.hargaWahana;
+            (*P1).Money += W1.hargaWahana;
+            Dequeue(Q,&X);
+        }
+    }
 }

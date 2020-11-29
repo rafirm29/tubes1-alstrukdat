@@ -7,12 +7,13 @@
 
 #include "../boolean.h"
 #include "../Listberkait/listwahana.h"
+#include "../Player/player.h"
 
 #define Nil -1
 /* Konstanta untuk mendefinisikan address tak terdefinisi */
 
 /* Definisi elemen dan address */
-typedef struct { 
+typedef struct {
                 int kesabaran;
                 int jumlahorang;
                 Wahana wahanaPengunjung;
@@ -85,5 +86,5 @@ void PrintAntrian (Queue Q);
         "Antrian [2/5]:
          (Daftar Wahana), kesabaran: 5
          (Daftar Wahana), kesabaran: 5 */
-
+void serve (Queue * Q, Wahana W1, Player * P1, List * L);
 #endif
