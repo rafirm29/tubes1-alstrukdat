@@ -60,6 +60,9 @@ void MakeWahana(Wahana * W, char * file) {
     (*W).wood = atoi(Wood.TabKata);
     (*W).steel = atoi(Steel.TabKata);
     (*W).iron = atoi(Iron.TabKata);
+    (*W).jumlahPemainWahana = 0;
+    (*W).lokasiWahana = MakePOINT(0, 0);
+    (*W).zona = 0;
 }
 
 // Detail wahana
