@@ -337,9 +337,11 @@ void PrintInfoWahana (List L)
 
     // ALGORITMA
     while(scannee != NilWahana) {
-        printf("- Wahana %s (%d, %d)\n",    InfoLWahana(scannee).namaWahana.TabKata, 
-                                            InfoLWahana(scannee).lokasiWahana.X, InfoLWahana(scannee).lokasiWahana.Y);
-
+        printf("- Wahana %s", InfoLWahana(scannee).namaWahana.TabKata);
+        if (InfoLWahana(scannee).lokasiWahana.X != 0 || InfoLWahana(scannee).lokasiWahana.Y != 0) {
+            printf(" (%d, %d) Map %d",    InfoLWahana(scannee).lokasiWahana.X, InfoLWahana(scannee).lokasiWahana.Y,
+                                            InfoLWahana(scannee).zona);
+        } printf("\n");
         scannee = NextLWahana(scannee);
     }
 }
