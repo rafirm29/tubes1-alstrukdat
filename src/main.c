@@ -779,7 +779,7 @@ int main() {
                 TulisJAM(hourRemaining);
 
                 // Randomizer wahana rusak
-                if (rand() % 10 == 1) {
+                if (rand() % 20 == 1) {
                     addressWahana R;
                     int random = rand() % NbElmtWahana(listWahana);
                     R = FirstLWahana(listWahana);
@@ -975,28 +975,31 @@ int main() {
                     }
                     else if (IsKataSama(PerintahMain,  ElmtAction(TAMain, 1).Aksi))
                     {
-                        addressWahana P;
-                        P = FirstLWahana(listWahana);
-                        PrintInfoWahana(listWahana);
-                        POINT BangunanSekitar, BangunanTerdaftar;
-                        BangunanSekitar = BangunanSekitarPlayer(currentMap, PosisiPlayer(currentMap));
-                        printf("(%d %d)\n", BangunanSekitar.X, BangunanSekitar.Y);
-                        BangunanTerdaftar = PosisiWahanaRusak(listWahana, BangunanSekitar);
-                        printf("(%d %d)\n", BangunanTerdaftar.X, BangunanTerdaftar.Y);
-
-                        if ((BangunanSekitar.X == BangunanTerdaftar.X) && (BangunanSekitar.Y == BangunanTerdaftar.Y))
+                        if (AdaBangunanSekitarPlayer(currentMap, PosisiPlayer(currentMap)))
                         {
-                            while (InfoLWahana(P).lokasiWahana.X != BangunanSekitar.X && InfoLWahana(P).lokasiWahana.Y != BangunanSekitar.Y)
+                            addressWahana P;
+                            P = FirstLWahana(listWahana);
+                            POINT BangunanSekitar, BangunanTerdaftar;
+                            BangunanSekitar = BangunanSekitarPlayer(currentMap, PosisiPlayer(currentMap));
+                            BangunanTerdaftar = PosisiWahanaRusak(listWahana, BangunanSekitar);
+
+                            if ((BangunanSekitar.X == BangunanTerdaftar.X) && (BangunanSekitar.Y == BangunanTerdaftar.Y))
                             {
-                                P = NextLWahana(P);
+                                while (!EQ(BangunanTerdaftar, InfoLWahana(P).lokasiWahana))
+                                {
+                                    P = NextLWahana(P);
+                                }
+                                InfoLWahana(P).statusWahana = true;
                             }
-                            InfoLWahana(P).statusWahana = 1;
+                            else
+                            {
+                                printf("Tidak ada wahana yang rusak di sekitar player\n");
+                            }
                         }
                         else
                         {
-                            printf("Tidak ada wahana yang bisa rusak\n");
-                        }
-                        
+                            printf("Tidak ada bangunan di sekitar player\n");
+                        } 
                     }
                     sleep(1);
                 }
