@@ -59,7 +59,7 @@ int main() {
     Graph G;
     MakeGraph(&G, 4);   // Membuat graph dengan 4 node untuk merepresentasikan zona pada Map
     /* Menghubungkan masing-masing zona Map */
-    AddLink(&G, 1, 2);  
+    AddLink(&G, 1, 2);
     AddLink(&G, 1, 3);
     AddLink(&G, 2, 4);
     AddLink(&G, 3, 4);
@@ -68,7 +68,7 @@ int main() {
     // printf("**** BREAK POINT ****\n");
     // int xy;
     // scanf("%d", &xy);
-    
+
     /*** DEKLARASI STACK ***/
     Stack StackPerintah;
     CreateEmptyStack(&StackPerintah);
@@ -287,13 +287,13 @@ int main() {
                         default:
                             break;
                         }
-            
-                        
+
+
                         Elmt(currentMap, Ordinat(currentP)+1, Absis(currentP)+1) = 'P';
 
                         DurasiStack(StackPerintah) = 0;
                         BiayaStack(StackPerintah) = 0;
-                        
+
                         mainPhase = true;
                         prepPhase = false;
                     } else {
@@ -502,7 +502,7 @@ int main() {
                                 printf("wahana ");
                                 break;
                             } printf("di atas.\n");
-                        } 
+                        }
                         /* Jika kosong, dijalankan perintah build */
                         else {
                             int i;
@@ -521,7 +521,7 @@ int main() {
                                 P = NextLWahana(P);
                             }
 
-                            
+
                             Wahana WBuild;
                             WBuild = P->info;
                             int B = WBuild.biayaBuild;
@@ -622,16 +622,16 @@ int main() {
                                 switch (currentZone)
                                 {
                                 case 1:
-                                    X.matriks = Map1; 
+                                    X.matriks = Map1;
                                     break;
                                 case 2:
-                                    X.matriks = Map2; 
+                                    X.matriks = Map2;
                                     break;
                                 case 3:
-                                    X.matriks = Map3; 
+                                    X.matriks = Map3;
                                     break;
                                 case 4:
-                                    X.matriks = Map4; 
+                                    X.matriks = Map4;
                                     break;
                                 default:
                                     break;
@@ -639,7 +639,7 @@ int main() {
                                 X.idxcode = i;
                                 X.lokasiBuild = BangunanSekitarPlayer(currentMap, PosisiPlayer(currentMap));
                                 D = ElmtAction(TAPrep, 2).Durasi;
-                    
+
                                 Push(&StackPerintah, X, D, B);
 
                                 PTemp.Money -= B;
@@ -737,7 +737,7 @@ int main() {
                             }
                             BiayaStack(StackPerintah) -= B;
                             break;
-                        
+
                         default:
                             break;
                         }
@@ -814,6 +814,7 @@ int main() {
                     boolean changeZone;
                     int prevZone;
                     if (PerintahMain.TabKata[0] == 'w') {
+                        //KurangKesabaran(&Q);
                         prevZone = currentZone;
                         Move(&currentMap, 'w', PO, &currentZone);
                         changeZone = prevZone == currentZone;
@@ -831,6 +832,7 @@ int main() {
                         }
                         currentJam = NextNMenit(currentJam, 1);
                     } else if (PerintahMain.TabKata[0] == 'a') {
+                        //KurangKesabaran(&Q);
                         prevZone = currentZone;
                         Move(&currentMap, 'a', PO, &currentZone);
                         changeZone = prevZone == currentZone;
@@ -848,6 +850,7 @@ int main() {
                         }
                         currentJam = NextNMenit(currentJam, 1);
                     } else if (PerintahMain.TabKata[0] == 's') {
+                        //KurangKesabaran(&Q);
                         prevZone = currentZone;
                         Move(&currentMap, 's', PO, &currentZone);
                         changeZone = prevZone == currentZone;
@@ -865,6 +868,7 @@ int main() {
                         }
                         currentJam = NextNMenit(currentJam, 1);
                     } else if (PerintahMain.TabKata[0] == 'd') {
+                        //KurangKesabaran(&Q);
                         prevZone = currentZone;
                         Move(&currentMap, 'd', PO, &currentZone);
                         changeZone = prevZone == currentZone;
@@ -883,7 +887,7 @@ int main() {
                         currentJam = NextNMenit(currentJam, 1);
                     }
                 /**** PERINTAH ****/
-                } 
+                }
                 else if (IsAksiAda(TAMain, PerintahMain)) {
                     Kata InputAksi;
                     if (IsKataSama(PerintahMain, ElmtAction(TAMain, 3).Aksi)) { // office
@@ -894,7 +898,7 @@ int main() {
                             Kata Exit = MakeKata("Exit");
 
                             printf("Masuk office\n");
-                            
+
                             do {
                                 // Input aksi dalam office
                                 printf("Masukkan perintah : Details / Report / Exit\n");
@@ -947,7 +951,7 @@ int main() {
                                     for (int j = 0; j < i-1; j++) {
                                         P = NextLWahana(P);
                                     }
-                                    
+
                                     // Menampilkan report wahana yang ditunjuk oleh address P
                                     ReportWahana(P);
                                 }
@@ -958,7 +962,8 @@ int main() {
                         {
                             printf("Anda tidak berada di office\n");
                         }
-                    } else if (IsKataSama(PerintahMain, ElmtAction(TAMain, 0).Aksi)) {  // serve
+                    } else if (IsKataSama(PerintahMain, ElmtAction(TAMain, 0).Aksi)) { // serve
+                        KurangKesabaran(&Q);
                         if (AdaAntrianSekitarPlayer(currentMap, PosisiPlayer(currentMap))) {
                             printf("Anda sekitar antrian.\n");
                             serve(&Q, &P1, &listWahana);
@@ -974,7 +979,8 @@ int main() {
                         } else printf("Tak de building\n");
                     }
                     else if (IsKataSama(PerintahMain,  ElmtAction(TAMain, 1).Aksi))
-                    {
+                    { //Repair
+                        KurangKesabaran(&Q);
                         if (AdaBangunanSekitarPlayer(currentMap, PosisiPlayer(currentMap)))
                         {
                             addressWahana P;
@@ -999,7 +1005,7 @@ int main() {
                         else
                         {
                             printf("Tidak ada bangunan di sekitar player\n");
-                        } 
+                        }
                     }
                     sleep(1);
                 }
