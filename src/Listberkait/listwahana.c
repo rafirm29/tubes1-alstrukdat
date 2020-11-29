@@ -404,7 +404,7 @@ POINT PosisiWahanaRusak(List L, POINT Pos){
     P = FirstLWahana(L);
     while (P != NilWahana)
     {
-        if ((InfoLWahana(P).statusWahana == 0) && (InfoLWahana(P).lokasiWahana.X == Pos.X) && (InfoLWahana(P).lokasiWahana.Y == Pos.Y))
+        if ((InfoLWahana(P).statusWahana == false) && (InfoLWahana(P).lokasiWahana.X == Pos.X) && (InfoLWahana(P).lokasiWahana.Y == Pos.Y))
         {
             R = MakePOINT(InfoLWahana(P).lokasiWahana.X, InfoLWahana(P).lokasiWahana.Y);
             return R;
