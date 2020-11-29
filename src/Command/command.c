@@ -35,7 +35,7 @@ void BuildWahana(Wahana W, Player * P, MATRIKS * M, POINT LokasiBuild) {
 }
 
 // Mengupgrade wahana (Prekondisi : Player sudah berada di sebelah wahana.)
-void UpgradeWahana(BinTree T, Player * P, MATRIKS * M, int i, POINT LokasiWahana, List * L) {
+void UpgradeWahana(BinTree T, Player * P, MATRIKS * M, int i, POINT LokasiWahana, List * L, int z) {
 
     if (i == 1) {   /* Memilih upgrade 1 (Left) */
         if (IsEnough(*P, Akar(Left(T)).biayaBuild)) {
@@ -51,9 +51,16 @@ void UpgradeWahana(BinTree T, Player * P, MATRIKS * M, int i, POINT LokasiWahana
                 (InvPlayer(*P).TIInventory[1].Jumlah -= Akar(Left(T)).steel);
                 (InvPlayer(*P).TIInventory[2].Jumlah -= Akar(Left(T)).iron);
                 
-                //
-                // TO DO: UPDATE LIST WAHANA
-                //
+                // Penambahan history upgrade
+                addressWahana P;
+                P = FirstLWahana(*L);
+                while (!EQ(LokasiWahana, InfoLWahana(P).lokasiWahana) || InfoLWahana(P).zona != z) {
+                    P = NextLWahana(P);
+                }
+                InsVLastWahana(&(P->upgradeList), P->info);
+                InfoLWahana(P) = Akar(Left(T));
+                InfoLWahana(P).zona = z;
+                InfoLWahana(P).lokasiWahana = LokasiWahana;
 
             } else printf("Not enugh material. Please try again.\n");
         } else printf("Not enough money. Please try again.\n");
@@ -71,9 +78,16 @@ void UpgradeWahana(BinTree T, Player * P, MATRIKS * M, int i, POINT LokasiWahana
                 (InvPlayer(*P).TIInventory[1].Jumlah -= Akar(Right(T)).steel);
                 (InvPlayer(*P).TIInventory[2].Jumlah -= Akar(Right(T)).iron);
                 
-                //
-                // TO DO: UPDATE LIST WAHANA
-                //
+                // Penambahan history upgrade
+                addressWahana P;
+                P = FirstLWahana(*L);
+                while (!EQ(LokasiWahana, InfoLWahana(P).lokasiWahana) || InfoLWahana(P).zona != z) {
+                    P = NextLWahana(P);
+                }
+                InsVLastWahana(&(P->upgradeList), P->info);
+                InfoLWahana(P) = Akar(Right(T));
+                InfoLWahana(P).zona = z;
+                InfoLWahana(P).lokasiWahana = LokasiWahana;
                 
             } else printf("Not enugh material. Please try again.\n");
         } else printf("Not enough money. Please try again.\n");

@@ -127,8 +127,9 @@ int main() {
         sleep(1);
 
         /***** DEKLARASI PLAYER *****/
-        Player P1;
+        Player P1, PTemp;
         P1 = MakePlayer(Nama, "Array/Inventory/inventory.txt");
+        PTemp = MakePlayer(Nama, "Array/Inventory/inventory.txt");
 
         /***** DEKLARASI VARIABEL UNIVERSAL *****/
         int day;
@@ -165,7 +166,6 @@ int main() {
 
             currentJam = MakeJAM(21,0); // Deklarasi Jam saat preperation phase.
             closingJam = MakeJAM(9,0);
-            Player PTemp = P1;
 
             while (prepPhase) {
                 printf("Preperation day %d\n", day);
@@ -184,7 +184,8 @@ int main() {
                 TulisJAM(closingJam);
                 printf("Time Remaining : ");
                 TulisJAM(hourRemaining);
-                TulisIsiTabInventory(InvPlayer(P1));
+                printf("Temporary ");
+                TulisIsiTabInventory(InvPlayer(PTemp));
                 PrintStack(StackPerintah);
 
                 printf("Masukkan perintah ");
@@ -248,16 +249,16 @@ int main() {
                             switch (X.Jumlah)   // Zona
                             {
                             case 1:
-                                UpgradeWahana(T1, &P1, &Map1, X.idxcode, X.lokasiBuild, &listWahana);
+                                UpgradeWahana(T1, &P1, &Map1, X.idxcode, X.lokasiBuild, &listWahana, X.Jumlah);
                                 break;
                             case 2:
-                                UpgradeWahana(T1, &P1, &Map2, X.idxcode, X.lokasiBuild, &listWahana);
+                                UpgradeWahana(T1, &P1, &Map2, X.idxcode, X.lokasiBuild, &listWahana, X.Jumlah);
                                 break;
                             case 3:
-                                UpgradeWahana(T1, &P1, &Map3, X.idxcode, X.lokasiBuild, &listWahana);
+                                UpgradeWahana(T1, &P1, &Map3, X.idxcode, X.lokasiBuild, &listWahana, X.Jumlah);
                                 break;
                             case 4:
-                                UpgradeWahana(T1, &P1, &Map4, X.idxcode, X.lokasiBuild, &listWahana);
+                                UpgradeWahana(T1, &P1, &Map4, X.idxcode, X.lokasiBuild, &listWahana, X.Jumlah);
                                 break;
                             default:
                                 break;
@@ -265,22 +266,22 @@ int main() {
                         }
                     }
                     switch (currentZone)
-                            {
-                            case 1:
-                                currentMap = Map1;
-                                break;
-                            case 2:
-                                currentMap = Map2;
-                                break;
-                            case 3:
-                                currentMap = Map3;
-                                break;
-                            case 4:
-                                currentMap = Map4;
-                                break;
-                            default:
-                                break;
-                            }
+                    {
+                    case 1:
+                        currentMap = Map1;
+                        break;
+                    case 2:
+                        currentMap = Map2;
+                        break;
+                    case 3:
+                        currentMap = Map3;
+                        break;
+                    case 4:
+                        currentMap = Map4;
+                        break;
+                    default:
+                        break;
+                    }
         
                     
                     Elmt(currentMap, Ordinat(currentP)+1, Absis(currentP)+1) = 'P';
@@ -479,13 +480,13 @@ int main() {
                                 ElmtInventory(PTemp.InvPlayer, 0).Jumlah -= WBuild.wood;
                                 ElmtInventory(PTemp.InvPlayer, 1).Jumlah -= WBuild.steel;
                                 ElmtInventory(PTemp.InvPlayer, 2).Jumlah -= WBuild.iron;
-                            }
-
-                            if (!IsEnough(PTemp, B)) {
-                                printf("Uang anda tidak akan mencukupi!\n");
-                            }
-                            if (!IsEnoughMaterial(PTemp, WBuild)) {
-                                printf("Material anda tidak akan mencukupi!\n");
+                            } else {
+                                if (!IsEnough(PTemp, B)) {
+                                    printf("Uang anda tidak akan mencukupi!\n");
+                                }
+                                if (!IsEnoughMaterial(PTemp, WBuild)) {
+                                    printf("Material anda tidak akan mencukupi!\n");
+                                }
                             }
                         }
                         sleep(1);
@@ -555,18 +556,101 @@ int main() {
                                 ElmtInventory(PTemp.InvPlayer, 0).Jumlah -= WUp.wood;
                                 ElmtInventory(PTemp.InvPlayer, 1).Jumlah -= WUp.steel;
                                 ElmtInventory(PTemp.InvPlayer, 2).Jumlah -= WUp.iron;
-                            }
-
-                            if (!IsEnough(PTemp, B)) {
-                                printf("Uang anda tidak akan mencukupi!\n");
-                            }
-                            if (!IsEnoughMaterial(PTemp, WUp)) {
-                                printf("Material anda tidak akan mencukupi!\n");
+                            } else {
+                                if (!IsEnough(PTemp, B)) {
+                                    printf("Uang anda tidak akan mencukupi!\n");
+                                }
+                                if (!IsEnoughMaterial(PTemp, WUp)) {
+                                    printf("Material anda tidak akan mencukupi!\n");
+                                }
                             }
                         } else {
                             printf("Tidak ada wahana sekitar player.\n");
                         }
                         sleep(1);
+                    } else if (IsKataSama(PerintahPrep, ElmtAction(TAPrep, 3).Aksi)) {  // Undo
+                        infoStack X;
+                        Pop(&StackPerintah, &X, 0, 0);
+                        switch (X.action)
+                        {
+                        case 1:                                     // Undo Buy
+                            DurasiStack(StackPerintah) -= 30;
+                            BiayaStack(StackPerintah) -= X.Jumlah * ElmtBarang(ListBarang, X.idxcode-1).Harga;
+                            ElmtInventory(PTemp.InvPlayer, X.idxcode-1).Jumlah -= X.Jumlah;
+                            break;
+                        case 2:                                     // Undo Build
+                            DurasiStack(StackPerintah) -= 120;
+                            addressWahana P;
+                            POINT lokBuild = X.lokasiBuild;
+                            P = FirstLWahana(daftarWahana);
+                            for (int j = 0; j < X.idxcode; j++) {
+                                P = NextLWahana(P);
+                            }
+                            BiayaStack(StackPerintah) -= P->info.biayaBuild;
+                            ElmtInventory(PTemp.InvPlayer, 0).Jumlah += P->info.wood;
+                            ElmtInventory(PTemp.InvPlayer, 1).Jumlah += P->info.steel;
+                            ElmtInventory(PTemp.InvPlayer, 2).Jumlah += P->info.iron;
+                            // Menghapus W pada map
+                            switch (X.Jumlah)   // Zona
+                            {
+                            case 1:
+                                Elmt(Map1, Ordinat(lokBuild)+1, Absis(lokBuild)+1) = '-';
+                                break;
+                            case 2:
+                                Elmt(Map2, Ordinat(lokBuild)+1, Absis(lokBuild)+1) = '-';
+                                break;
+                            case 3:
+                                Elmt(Map3, Ordinat(lokBuild)+1, Absis(lokBuild)+1) = '-';
+                                break;
+                            case 4:
+                                Elmt(Map4, Ordinat(lokBuild)+1, Absis(lokBuild)+1) = '-';
+                                break;
+                            default:
+                                break;
+                            }
+
+                            // Refresh map
+                            POINT currentP;
+                            currentP = PosisiPlayer(currentMap);
+                            switch (currentZone)
+                            {
+                            case 1:
+                                currentMap = Map1;
+                                break;
+                            case 2:
+                                currentMap = Map2;
+                                break;
+                            case 3:
+                                currentMap = Map3;
+                                break;
+                            case 4:
+                                currentMap = Map4;
+                                break;
+                            default:
+                                break;
+                            }
+                            Elmt(currentMap, Ordinat(currentP)+1, Absis(currentP)+1) = 'P';
+                            break;
+                        case 3:                                     // Undo Upgrade
+                            DurasiStack(StackPerintah) -= 180;
+                            int B;
+                            if (X.idxcode == 1) { // Upgrade kiri
+                                B = Akar(Left(T1)).biayaUpgrade;
+                                ElmtInventory(PTemp.InvPlayer, 0).Jumlah += Akar(Left(T1)).wood;
+                                ElmtInventory(PTemp.InvPlayer, 1).Jumlah += Akar(Left(T1)).steel;
+                                ElmtInventory(PTemp.InvPlayer, 2).Jumlah += Akar(Left(T1)).iron;
+                            } else {
+                                B = Akar(Left(T1)).biayaUpgrade;
+                                ElmtInventory(PTemp.InvPlayer, 0).Jumlah += Akar(Right(T1)).wood;
+                                ElmtInventory(PTemp.InvPlayer, 1).Jumlah += Akar(Right(T1)).steel;
+                                ElmtInventory(PTemp.InvPlayer, 2).Jumlah += Akar(Right(T1)).iron;
+                            }
+                            BiayaStack(StackPerintah) -= B;
+                            break;
+                        
+                        default:
+                            break;
+                        }
                     }
                     sleep(1);
                 } else {

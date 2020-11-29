@@ -16,6 +16,6 @@ void Buy(Player * P, TabBarang B, IdxTypeBarang i, int Jumlah);
 void BuildWahana(Wahana W, Player * P, MATRIKS * M, POINT lokBuild);
 
 // Mengupgrade wahana
-void UpgradeWahana(BinTree T, Player * P, MATRIKS * M, int i, POINT lokUpgrade, List * L);
+void UpgradeWahana(BinTree T, Player * P, MATRIKS * M, int i, POINT lokUpgrade, List * L, int zona);
 
 #endif
