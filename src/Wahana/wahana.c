@@ -59,11 +59,13 @@ void MakeWahana(Wahana * W, char * file) {
 
 // Detail wahana
 void Detail(Wahana W) {
-    printf("Nama wahana: %s\n", W.namaWahana.TabKata);
-    printf("Tipe: %d\n", W.tipeWahana);
-    printf("Kapasitas : %d orang\n", W.kapasitasWahana);
-    printf("Durasi : %d menit\n", W.durasiWahana);
-    printf("Deskripsi : %s\n", W.deskripsiWahana.TabKata);
+    printf("Nama wahana : %s\n", W.namaWahana.TabKata);
+    printf("Tipe        : %d\n", W.tipeWahana);
+    printf("Harga       : %d\n", W.hargaWahana);
+    printf("Lokasi      : (%d,%d)\n", W.lokasiWahana.X, W.lokasiWahana.Y);
+    printf("Deskripsi   : %s\n", W.deskripsiWahana.TabKata);
+    printf("Kapasitas   : %d orang\n", W.kapasitasWahana);
+    printf("Durasi      : %d menit\n", W.durasiWahana);
     if (W.statusWahana) {
         printf("***BERFUNGSI***\n");
     } else printf("***RUSAK***\n");
