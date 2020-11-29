@@ -13,7 +13,7 @@
 void Buy(Player * P, TabBarang B, IdxTypeBarang i, int Jumlah);
 
 // Membuat wahana baru
-void BuildWahana(Wahana W, Player * P, MATRIKS * M, boolean * success);
+void BuildWahana(Wahana W, Player * P, MATRIKS * M, POINT lokBuild);
 
 // Mengupgrade wahana
 void UpgradeWahana(BinTree T, Player * P, MATRIKS * M, int i, POINT lokUpgrade, List * L);

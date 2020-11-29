@@ -60,11 +60,11 @@ addressWahana SearchWahana (List L, Wahana X);
 
 /****************** PRIMITIF BERDASARKAN NILAI ******************/
 /*** PENAMBAHAN ELEMEN ***/
-void InsVFirstWahana (List *L, Wahana X, POINT loc);
+void InsVFirstWahana (List *L, Wahana X);
 /* I.S. L mungkin kosong */
 /* F.S. Melakukan alokasi sebuah elemen dan */
 /* menambahkan elemen pertama dengan nilai X jika alokasi berhasil */
-void InsVLastWahana (List *L, Wahana X, POINT loc);
+void InsVLastWahana (List *L, Wahana X);
 /* I.S. L mungkin kosong */
 /* F.S. Melakukan alokasi sebuah elemen dan */
 /* menambahkan elemen list di akhir: elemen terakhir yang baru */

@@ -17,8 +17,7 @@ void Buy(Player * P, TabBarang B, IdxTypeBarang i, int Jumlah) {
 }
 
 // Membuat wahana baru
-void BuildWahana(Wahana W, Player * P, MATRIKS * M, boolean * success) {
-    *success = false;
+void BuildWahana(Wahana W, Player * P, MATRIKS * M, POINT LokasiBuild) {
     if (IsEnough(*P, W.biayaBuild)) {
 
         boolean IsMaterialEnough;
@@ -26,19 +25,11 @@ void BuildWahana(Wahana W, Player * P, MATRIKS * M, boolean * success) {
                             (InvPlayer(*P).TIInventory[1].Jumlah >= W.steel) &&
                             (InvPlayer(*P).TIInventory[2].Jumlah >= W.iron));
         if (IsMaterialEnough) {
-            POINT Player;
-            Player = PosisiPlayer(*M);
-            if (Elmt(*M, Ordinat(Player), Absis(Player)+1) == 'W') {
-                printf("Can't build. There's already a building.\n");
-            } else {
-                Elmt(*M, Ordinat(Player), Absis(Player)+1) = 'W';
-                SubstractMoney(P, W.biayaBuild);    // Mengurangi jumlah uang pemain
-                printf("Build Successful.\n");
-                (InvPlayer(*P).TIInventory[0].Jumlah -= W.wood);
-                (InvPlayer(*P).TIInventory[1].Jumlah -= W.steel);
-                (InvPlayer(*P).TIInventory[2].Jumlah -= W.iron);
-                *success = true;
-            }
+            Elmt(*M, Ordinat(LokasiBuild)+1, Absis(LokasiBuild)+1) = 'W';
+            SubstractMoney(P, W.biayaBuild);    // Mengurangi jumlah uang pemain
+            (InvPlayer(*P).TIInventory[0].Jumlah -= W.wood);
+            (InvPlayer(*P).TIInventory[1].Jumlah -= W.steel);
+            (InvPlayer(*P).TIInventory[2].Jumlah -= W.iron);
         } else printf("Not enugh material. Please try again.\n");
     } else printf("Not enough money. Please try again.\n");
 }

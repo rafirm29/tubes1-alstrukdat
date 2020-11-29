@@ -87,7 +87,7 @@ addressWahana SearchWahana (List L, Wahana X)
 
 /****************** PRIMITIF BERDASARKAN NilWahanaAI ******************/
 /*** PENAMBAHAN ELEMEN ***/
-void InsVFirstWahana (List *L, Wahana X, POINT loc)
+void InsVFirstWahana (List *L, Wahana X)
 /* I.S. L mungkin kosong */
 /* F.S. Melakukan alokasi sebuah elemen dan */
 /* menambahkan elemen pertama dengan NilWahanaai X jika alokasi berhasil */
@@ -100,10 +100,9 @@ void InsVFirstWahana (List *L, Wahana X, POINT loc)
 
     NextLWahana(insertee) = FirstLWahana(*L);
     FirstLWahana(*L) = insertee;
-    InfoLWahana(insertee).lokasiWahana = loc;
 }
 
-void InsVLastWahana (List *L, Wahana X, POINT loc)
+void InsVLastWahana (List *L, Wahana X)
 /* I.S. L mungkin kosong */
 /* F.S. Melakukan alokasi sebuah elemen dan */
 /* menambahkan elemen list di akhir: elemen terakhir yang baru */
@@ -116,7 +115,7 @@ void InsVLastWahana (List *L, Wahana X, POINT loc)
     // ALGORITMA
 
     if (IsEmptyWahana(*L)) {
-        InsVFirstWahana(L, X, loc);
+        InsVFirstWahana(L, X);
     }
 
     else {
@@ -128,7 +127,6 @@ void InsVLastWahana (List *L, Wahana X, POINT loc)
         }
 
         NextLWahana(lastEl) = insertee;
-        insertee->info.lokasiWahana = loc;
     }
 
 }
@@ -334,15 +332,16 @@ void PrintInfoWahana (List L)
 {
     // KAMUS LOKAL
     addressWahana scannee = FirstLWahana(L);
-
+    int i = 1;
     // ALGORITMA
     while(scannee != NilWahana) {
-        printf("- Wahana %s", InfoLWahana(scannee).namaWahana.TabKata);
+        printf("%d. Wahana %s", i, InfoLWahana(scannee).namaWahana.TabKata);
         if (InfoLWahana(scannee).lokasiWahana.X != 0 || InfoLWahana(scannee).lokasiWahana.Y != 0) {
             printf(" (%d, %d) Map %d",    InfoLWahana(scannee).lokasiWahana.X, InfoLWahana(scannee).lokasiWahana.Y,
                                             InfoLWahana(scannee).zona);
         } printf("\n");
         scannee = NextLWahana(scannee);
+        i++;
     }
 }
 

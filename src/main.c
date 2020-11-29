@@ -50,8 +50,9 @@ int main() {
     // List wahana yang dapat dibangun
     List daftarWahana;
     CreateEmptyWahana(&daftarWahana);
-    InsVLastWahana(&daftarWahana, W1, MakePOINT(0, 0));
-    InsVLastWahana(&daftarWahana, W2, MakePOINT(0, 0));
+    W1.lokasiWahana = MakePOINT(0,0);
+    InsVLastWahana(&daftarWahana, W1);
+    // InsVLastWahana(&daftarWahana, W2, MakePOINT(0, 0));
 
 
     /*** DEKLARASI GRAPH ***/
@@ -210,11 +211,38 @@ int main() {
                     /* Proses eksekusi perintah dari stack */
                     while (!IsEmptyStack(S)) {
                         Pop(&S, &X, 0, 0);
-                        if (X.action == 1) {
+                        if (X.action == 1) {                                // Buy
                             Buy(&P1, ListBarang, X.idxcode, X.Jumlah);
-                        } else if (X.action == 2) {
-                            /*build*/
-                        } else if (X.action == 3) {
+                        } else if (X.action == 2) {                         // Build
+                            /* Pemilihan wahana */
+                            addressWahana P;
+                            P = FirstLWahana(daftarWahana);
+                            for (int i = 0; i < X.idxcode; i++){
+                                P = NextLWahana(P);
+                            }
+                            Wahana WBuild;
+                            WBuild = P->info;
+                            WBuild.lokasiWahana = X.lokasiBuild;
+                            WBuild.zona = X.Jumlah;
+                            switch (X.Jumlah)   // Zona
+                            {
+                            case 1:
+                                BuildWahana(WBuild, &P1, &Map1, X.lokasiBuild);
+                                break;
+                            case 2:
+                                BuildWahana(WBuild, &P1, &Map2, X.lokasiBuild);
+                                break;
+                            case 3:
+                                BuildWahana(WBuild, &P1, &Map3, X.lokasiBuild);
+                                break;
+                            case 4:
+                                BuildWahana(WBuild, &P1, &Map4, X.lokasiBuild);
+                                break;
+                            default:
+                                break;
+                            }
+                            InsVLastWahana(&listWahana, WBuild);
+                        } else if (X.action == 3) {                         // Upgrade
                             switch (X.Jumlah)   // Zona
                             {
                             case 1:
@@ -234,24 +262,25 @@ int main() {
                             }
                         }
                     }
-        
                     switch (currentZone)
-                    {
-                    case 1:
-                        currentMap = Map1;
-                        break;
-                    case 2:
-                        currentMap = Map2;
-                        break;
-                    case 3:
-                        currentMap = Map3;
-                        break;
-                    case 4:
-                        currentMap = Map4;
-                        break;
-                    default:
-                        break;
-                    }
+                            {
+                            case 1:
+                                currentMap = Map1;
+                                break;
+                            case 2:
+                                currentMap = Map2;
+                                break;
+                            case 3:
+                                currentMap = Map3;
+                                break;
+                            case 4:
+                                currentMap = Map4;
+                                break;
+                            default:
+                                break;
+                            }
+        
+                    
                     Elmt(currentMap, Ordinat(currentP)+1, Absis(currentP)+1) = 'P';
                     
                     // mainPhase = true;
@@ -400,36 +429,33 @@ int main() {
                                 if (i >= 1 && i <= NbElmtWahana(daftarWahana)) break;
                                 printf("Input tidak valid, silakan ulangi.\n");
                             }
-                            int B;
-                            Wahana WBuild;
-                            switch (i)
-                            {
-                            case 1:
-                                WBuild = W1;
-                                B = W1.biayaBuild;
-                                break;
-                            case 2:
-                                WBuild = W1;
-                                B = W1.biayaBuild;
-                                break;
-                            default:
-                                break;
+                            // Loop ke index wahana yang dipilih
+                            addressWahana P;
+                            P = FirstLWahana(daftarWahana);
+                            for (int j = 0; j < i-1; j++) {
+                                P = NextLWahana(P);
                             }
 
-
-
-                            boolean successBuild;
-                            BuildWahana(W1, &P1, &currentMap, &successBuild);
-                            if (successBuild) {
+                            Wahana WBuild;
+                            WBuild = P->info;
+                            if (IsEnough(P1, WBuild.biayaBuild) && IsEnoughMaterial(P1, WBuild)) {
+                                infoStack X;
                                 POINT currentP;
-                                POINT wahanaBuild;
-                                Wahana WX;
+                                int B, D;
+                                B = WBuild.biayaBuild;
+                                D = ElmtAction(TAPrep, 1).Durasi;
+
+                                X.action = 2;
+                                X.Jumlah = currentZone;
+                                X.idxcode = i-1;
                                 currentP = PosisiPlayer(currentMap);
-                                wahanaBuild = MakePOINT(Absis(currentP), Ordinat(currentP)-1);
-                                WX = W1;
-                                WX.lokasiWahana = wahanaBuild;
-                                WX.zona = currentZone;
-                                InsVLastWahana(&listWahana, WX, wahanaBuild);
+                                X.lokasiBuild = MakePOINT(Absis(currentP), Ordinat(currentP)-1);
+
+                                /***DEBUG***/
+                                printf("***DEBUG***\n");
+
+                                Push(&StackPerintah, X, D, B);
+                                Elmt(currentMap, Ordinat(currentP), Absis(currentP)+1) = 'W';
                             }
                         }
                         sleep(1);
@@ -495,8 +521,12 @@ int main() {
                                 Push(&StackPerintah, X, D, B);
                             }
 
-                            if (!IsEnough(P1, B)) printf("Uang anda tidak mencukupi!\n");
-                            if (!IsEnoughMaterial(P1, WUp)) printf("Material anda tidak mencukupi!\n");
+                            if (!IsEnough(P1, B)) {
+                                printf("Uang anda tidak mencukupi!\n");
+                            }
+                            if (!IsEnoughMaterial(P1, WUp)) {
+                                printf("Material anda tidak mencukupi!\n");
+                            }
                         } else {
                             printf("Tidak ada wahana sekitar player.\n");
                         }

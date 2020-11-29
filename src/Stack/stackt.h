@@ -18,7 +18,7 @@ typedef struct {
   int idxcode; 
   // kode dari komponen yang diperlukan oleh aksi: 
   // Buy: index type barang
-  // Build: Nil
+  // Build: index list daftar wahana
   // Upgrade: 1. ke cabang kiri pohon, 2. ke cabang kanan pohon
   MATRIKS matriks; // Matriks yang dibutuhkan Build dan Upgrade
   POINT lokasiBuild;
