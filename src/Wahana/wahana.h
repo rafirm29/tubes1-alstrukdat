@@ -5,7 +5,6 @@
 #include "../Mesin/mesinkata.h"
 #include "../Matriks/matriks.h"
 #include "../Point/point.h"
-#include "../Player/player.h"
 
 typedef struct {
     Kata namaWahana;
