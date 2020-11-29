@@ -72,4 +72,8 @@ void Pop (Stack * S, infoStack* X, int Durasi, int Biaya);
 /* I.S. S  tidak mungkin kosong */
 /* F.S. X adalah nilai elemen TOP yang lama, TOP berkurang 1 */
 
+/* ******************** Print Stack ******************* */
+void PrintStack (Stack S);
+/* Menunjukkan isi dari stack */
+
 #endif

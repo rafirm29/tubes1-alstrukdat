@@ -4,6 +4,7 @@
 /* Implementasi dalam bahasa C dengan alokasi statik */
 
 #include "stackt.h"
+#include <stdio.h>
 
 /* ************ Prototype ************ */
 /* *** Konstruktor/Kreator *** */
@@ -73,3 +74,15 @@ void Pop (Stack * S, infoStack* X, int Durasi, int Biaya)
     BiayaStack(*S) -= Biaya;
 }
 
+
+/* ******************** Print Stack ******************* */
+void PrintStack (Stack S)
+/* Menunjukkan isi dari stack */
+{
+    // KAMUS LOKAL
+
+    // ALGORITMA
+    printf("Total aksi yang akan dilakukan: %d\n", Top(S));
+    printf("Total waktu yang dibutuhkan: %d hour(s) %d minute(s)\n", (DurasiStack(S)/60), (DurasiStack(S)%60));
+    printf("Tutal uang yang dibutuhkan: %d\n", BiayaStack(S));
+}
