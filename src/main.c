@@ -981,26 +981,19 @@ int main() {
                             P = FirstLWahana(listWahana);
                             POINT BangunanSekitar, BangunanTerdaftar;
                             BangunanSekitar = BangunanSekitarPlayer(currentMap, PosisiPlayer(currentMap));
-                            printf("(%d %d)\n", BangunanSekitar.X, BangunanSekitar.Y);
                             BangunanTerdaftar = PosisiWahanaRusak(listWahana, BangunanSekitar);
-                            printf("(%d %d)\n", BangunanTerdaftar.X, BangunanTerdaftar.Y);
 
                             if ((BangunanSekitar.X == BangunanTerdaftar.X) && (BangunanSekitar.Y == BangunanTerdaftar.Y))
                             {
-                                printf("MAsuk if\n");
-                                int i = 1;
                                 while (!EQ(BangunanTerdaftar, InfoLWahana(P).lokasiWahana))
                                 {
-
-                                    printf("Tes %d\n", i);
                                     P = NextLWahana(P);
-                                    i++;
                                 }
                                 InfoLWahana(P).statusWahana = true;
                             }
                             else
                             {
-                                printf("Tidak ada wahana yang rusak\n");
+                                printf("Tidak ada wahana yang rusak di sekitar player\n");
                             }
                         }
                         else
