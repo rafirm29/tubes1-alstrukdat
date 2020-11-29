@@ -778,6 +778,20 @@ int main() {
                 printf("Time Remaining : ");
                 TulisJAM(hourRemaining);
 
+                // Randomizer wahana rusak
+                if (rand() % 10 == 1) {
+                    addressWahana R;
+                    int random = rand() % NbElmtWahana(listWahana);
+                    R = FirstLWahana(listWahana);
+                    for (int j = 0; j < random; j++) {
+                        R = NextLWahana(R);
+                    }
+                    R->info.statusWahana = 0;
+                }
+
+                // Print list wahana rusak (Jika ada)
+                PrintWahanaRusak(listWahana);
+
                 // Randomizer untuk menambahkan pengunjung (dirandom setiap aksi)
                 if (rand() % 5 == 1) {
                     EnqueuePrio(&Q, listWahana);
@@ -976,7 +990,7 @@ int main() {
                             {
                                 P = NextLWahana(P);
                             }
-                            InfoLWahana(P).statusWahana += 1;
+                            InfoLWahana(P).statusWahana = 1;
                         }
                         else
                         {
