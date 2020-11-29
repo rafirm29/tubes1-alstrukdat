@@ -55,7 +55,7 @@ POINT PosisiOffice (MATRIKS M);
 
 POINT PosisiBangunan (MATRIKS M);
 
-POINT PosisiAntrian (MATRIKS M){
+POINT PosisiAntrian (MATRIKS M);
 
 boolean IsInOffice (MATRIKS M, POINT PO);
 
