@@ -129,6 +129,9 @@ void PrintInfoWahana (List L);
 // Menuliskan list wahana yang rusak serta lokasinya
 void PrintWahanaRusak (List L);
 
+// Menuliskan history wahana pada address P
+void PrintHistoryWahana(addressWahana P);
+
 int NbElmtWahana (List L);
 /* Mengirimkan banyaknya elemen list; mengirimkan 0 jika list kosong */
 

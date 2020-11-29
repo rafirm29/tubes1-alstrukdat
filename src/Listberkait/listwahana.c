@@ -96,6 +96,7 @@ void InsVFirstWahana (List *L, Wahana X)
     addressWahana insertee;
 
     // ALGORITMA
+    X.statusWahana = 1;
     insertee = AlokasiWahana(X);
 
     NextLWahana(insertee) = FirstLWahana(*L);
@@ -119,6 +120,7 @@ void InsVLastWahana (List *L, Wahana X)
     }
 
     else {
+        X.statusWahana = 1;
         insertee = AlokasiWahana(X);
         lastEl = FirstLWahana(*L);
 
@@ -368,6 +370,21 @@ void PrintWahanaRusak (List L) {
         printf("List wahana rusak :\n");
         PrintInfoWahana(LRusak);
     }
+}
+
+// Menuliskan history wahana pada address P
+void PrintHistoryWahana(addressWahana P) {
+    if (FirstLWahana(P->upgradeList) != NilWahana) {
+        addressWahana Q;
+        Q = P->upgradeList.First;
+        for (int i = 0; i < NbElmtWahana(P->upgradeList); i++){
+            printf("%s --> ", InfoLWahana(Q).namaWahana.TabKata);
+            Q = NextLWahana(Q);
+        }
+    } 
+    printf("%s", InfoLWahana(P).namaWahana.TabKata);
+
+    printf("\n");
 }
 
 int NbElmtWahana (List L)
