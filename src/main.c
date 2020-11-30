@@ -1086,7 +1086,7 @@ int main() {
                 }
             }
             day++;
-
+            PTemp.Money = P1.Money;
             /* Reset Laporan harian */
             addressWahana Clr;
             Clr = FirstLWahana(listWahana);
