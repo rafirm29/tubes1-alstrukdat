@@ -285,6 +285,9 @@ boolean AdaAntrianSekitarPlayer (MATRIKS M, POINT Antrian){
     if ((Elmt(M,i,j-1) == '-') && (Elmt(M,i,j+1) == '-') && (Elmt(M,i+1,j) == '-') && (Elmt(M,i-1,j) == '-')){
         return false;
     }
+    else {
+        return false;
+    }
 }
 
 void CopyMATRIKS (MATRIKS Awal, MATRIKS * Hasil) {
