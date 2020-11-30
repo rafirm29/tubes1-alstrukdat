@@ -127,12 +127,18 @@ void Dequeue (Queue * Q, pengunjung * X){
         //Jika lebih dari 1
         else {
             int orang = Head(*Q);
-            do{
+            while (orang < Tail(*Q)){
                 ElmtQueue(*Q,orang) = ElmtQueue(*Q,orang+1);
                 orang = orang + 1;
-            } while (orang < Tail(*Q));
+            }
             Tail(*Q) = orang-1;
         }
+    }
+
+    else {
+        printf("No Visitor!\n");
+        X->kesabaran = Nil;
+        X->jumlahorang = Nil;
     }
 }
 void KurangKesabaran (Queue * Q){
@@ -194,7 +200,9 @@ void serve (Queue * Q, Player * P1, List * L){
         jika wahana rusak tidak bisa serve. */
     addressWahana P;
     P = SearchWahana(*L, (*Q).T[(*Q).HEAD].wahanaPengunjung); //mencari address wahana yang ingin dinaiki oleh pengunjung
-    if (IsFullWahana(P->info)){ //Jika jumlah kapasitas wahana sudah penuh
+    if (IsEmpty(*Q)) {
+        printf("Tidak ada pengunjung!\n");
+    } else if (IsFullWahana(P->info)){ //Jika jumlah kapasitas wahana sudah penuh
         printf("Wahana yang ingin dinaiki penuh!\n");
     //Jika tidak penuh
     } else {
@@ -210,6 +218,7 @@ void serve (Queue * Q, Player * P1, List * L){
             P->laporan.penghasilanTotal += (*Q).T[(*Q).HEAD].wahanaPengunjung.hargaWahana; //penghasilan total juga bertambah
             P->info.jumlahPemainWahana += 1;                                               //Jumlah pemain dalam wahana bertambah 1
             (*P1).Money += (*Q).T[(*Q).HEAD].wahanaPengunjung.hargaWahana;              //Uang user bertambah
+            
             Dequeue(Q,&X);                                                              //Menaikkan pengunjung
         }
     }
